@@ -6,7 +6,7 @@ Both the characters and the enimies have the HP value, the MP value and the ATB 
 
 The map and story will be based on traditional JRPG games while the battle and the map will be in different scenes.
 
-© 2024, Nontown Studio, Inc.
+© 2024, Nontown Studio, Inc.\
 LOGO ILLUSTRATION: © 2006, YOSHITAKA AMANO
 
 张恺昕 zhangkx2023@shanghaitech.edu.cn\

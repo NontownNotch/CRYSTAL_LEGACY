@@ -4,7 +4,7 @@ from enum import Enum
 import pygame
 
 class WindowSettings:
-    name = "Thgink Luos"
+    name = "Nontown_Studio_Inc_proj"
     width = 1280
     height = 720
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes

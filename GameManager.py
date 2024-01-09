@@ -3,16 +3,18 @@
 import sys
 import pygame
 
-from Player import Player
-from Scene import *
+#from Player import Player
+#from Scene import *
 from Settings import *
-from PopUpBox import *
+#from PopUpBox import *
 
 class GameManager:
     def __init__(self):
         
         ##### Your Code Here ↓ #####
-        pass
+        self.window = pygame.display.set_mode((WindowSettings.width, WindowSettings.height)) #初始化窗口
+        self.title = pygame.display.set_caption(WindowSettings.name)
+        self.clock = pygame.time.Clock()
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -40,7 +42,7 @@ class GameManager:
 
     def update(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.clock.tick(30)
         ##### Your Code Here ↑ #####
 
     def update_main_menu(self, events):

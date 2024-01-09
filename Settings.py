@@ -4,7 +4,7 @@ from enum import Enum
 import pygame
 
 class WindowSettings: #窗口设置
-    name = "Nontown_Studio_Inc_proj" #标题
+    name = "CRYSTAL LEGACY" #标题
     width = 1920 #窗口宽度
     height = 1080 #窗口高度
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
@@ -97,7 +97,7 @@ class ShopSettings:
 
 class GamePath:
     # Window related path
-    menu = r".\assets\background\menu.png"
+    menu = r".\assets\MainMenu\MainMenu.png"
     wild = r".\assets\background\wild.png"
     mapBlock = r".\assets\background\map.png"
 

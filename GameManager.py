@@ -4,7 +4,7 @@ import sys
 import pygame
 
 #from Player import Player
-#from Scene import *
+from Scene import *
 from Settings import *
 #from PopUpBox import *
 
@@ -13,9 +13,9 @@ class GameManager:
         
         ##### Your Code Here ↓ #####
         self.window = pygame.display.set_mode((WindowSettings.width, WindowSettings.height)) #初始化窗口
-        self.title = pygame.display.set_caption(WindowSettings.name)
+        self.title = pygame.display.set_caption(WindowSettings.name) #初始化标题
         self.clock = pygame.time.Clock()
-        self.state = GameState(1)
+        self.state = GameState(1) #设置为主界面
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -51,10 +51,10 @@ class GameManager:
     def update_main_menu(self, events):
         ##### Your Code Here ↓ #####
         for event in events:
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: #点击退出
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN: #按下键盘按键
                 pass
         ##### Your Code Here ↑ #####
 

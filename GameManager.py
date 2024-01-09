@@ -51,8 +51,9 @@ class GameManager:
             if event.type == pygame.KEYDOWN: #按下键盘按键
                 #下方为开发时用主界面，正式版将改动
                 if event.key == pygame.K_1:
-                    print("L")
-                pass #功能待定
+                    pass
+                elif event.key == pygame.K_2:
+                    pass #功能待定
 
     def update_city(self, events):
         # Deal with EventQueue First

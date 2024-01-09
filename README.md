@@ -1,4 +1,4 @@
-# Nontown_Studio_DIE_Game
+# CRYSTAL LEGACY
 The game is a time-turn based JRPG game.
 
 The combat system involves the ATB (Action Time Battle), which is based on the system of FINAL FANTASY VI and FINAL FANTASY XIII.\

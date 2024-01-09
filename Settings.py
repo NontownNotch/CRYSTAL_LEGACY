@@ -14,10 +14,6 @@ class SceneSettings:
     tileYnum = 27 # 36
     tileWidth = tileHeight = 40
 
-class MenuSettings:
-    textSize = 36
-    blinkInterval = 15
-
 class PlayerSettings:
     # Initial Player Settings
     playerSpeed = 7

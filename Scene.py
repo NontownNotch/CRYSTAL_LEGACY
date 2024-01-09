@@ -58,15 +58,19 @@ class Scene():
         ##### Your Code Here ↑ #####
 
 
-class StartMenu():
+class MainMenu():
     def __init__(self, window):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.window = window
+        #self.bg = pygame.image.load(GamePath.menu)
+        #self.bg = pygame.transform.scale(self.bg, 
+                #(WindowSettings.width, WindowSettings.height))
+        self.font = pygame.font.Font(None, MenuSettings.textSize)
+        self.text = self.font.render("Press 1 to enter ...scene", True, (255, 255, 255)) #主界面文字内容
+        self.textRect = self.text.get_rect(center=(WindowSettings.width // 2, WindowSettings.height - 500)) #主界面文字位置
 
-    def render(self, time):
+    def render(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.window.blit(self.text, self.textRect)
         ##### Your Code Here ↑ #####
 
 class CityScene(Scene):

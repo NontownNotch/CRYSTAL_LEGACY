@@ -3,7 +3,7 @@
 from enum import Enum
 import pygame
 
-class WindowSettings:
+class WindowSettings: #窗口设置
     name = "Nontown_Studio_Inc_proj" #标题
     width = 1920 #窗口宽度
     height = 1080 #窗口高度
@@ -13,6 +13,10 @@ class SceneSettings:
     tileXnum = 48 # 64
     tileYnum = 27 # 36
     tileWidth = tileHeight = 40
+
+class MenuSettings:
+    textSize = 36
+    blinkInterval = 15
 
 class PlayerSettings:
     # Initial Player Settings

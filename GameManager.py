@@ -10,13 +10,10 @@ from Settings import *
 
 class GameManager:
     def __init__(self):
-        
-        ##### Your Code Here ↓ #####
         self.window = pygame.display.set_mode((WindowSettings.width, WindowSettings.height)) #初始化窗口
         self.title = pygame.display.set_caption(WindowSettings.name) #初始化标题
         self.clock = pygame.time.Clock()
-        self.state = GameState(1) #设置为主界面
-        ##### Your Code Here ↑ #####
+        self.state = GameState(1) #设置初始状态为主界面
 
     def game_reset(self):
 
@@ -42,21 +39,18 @@ class GameManager:
         ##### Your Code Here ↑ #####
 
     def update(self):
-        ##### Your Code Here ↓ #####
         self.clock.tick(30)
         if self.state == GameState.MAIN_MENU:
             self.update_main_menu(pygame.event.get()) #执行self.update_main_menu()函数，pygame.event.get()返回为List
-        ##### Your Code Here ↑ #####
 
     def update_main_menu(self, events):
-        ##### Your Code Here ↓ #####
         for event in events:
             if event.type == pygame.QUIT: #点击退出
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN: #按下键盘按键
-                pass
-        ##### Your Code Here ↑ #####
+                #下方为开发时用主界面，正式版将改动
+                pass #功能待定
 
     def update_city(self, events):
         # Deal with EventQueue First
@@ -126,15 +120,11 @@ class GameManager:
 
     # Render-relate update functions here ↓
     def render(self):
-        ##### Your Code Here ↓ #####
         if self.state == GameState.MAIN_MENU:
-            self.render_main_menu()
-        ##### Your Code Here ↑ #####
+            self.render_main_menu() #执行self.render_main_menu()函数
     
     def render_main_menu(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        MainMenu(self.window).render()
     
     def render_city(self):
         ##### Your Code Here ↓ #####

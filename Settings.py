@@ -4,9 +4,9 @@ from enum import Enum
 import pygame
 
 class WindowSettings:
-    name = "Nontown_Studio_Inc_proj"
-    width = 1280
-    height = 720
+    name = "Nontown_Studio_Inc_proj" #标题
+    width = 1920 #窗口宽度
+    height = 1080 #窗口高度
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
 
 class SceneSettings:

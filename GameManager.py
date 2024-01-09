@@ -15,6 +15,7 @@ class GameManager:
         self.window = pygame.display.set_mode((WindowSettings.width, WindowSettings.height)) #初始化窗口
         self.title = pygame.display.set_caption(WindowSettings.name)
         self.clock = pygame.time.Clock()
+        self.state = GameState(1)
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -43,11 +44,18 @@ class GameManager:
     def update(self):
         ##### Your Code Here ↓ #####
         self.clock.tick(30)
+        if self.state == GameState.MAIN_MENU:
+            self.update_main_menu(pygame.event.get()) #执行self.update_main_menu()函数，pygame.event.get()返回为List
         ##### Your Code Here ↑ #####
 
     def update_main_menu(self, events):
         ##### Your Code Here ↓ #####
-        pass
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                pass
         ##### Your Code Here ↑ #####
 
     def update_city(self, events):
@@ -119,7 +127,8 @@ class GameManager:
     # Render-relate update functions here ↓
     def render(self):
         ##### Your Code Here ↓ #####
-        pass
+        if self.state == GameState.MAIN_MENU:
+            self.render_main_menu()
         ##### Your Code Here ↑ #####
     
     def render_main_menu(self):

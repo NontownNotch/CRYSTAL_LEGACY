@@ -50,6 +50,8 @@ class GameManager:
                 sys.exit()
             if event.type == pygame.KEYDOWN: #按下键盘按键
                 #下方为开发时用主界面，正式版将改动
+                if event.key == pygame.K_1:
+                    print("L")
                 pass #功能待定
 
     def update_city(self, events):
@@ -124,7 +126,7 @@ class GameManager:
             self.render_main_menu() #执行self.render_main_menu()函数
     
     def render_main_menu(self):
-        MainMenu(self.window).render()
+        MainMenu(self.window).render() #渲染主界面
     
     def render_city(self):
         ##### Your Code Here ↓ #####

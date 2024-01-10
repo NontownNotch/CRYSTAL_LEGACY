@@ -7,6 +7,8 @@ from Player import Player
 from Scene import *
 from Settings import *
 from PopUpBox import *
+from Battle import *
+from Monster import *
 
 class GameManager:
     def __init__(self):
@@ -14,6 +16,7 @@ class GameManager:
         self.title = pygame.display.set_caption(WindowSettings.name) #初始化标题
         self.clock = pygame.time.Clock()
         self.state = GameState(1) #设置初始状态为主界面
+        self.scene = MainMenu(self.window)
 
     def game_reset(self):
 
@@ -71,7 +74,8 @@ class GameManager:
                 elif event.key == pygame.K_4:
                     self.state = 9
                 elif event.key == pygame.K_5:
-                    self.state = 10
+                    self.flush_scene(2)
+                    self.state = GameState.GAME_PLAY_BATTLE
                 elif event.key == pygame.K_6:
                     self.state =11
 
@@ -121,9 +125,10 @@ class GameManager:
 
     def update_battle(self, events):
         # Deal with EventQueue First
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
@@ -132,9 +137,10 @@ class GameManager:
 
     def update_boss(self, events):
         # Deal with EventQueue First
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
         
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
@@ -178,6 +184,8 @@ class GameManager:
     def render(self):
         if self.state == GameState.MAIN_MENU:
             self.render_main_menu() #执行self.render_main_menu()函数
+        if self.state == GameState.GAME_PLAY_BATTLE:
+            self.render_battle()
     
     def render_main_menu(self):
         MainMenu(self.window).render() #渲染主界面
@@ -191,6 +199,9 @@ class GameManager:
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
+
+    def render_battle(self):
+        Battle(self.window,0,0).draw()
 
     def render_boss(self):
         ##### Your Code Here ↓ #####

@@ -62,10 +62,10 @@ class DialogSettings:
     npcCoordY = WindowSettings.height * 2 // 3 - 20
 
 class BattleSettings:
-    boxWidth = WindowSettings.width * 3 // 4 
-    boxHeight = WindowSettings.height * 3 // 4 
-    boxStartX = WindowSettings.width // 8           # Coordinate X of the box
-    boxStartY = WindowSettings.height // 8
+    boxWidth = WindowSettings.width 
+    boxHeight = WindowSettings.height
+    boxStartX = 0 # Coordinate X of the box
+    boxStartY = 0
     textSize = 48 # Default font size
     textStartX = WindowSettings.width // 4 
     textPlayerStartX = WindowSettings.width // 4          # Coordinate X of the first line of dialog

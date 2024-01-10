@@ -42,6 +42,18 @@ class GameManager:
         self.clock.tick(30)
         if self.state == GameState.MAIN_MENU:
             self.update_main_menu(pygame.event.get()) #执行self.update_main_menu()函数，pygame.event.get()返回为List
+        elif self.state == GameState.GAME_PLAY_WILD:
+            self.update_wild(pygame.event.get())
+        elif self.state == GameState.GAME_PLAY_CASTLE:
+            self.update_castle(pygame.event.get())
+        elif self.state == GameState.GAME_PLAY_TEMPLE:
+            self.update_temple(pygame.event.get())
+        elif self.state == GameState.GAME_PLAY_HUT:
+            self.update_hut(pygame.event.get())
+        elif self.state == GameState.GAME_PLAY_BATTLE:
+            self.update_battle(pygame.event.get())
+        elif self.state == GameState.GAME_PLAY_BOSS:
+            self.update_boss(pygame.event.get())
 
     def update_main_menu(self, events):
         for event in events:
@@ -63,7 +75,18 @@ class GameManager:
                 elif event.key == pygame.K_6:
                     self.state =11
 
-    def update_city(self, events):
+    def update_wild(self, events):
+        # Deal with EventQueue First
+        ##### Your Code Here ↓ #####
+        pass
+        ##### Your Code Here ↑ #####
+        
+        # Then deal with regular updates
+        ##### Your Code Here ↓ #####
+        pass
+        ##### Your Code Here ↑ #####
+
+    def update_castle(self, events):
         # Deal with EventQueue First
         ##### Your Code Here ↓ #####
         pass
@@ -74,12 +97,34 @@ class GameManager:
         pass
         ##### Your Code Here ↑ #####
 
-    def update_wild(self, events):
+    def update_temple(self, events):
         # Deal with EventQueue First
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-        
+
+        # Then deal with regular updates
+        ##### Your Code Here ↓ #####
+        pass
+        ##### Your Code Here ↑ #####
+
+    def update_hut(self, events):
+        # Deal with EventQueue First
+        ##### Your Code Here ↓ #####
+        pass
+        ##### Your Code Here ↑ #####
+
+        # Then deal with regular updates
+        ##### Your Code Here ↓ #####
+        pass
+        ##### Your Code Here ↑ #####
+
+    def update_battle(self, events):
+        # Deal with EventQueue First
+        ##### Your Code Here ↓ #####
+        pass
+        ##### Your Code Here ↑ #####
+
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
         pass

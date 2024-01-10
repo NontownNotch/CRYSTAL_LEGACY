@@ -3,10 +3,10 @@
 import sys
 import pygame
 
-#from Player import Player
+from Player import Player
 from Scene import *
 from Settings import *
-#from PopUpBox import *
+from PopUpBox import *
 
 class GameManager:
     def __init__(self):
@@ -51,9 +51,17 @@ class GameManager:
             if event.type == pygame.KEYDOWN: #按下键盘按键
                 #下方为开发时用主界面，正式版将改动
                 if event.key == pygame.K_1:
-                    pass
+                    self.state = 6
                 elif event.key == pygame.K_2:
-                    pass #功能待定
+                    self.state = 7
+                elif event.key == pygame.K_3:
+                    self.state = 8
+                elif event.key == pygame.K_4:
+                    self.state = 9
+                elif event.key == pygame.K_5:
+                    self.state = 10
+                elif event.key == pygame.K_6:
+                    self.state =11
 
     def update_city(self, events):
         # Deal with EventQueue First
@@ -143,4 +151,3 @@ class GameManager:
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-

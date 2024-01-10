@@ -169,8 +169,11 @@ class GameState(Enum):
     GAME_WIN = 4
     GAME_PAUSE = 5
     GAME_PLAY_WILD = 6
-    GAME_PLAY_CITY = 7
-    GAME_PLAY_BOSS = 8
+    GAME_PLAY_CASTLE = 7
+    GAME_PLAY_TEMPLE = 8
+    GAME_PLAY_HUT = 9
+    GAME_PLAY_BATTLE = 10
+    GAME_PLAY_BOSS = 11
 
 class GameEvent:
     EVENT_BATTLE = pygame.USEREVENT + 1

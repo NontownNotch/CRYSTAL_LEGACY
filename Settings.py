@@ -5,8 +5,8 @@ import pygame
 
 class WindowSettings: #窗口设置
     name = "CRYSTAL LEGACY" #标题
-    width = 2560 #窗口宽度
-    height = 1440 #窗口高度
+    width = 1920 #窗口宽度
+    height = 1080 #窗口高度
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
 
 class SceneSettings:

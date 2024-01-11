@@ -10,10 +10,10 @@ class Player(pygame.sprite.Sprite, Collidable):
         # Must initialize everything one by one here
         pygame.sprite.Sprite.__init__(self)
         Collidable.__init__(self)
-
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.x = x
+        self.y = y
+        self.HP = PlayerSettings.playerHP
+        self.MP = PlayerSettings.playerMP
 
     def attr_update(self, addCoins = 0, addHP = 0, addAttack = 0, addDefence = 0):
         ##### Your Code Here ↓ #####

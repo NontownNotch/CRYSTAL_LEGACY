@@ -5,8 +5,8 @@ import pygame
 
 class WindowSettings: #窗口设置
     name = "CRYSTAL LEGACY" #标题
-    width = 1920 #窗口宽度
-    height = 1080 #窗口高度
+    width = 2560 #窗口宽度
+    height = 1440 #窗口高度
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
 
 class SceneSettings:
@@ -20,6 +20,7 @@ class PlayerSettings:
     playerWidth = 60
     playerHeight = 55
     playerHP = 20
+    playerMP = 10
     playerAttack = 5
     playerDefence = 1
     playerMoney = 100
@@ -66,11 +67,14 @@ class BattleSettings:
     boxHeight = WindowSettings.height
     boxStartX = 0 # Coordinate X of the box
     boxStartY = 0
+    statusStartX = 0
+    statusStartY = WindowSettings.height // 5 * 4
     textSize = 48 # Default font size
     textStartX = WindowSettings.width // 4 
-    textPlayerStartX = WindowSettings.width // 4          # Coordinate X of the first line of dialog
+    textPlayerStartX = WindowSettings.width // 2          # Coordinate X of the first line of dialog
+    textPlayerStatusStartX = WindowSettings.width // 6 * 4
     textMonsterStartX = WindowSettings.width // 2 +100   
-    textStartY = WindowSettings.height // 3         # Coordinate Y of the first line of dialog
+    textStartY = WindowSettings.height // 15 * 13         # Coordinate Y of the first line of dialog
     textVerticalDist = textSize // 4 * 3            # Vertical distance of two lines
 
     playerWidth = WindowSettings.width // 6
@@ -100,6 +104,7 @@ class GamePath:
     menu = r".\assets\MainMenu\MainMenu.png"
     wild = r".\assets\background\wild.png"
     mapBlock = r".\assets\background\map.png"
+    battlebackground = r".\assets\Background\WildBattleBackground.png"
 
     # player/npc related path
     npc = r".\assets\npc\npc.png"
@@ -147,6 +152,8 @@ class GamePath:
     ]
 
     bossWall = r".\assets\tiles\bossWall.png"
+
+    battlestatus = r".\assets\UI\BattleStatus.png"
 
     portal = r".\assets\background\portal.png"
 

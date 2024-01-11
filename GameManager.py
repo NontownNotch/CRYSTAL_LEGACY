@@ -15,6 +15,7 @@ class GameManager:
         self.window = pygame.display.set_mode((WindowSettings.width, WindowSettings.height)) #初始化窗口
         self.title = pygame.display.set_caption(WindowSettings.name) #初始化标题
         self.clock = pygame.time.Clock()
+        self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
         self.state = GameState(1) #设置初始状态为主界面
         self.scene = MainMenu(self.window)
 
@@ -201,7 +202,7 @@ class GameManager:
         ##### Your Code Here ↑ #####
 
     def render_battle(self):
-        Battle(self.window,0,0).draw()
+        MonsterBattle(self.window, self.player, 0).draw()
 
     def render_boss(self):
         ##### Your Code Here ↓ #####

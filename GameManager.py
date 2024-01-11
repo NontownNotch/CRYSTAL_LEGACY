@@ -202,7 +202,7 @@ class GameManager:
         ##### Your Code Here ↑ #####
 
     def render_battle(self):
-        MonsterBattle(self.window, self.player, 0).draw()
+        MonsterBattle(self.window, self.player, Monster(0, 0)).draw()
 
     def render_boss(self):
         ##### Your Code Here ↓ #####

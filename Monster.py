@@ -4,6 +4,7 @@ from Settings import *
 class Monster(pygame.sprite.Sprite):
     def __init__(self, x, y, HP = 10, Attack = 3, Defence = 1, Money = 15):
         super().__init__()
+        self.name = "Monster"
         self.HP = HP
         
 

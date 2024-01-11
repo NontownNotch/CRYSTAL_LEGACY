@@ -72,9 +72,10 @@ class BattleSettings:
     textSize = 48 # Default font size
     textStartX = WindowSettings.width // 4 
     textPlayerStartX = WindowSettings.width // 2          # Coordinate X of the first line of dialog
-    textPlayerStatusStartX = WindowSettings.width // 6 * 4
-    textMonsterStartX = WindowSettings.width // 2 +100   
+    textPlayerStatusStartX = WindowSettings.width // 3 * 2
+    textMonsterStartX = WindowSettings.width // 6
     textStartY = WindowSettings.height // 15 * 13         # Coordinate Y of the first line of dialog
+    ATBStartX = WindowSettings.width // 6 * 5
     textVerticalDist = textSize // 4 * 3            # Vertical distance of two lines
 
     playerWidth = WindowSettings.width // 6
@@ -154,6 +155,8 @@ class GamePath:
     bossWall = r".\assets\tiles\bossWall.png"
 
     battlestatus = r".\assets\UI\BattleStatus.png"
+    ATBbackground = r".\assets\UI\ATBBackground.png"
+    ATB = r".\assets\UI\ATB.png"
 
     portal = r".\assets\background\portal.png"
 

@@ -63,13 +63,13 @@ class DialogSettings:
     npcCoordY = WindowSettings.height * 2 // 3 - 20
 
 class BattleSettings:
-    boxWidth = WindowSettings.width 
-    boxHeight = WindowSettings.height
-    boxStartX = 0 # Coordinate X of the box
+    boxWidth = WindowSettings.width #战斗场景宽度
+    boxHeight = WindowSettings.height #战斗场景高度
+    boxStartX = 0
     boxStartY = 0
-    statusStartX = 0
-    statusStartY = WindowSettings.height // 5 * 4
-    textSize = 48 # Default font size
+    statusStartX = 0 #UI X位置
+    statusStartY = WindowSettings.height // 5 * 4 #UI Y位置
+    textSize = 48
     textStartX = WindowSettings.width // 4 
     textPlayerStartX = WindowSettings.width // 2          # Coordinate X of the first line of dialog
     textPlayerStatusStartX = WindowSettings.width // 3 * 2
@@ -155,6 +155,7 @@ class GamePath:
     bossWall = r".\assets\tiles\bossWall.png"
 
     battlestatus = r".\assets\UI\BattleStatus.png"
+    commandbackground = r".\assets\UI\CommandBackground.png"
     ATBbackground = r".\assets\UI\ATBBackground.png"
     ATB = r".\assets\UI\ATB.png"
 

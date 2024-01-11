@@ -75,7 +75,7 @@ class GameManager:
                 elif event.key == pygame.K_4:
                     self.state = 9
                 elif event.key == pygame.K_5:
-                    self.flush_scene(2)
+                    self.scene = MonsterBattle(self.window, self.player, Monster(0,0))
                     self.state = GameState.GAME_PLAY_BATTLE
                 elif event.key == pygame.K_6:
                     self.state =11
@@ -130,6 +130,29 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    if not self.scene.iscommanding:
+                        self.scene.iscommanding = True #开启Command面板
+                elif event.key == pygame.K_q:
+                    if self.scene.iscommanding and not self.scene.ismagic:
+                        self.scene.iscommanding = False #关闭Command面板
+                    elif self.scene.iscommanding and self.scene.ismagic:
+                        self.scene.ismagic = False #关闭Magic面板
+                elif event.key == pygame.K_f:
+                    if self.scene.iscommanding and not self.scene.ismagic:
+                        self.scene.iscommanding = False #Attack
+                elif event.key == pygame.K_r:
+                    if self.scene.iscommanding and not self.scene.ismagic:
+                        self.scene.ismagic = True #开启Magic面板
+                elif event.key == pygame.K_z:
+                    if self.scene.iscommanding and self.scene.ismagic:
+                        self.scene.ismagic = False #使用Fire魔法
+                        self.scene.iscommanding = False
+                elif event.key == pygame.K_x:
+                    if self.scene.iscommanding and self.scene.ismagic:
+                        self.scene.ismagic = False #使用Thunder魔法
+                        self.scene.iscommanding = False
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
@@ -202,7 +225,7 @@ class GameManager:
         ##### Your Code Here ↑ #####
 
     def render_battle(self):
-        MonsterBattle(self.window, self.player, Monster(0, 0)).draw()
+        self.scene.render() #渲染战斗场景
 
     def render_boss(self):
         ##### Your Code Here ↓ #####

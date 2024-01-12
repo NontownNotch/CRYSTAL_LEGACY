@@ -5,7 +5,7 @@ import pygame
 
 class WindowSettings: #窗口设置
     name = "CRYSTAL LEGACY" #标题
-    width = 1920 #窗口宽度
+    width = 190 #窗口宽度
     height = 1080 #窗口高度
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
 
@@ -78,9 +78,9 @@ class BattleSettings:
     ATBStartX = WindowSettings.width // 6 * 5
     textVerticalDist = textSize // 4 * 3            # Vertical distance of two lines
 
-    playerWidth = WindowSettings.width // 6
-    playerHeight = WindowSettings.height // 3
-    playerCoordX = WindowSettings.width // 8
+    playerWidth = WindowSettings.width // 15
+    playerHeight = WindowSettings.height // 5.625
+    playerCoordX = WindowSettings.width // 4 * 3
     playerCoordY = WindowSettings.height // 2 
 
     monsterWidth = WindowSettings.width // 6
@@ -119,6 +119,21 @@ class GamePath:
         r".\assets\player\4.png", 
         r".\assets\player\4.png", 
         # 8 frames for a single loop of animation looks much better.
+    ]
+    playerbattlestandimage = r".\assets\Player\Battle\Stand.png"
+    playerbattlemagicimage = [
+        r".\assets\Player\Battle\Magic_1.png",
+        r".\assets\Player\Battle\Magic_1.png",
+        r".\assets\Player\Battle\Magic_1.png",
+        r".\assets\Player\Battle\Magic_1.png",
+        r".\assets\Player\Battle\Magic_1.png",
+        r".\assets\Player\Battle\Magic_1.png",
+        r".\assets\Player\Battle\Magic_2.png",
+        r".\assets\Player\Battle\Magic_2.png",
+        r".\assets\Player\Battle\Magic_2.png",
+        r".\assets\Player\Battle\Magic_2.png",
+        r".\assets\Player\Battle\Magic_2.png",
+        r".\assets\Player\Battle\Magic_2.png"
     ]
     monster = r".\assets\npc\monster\1.png"
     boss = r".\assets\npc\boss.png"

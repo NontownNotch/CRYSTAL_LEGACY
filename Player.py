@@ -14,11 +14,22 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.y = y
         self.HP = PlayerSettings.playerHP
         self.MP = PlayerSettings.playerMP
+        self.attack = PlayerSettings.playerAttack
+        self.defence = PlayerSettings.playerDefence
+        self.money = PlayerSettings.playerMoney
+        self.battlestandimage = pygame.image.load(GamePath.playerbattlestandimage)
+        self.battlemagicimages = [pygame.image.load(img) for img in GamePath.playerbattlemagicimage]
+        self.battlemagicindex = 0
+        self.battlemagicimage = self.battlemagicimages[self.battlemagicindex]
 
-    def attr_update(self, addCoins = 0, addHP = 0, addAttack = 0, addDefence = 0):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+    def attr_update(self, addCoins = 0, addHP = 0, addMP = 0, addAttack = 0, addDefence = 0):
+        if self.money + addCoins < 0:
+            return
+        self.money += addCoins
+        self.HP += addHP
+        self.MP += addMP
+        self.attack += addAttack
+        self.defence += addDefence
 
     def reset_pos(self, x=WindowSettings.width // 2, y=WindowSettings.height // 2):
         ##### Your Code Here ↓ #####
@@ -40,3 +51,8 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
+
+    def battlemagic(self):
+        self.battlemagicindex = (self.battlemagicindex + 1) % 12
+        self.battlemagicimage = self.battlemagicimages[self.battlemagicindex]
+        return self.battlemagicimage

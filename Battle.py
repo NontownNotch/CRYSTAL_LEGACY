@@ -26,8 +26,11 @@ class Battle:
         self.MagicText = self.font.render("[R] Magic", True, fontColor)
         self.FireText = self.font.render("[Z] Fire", True, fontColor)
         self.ThunderText = self.font.render("[X] Thunder", True, fontColor)
+        self.playerimage = None
+        self.playerimagerect = None
 
     def render(self):
+        #UI
         self.window.blit(self.battlestatus, (BattleSettings.statusStartX, BattleSettings.statusStartY)) #显示战斗UI
         self.window.blit(self.monstername, (BattleSettings.textMonsterStartX, BattleSettings.textStartY)) #显示怪物名称
         self.window.blit(self.playername, (BattleSettings.textPlayerStartX, BattleSettings.textStartY)) #显示玩家名称
@@ -45,6 +48,16 @@ class Battle:
                 self.window.blit(self.commandbackground, (BattleSettings.statusStartX, BattleSettings.statusStartY)) #显示Magic面板UI
                 self.window.blit(self.FireText, (BattleSettings.textMonsterStartX, BattleSettings.textStartY)) #显示Fire魔法按键指引
                 self.window.blit(self.ThunderText, (BattleSettings.textMonsterStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示Thunder魔法按键指引
+        #玩家动画
+        if not self.ismagic:
+            self.playerimage = pygame.transform.scale(self.player.battlestandimage, (BattleSettings.playerWidth, BattleSettings.playerHeight))
+            self.playerimagerect = self.playerimage.get_rect(center = (BattleSettings.playerCoordX, BattleSettings.playerCoordY))
+            self.window.blit(self.playerimage, self.playerimagerect)
+        elif self.ismagic:
+            self.playerimage = pygame.transform.scale(self.player.battlemagic(), (BattleSettings.playerWidth, BattleSettings.playerHeight))
+            self.playerimagerect = self.playerimage.get_rect(center = (BattleSettings.playerCoordX, BattleSettings.playerCoordY))
+            self.window.blit(self.playerimage, self.playerimagerect)
+        #怪物动画
 
 class MonsterBattle(Battle):
     def __init__(self, window, player, monster):

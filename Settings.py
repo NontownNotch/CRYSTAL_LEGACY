@@ -5,7 +5,7 @@ import pygame
 
 class WindowSettings: #窗口设置
     name = "CRYSTAL LEGACY" #标题
-    width = 190 #窗口宽度
+    width = 1920 #窗口宽度
     height = 1080 #窗口高度
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
 
@@ -82,6 +82,7 @@ class BattleSettings:
     playerHeight = WindowSettings.height // 5.625
     playerCoordX = WindowSettings.width // 4 * 3
     playerCoordY = WindowSettings.height // 2 
+    playerattackCoordX = WindowSettings.width // 3 * 2
 
     monsterWidth = WindowSettings.width // 6
     monsterHeight = WindowSettings.height // 3
@@ -135,6 +136,8 @@ class GamePath:
         r".\assets\Player\Battle\Magic_2.png",
         r".\assets\Player\Battle\Magic_2.png"
     ]
+    playerbattleattackimage = r".\assets\Player\Battle\Attack.png"
+    playerbattleusemagicimage = r".\assets\Player\Battle\UseMagic.png"
     monster = r".\assets\npc\monster\1.png"
     boss = r".\assets\npc\boss.png"
 

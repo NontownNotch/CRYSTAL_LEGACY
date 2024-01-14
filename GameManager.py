@@ -132,7 +132,7 @@ class GameManager:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:
-                    if not self.scene.iscommanding:
+                    if self.scene.ATB == 300 and not self.scene.iscommanding:
                         self.scene.iscommanding = True #开启Command面板
                 elif event.key == pygame.K_q:
                     if self.scene.iscommanding and not self.scene.ismagic:
@@ -141,23 +141,24 @@ class GameManager:
                         self.scene.ismagic = False #关闭Magic面板
                 elif event.key == pygame.K_f:
                     if self.scene.iscommanding and not self.scene.ismagic:
+                        self.scene.Attack()
                         self.scene.iscommanding = False #Attack
                 elif event.key == pygame.K_r:
                     if self.scene.iscommanding and not self.scene.ismagic:
                         self.scene.ismagic = True #开启Magic面板
                 elif event.key == pygame.K_z:
                     if self.scene.iscommanding and self.scene.ismagic:
+                        self.scene.MagicFire()
                         self.scene.ismagic = False #使用Fire魔法
                         self.scene.iscommanding = False
                 elif event.key == pygame.K_x:
                     if self.scene.iscommanding and self.scene.ismagic:
+                        self.scene.MagicThunder()
                         self.scene.ismagic = False #使用Thunder魔法
                         self.scene.iscommanding = False
 
         # Then deal with regular updates
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.scene.ATBmanage()
 
     def update_boss(self, events):
         # Deal with EventQueue First

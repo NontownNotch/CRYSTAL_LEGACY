@@ -21,6 +21,8 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.battlemagicimages = [pygame.image.load(img) for img in GamePath.playerbattlemagicimage]
         self.battlemagicindex = 0
         self.battlemagicimage = self.battlemagicimages[self.battlemagicindex]
+        self.battleattackimage = pygame.image.load(GamePath.playerbattleattackimage)
+        self.battleusemagicimage = pygame.image.load(GamePath.playerbattleusemagicimage)
 
     def attr_update(self, addCoins = 0, addHP = 0, addMP = 0, addAttack = 0, addDefence = 0):
         if self.money + addCoins < 0:

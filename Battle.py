@@ -10,11 +10,17 @@ class Battle:
         self.window = window
         self.player = player
         self.monster = monster
+        #状态参数
+        self.ATB = 0
         self.iscommanding = False #检测是否在Command状态
         self.ismagic = False #检测是否在Magic状态
+        self.attackCD = 0
+        self.magicCD = 0
+        #render系列参数
         self.battlestatus = pygame.transform.scale(pygame.image.load(GamePath.battlestatus), (WindowSettings.width, WindowSettings.height // 5)) #设置战斗UI
         self.commandbackground = pygame.transform.scale(pygame.image.load(GamePath.commandbackground), (WindowSettings.width // 8 * 3, WindowSettings.height // 5)) #设置Command与Magic面板UI
         self.ATBbackground = pygame.transform.scale(pygame.image.load(GamePath.ATBbackground), (WindowSettings.width // 15, WindowSettings.height // 50)) #设置ATB条背景
+        self.ATBbar = pygame.image.load(GamePath.ATB)
         self.font = pygame.font.Font(None, fontSize)
         self.monstername = self.font.render(f"{self.monster.name}", True, fontColor)
         self.playername = self.font.render("Sansan", True, fontColor)
@@ -37,7 +43,8 @@ class Battle:
         self.window.blit(self.HP, (BattleSettings.textPlayerStatusStartX, BattleSettings.textStartY)) #显示玩家HP
         self.window.blit(self.MP, (BattleSettings.textPlayerStatusStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示玩家MP
         self.window.blit(self.ATBbackground, (BattleSettings.ATBStartX, BattleSettings.textStartY)) #显示玩家ATB条背景
-        if not self.iscommanding:
+        self.window.blit(pygame.transform.scale(self.ATBbar, (WindowSettings.width * self.ATB // 4500, WindowSettings.height // 50)), (BattleSettings.ATBStartX, BattleSettings.textStartY))
+        if self.ATB == 300 and not self.iscommanding:
             self.window.blit(self.CommandText, (BattleSettings.ATBStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示Command按键指引
         elif self.iscommanding:
             self.window.blit(self.commandbackground, (BattleSettings.statusStartX, BattleSettings.statusStartY)) #显示Command面板UI
@@ -49,15 +56,46 @@ class Battle:
                 self.window.blit(self.FireText, (BattleSettings.textMonsterStartX, BattleSettings.textStartY)) #显示Fire魔法按键指引
                 self.window.blit(self.ThunderText, (BattleSettings.textMonsterStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示Thunder魔法按键指引
         #玩家动画
-        if not self.ismagic:
+        if not self.ismagic and self.attackCD == 0 and self.magicCD == 0: #站立动画
             self.playerimage = pygame.transform.scale(self.player.battlestandimage, (BattleSettings.playerWidth, BattleSettings.playerHeight))
             self.playerimagerect = self.playerimage.get_rect(center = (BattleSettings.playerCoordX, BattleSettings.playerCoordY))
             self.window.blit(self.playerimage, self.playerimagerect)
-        elif self.ismagic:
+        elif self.ismagic: #咏唱魔法动画
             self.playerimage = pygame.transform.scale(self.player.battlemagic(), (BattleSettings.playerWidth, BattleSettings.playerHeight))
             self.playerimagerect = self.playerimage.get_rect(center = (BattleSettings.playerCoordX, BattleSettings.playerCoordY))
             self.window.blit(self.playerimage, self.playerimagerect)
+        elif not self.ismagic and self.attackCD != 0:
+            self.playerimage = pygame.transform.scale(self.player.battleattackimage, (BattleSettings.playerWidth, BattleSettings.playerHeight))
+            self.playerimagerect = self.playerimage.get_rect(center = (BattleSettings.playerattackCoordX, BattleSettings.playerCoordY))
+            self.window.blit(self.playerimage, self.playerimagerect)
+        elif not self.ismagic and self.magicCD != 0: #使用魔法动画
+            self.playerimage = pygame.transform.scale(self.player.battleusemagicimage, (BattleSettings.playerWidth, BattleSettings.playerHeight))
+            self.playerimagerect = self.playerimage.get_rect(center = (BattleSettings.playerCoordX, BattleSettings.playerCoordY))
+            self.window.blit(self.playerimage, self.playerimagerect)
         #怪物动画
+    
+    def ATBmanage(self):
+        if self.ATB != 300:
+            self.ATB +=1
+        if self.attackCD != 0:
+            self.attackCD -=1
+        if self.magicCD != 0:
+            self.magicCD -=1
+
+    def Attack(self):
+        self.ATB = 0
+        self.attackCD = 30
+
+    def MagicFire(self):
+        self.ATB = 0
+        self.magicCD = 60
+
+    def MagicThunder(self):
+        self.ATB = 0
+        self.magicCD = 60
+
+    def MonsterAttack(self):
+        pass
 
 class MonsterBattle(Battle):
     def __init__(self, window, player, monster):

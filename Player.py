@@ -10,6 +10,11 @@ class Player(pygame.sprite.Sprite, Collidable):
         # Must initialize everything one by one here
         pygame.sprite.Sprite.__init__(self)
         Collidable.__init__(self)
+        self.imagefront = [pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth, PlayerSettings.playerHeight)) for img in GamePath.playerfront]
+        self.index = 0
+        self.image = self.imagefront[self.index]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
         self.x = x
         self.y = y
         self.HP = PlayerSettings.playerHP
@@ -50,9 +55,7 @@ class Player(pygame.sprite.Sprite, Collidable):
 
 
     def draw(self, window, dx=0, dy=0):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        window.blit(self.image, self.rect)
 
     def battlemagic(self):
         self.battlemagicindex = (self.battlemagicindex + 1) % 12

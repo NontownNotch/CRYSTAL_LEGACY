@@ -12,13 +12,13 @@ class WindowSettings: #窗口设置
 class SceneSettings:
     tileXnum = 48 # 64
     tileYnum = 27 # 36
-    tileWidth = tileHeight = 40
+    tileWidth = tileHeight = 128
 
 class PlayerSettings:
     # Initial Player Settings
     playerSpeed = 7
-    playerWidth = 60
-    playerHeight = 55
+    playerWidth = 128
+    playerHeight = 192
     playerHP = 20
     playerMP = 10
     playerAttack = 5
@@ -110,15 +110,15 @@ class GamePath:
 
     # player/npc related path
     npc = r".\assets\npc\npc.png"
-    player = [
-        r".\assets\player\1.png", 
-        r".\assets\player\1.png",
-        r".\assets\player\2.png", 
-        r".\assets\player\2.png", 
-        r".\assets\player\3.png", 
-        r".\assets\player\3.png", 
-        r".\assets\player\4.png", 
-        r".\assets\player\4.png", 
+    playerfront = [
+        r".\assets\Player\Front_2.png",
+        r".\assets\Player\Front_2.png",
+        r".\assets\Player\Front_1.png",
+        r".\assets\Player\Front_1.png",
+        r".\assets\Player\Front_2.png",
+        r".\assets\Player\Front_2.png",
+        r".\assets\Player\Front_3.png",
+        r".\assets\Player\Front_3.png", 
         # 8 frames for a single loop of animation looks much better.
     ]
     playerbattlestandimage = r".\assets\Player\Battle\Stand.png"
@@ -141,14 +141,7 @@ class GamePath:
     monster = r".\assets\npc\monster\1.png"
     boss = r".\assets\npc\boss.png"
 
-    groundTiles = [
-        r".\assets\tiles\ground1.png", 
-        r".\assets\tiles\ground2.png", 
-        r".\assets\tiles\ground3.png", 
-        r".\assets\tiles\ground4.png", 
-        r".\assets\tiles\ground5.png", 
-        r".\assets\tiles\ground6.png", 
-    ]
+    groundTiles = r".\assets\Tiles\Grass.png"
 
     cityTiles = [
         r".\assets\tiles\city1.png", 

@@ -27,14 +27,10 @@ class GameManager:
 
     # Necessary game components here ↓
     def tick(self, fps):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.clock.tick(fps)
 
     def get_time(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        return self.clock.get_time()
 
     # Scene-related update functions here ↓
     def flush_scene(self, GOTO:SceneType):
@@ -43,9 +39,9 @@ class GameManager:
         ##### Your Code Here ↑ #####
 
     def update(self):
-        self.clock.tick(30)
+        self.tick(30)
         if self.state == GameState.MAIN_MENU:
-            self.update_main_menu(pygame.event.get()) #执行self.update_main_menu()函数，pygame.event.get()返回为List
+            self.update_main_menu(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_WILD:
             self.update_wild(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_CASTLE:
@@ -67,29 +63,30 @@ class GameManager:
             if event.type == pygame.KEYDOWN: #按下键盘按键
                 #下方为开发时用主界面，正式版将改动
                 if event.key == pygame.K_1:
-                    self.state = 6
+                    self.scene = WildScene(self.window)
+                    self.state = GameState.GAME_PLAY_WILD
+                    self.scene.gen_wild_map()
                 elif event.key == pygame.K_2:
-                    self.state = 7
+                    self.state = GameState.GAME_PLAY_CASTLE
                 elif event.key == pygame.K_3:
-                    self.state = 8
+                    self.state = GameState.GAME_PLAY_TEMPLE
                 elif event.key == pygame.K_4:
-                    self.state = 9
+                    self.state = GameState.GAME_PLAY_HUT
                 elif event.key == pygame.K_5:
                     self.scene = MonsterBattle(self.window, self.player, Monster(0,0))
                     self.state = GameState.GAME_PLAY_BATTLE
                 elif event.key == pygame.K_6:
-                    self.state =11
+                    self.state =GameState.GAME_PLAY_BOSS
 
     def update_wild(self, events):
         # Deal with EventQueue First
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
         
         # Then deal with regular updates
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.scene.gen_wild_map()
 
     def update_castle(self, events):
         # Deal with EventQueue First
@@ -208,22 +205,18 @@ class GameManager:
     # Render-relate update functions here ↓
     def render(self):
         if self.state == GameState.MAIN_MENU:
-            self.render_main_menu() #执行self.render_main_menu()函数
+            self.render_main_menu()
+        if self.state == GameState.GAME_PLAY_WILD:
+            self.render_wild()
         if self.state == GameState.GAME_PLAY_BATTLE:
             self.render_battle()
     
     def render_main_menu(self):
-        MainMenu(self.window).render() #渲染主界面
+        self.scene.render() #渲染主界面
     
-    def render_city(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
     def render_wild(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.scene.update_camera(self.player)
+        self.scene.render(self.player)
 
     def render_battle(self):
         self.scene.render() #渲染战斗场景

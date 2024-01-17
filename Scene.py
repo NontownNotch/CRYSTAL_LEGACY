@@ -13,9 +13,9 @@ from Tile import *
 
 class Scene():
     def __init__(self, window):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.image = None
+        self.window = window
+        self.image = None
 
     def trigger_dialog(self, npc):
         ##### Your Code Here ↓ #####
@@ -53,9 +53,7 @@ class Scene():
         ##### Your Code Here ↑ #####
 
     def render(self, player):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        player.draw(self.window)
 
 
 class MainMenu():
@@ -114,16 +112,10 @@ class CityScene(Scene):
 class WildScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
-        
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.map = None
 
     def gen_wild_map(self):
-
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.map = Tile(pygame.image.load(GamePath.groundTiles))
 
     def gen_wild_obstacle(self):
         
@@ -142,6 +134,12 @@ class WildScene(Scene):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
+    
+    def render(self, player):
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                self.map.draw(self.window, SceneSettings.tileWidth * i, SceneSettings.tileHeight * j)
+        return super().render(player)
 
 
 class BossScene(Scene):

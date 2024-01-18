@@ -12,13 +12,13 @@ class WindowSettings: #窗口设置
 class SceneSettings:
     tileXnum = 48 # 64
     tileYnum = 27 # 36
-    tileWidth = tileHeight = 128
+    tileWidth = tileHeight = 64
 
 class PlayerSettings:
     # Initial Player Settings
-    playerSpeed = 7
-    playerWidth = 128
-    playerHeight = 192
+    playerSpeed = 8
+    playerWidth = 64
+    playerHeight = 96
     playerHP = 20
     playerMP = 10
     playerAttack = 5
@@ -113,13 +113,58 @@ class GamePath:
     playerfront = [
         r".\assets\Player\Front_2.png",
         r".\assets\Player\Front_2.png",
+        r".\assets\Player\Front_2.png",
         r".\assets\Player\Front_1.png",
         r".\assets\Player\Front_1.png",
+        r".\assets\Player\Front_1.png",
+        r".\assets\Player\Front_2.png",
         r".\assets\Player\Front_2.png",
         r".\assets\Player\Front_2.png",
         r".\assets\Player\Front_3.png",
-        r".\assets\Player\Front_3.png", 
-        # 8 frames for a single loop of animation looks much better.
+        r".\assets\Player\Front_3.png",
+        r".\assets\Player\Front_3.png",
+    ]
+    playerback = [
+        r".\assets\Player\Back_2.png",
+        r".\assets\Player\Back_2.png",
+        r".\assets\Player\Back_2.png",
+        r".\assets\Player\Back_1.png",
+        r".\assets\Player\Back_1.png",
+        r".\assets\Player\Back_1.png",
+        r".\assets\Player\Back_2.png",
+        r".\assets\Player\Back_2.png",
+        r".\assets\Player\Back_2.png",
+        r".\assets\Player\Back_3.png",
+        r".\assets\Player\Back_3.png",
+        r".\assets\Player\Back_3.png",
+    ]
+    playerleft = [
+        r".\assets\Player\Left_2.png",
+        r".\assets\Player\Left_2.png",
+        r".\assets\Player\Left_2.png",
+        r".\assets\Player\Left_1.png",
+        r".\assets\Player\Left_1.png",
+        r".\assets\Player\Left_1.png",
+        r".\assets\Player\Left_2.png",
+        r".\assets\Player\Left_2.png",
+        r".\assets\Player\Left_2.png",
+        r".\assets\Player\Left_3.png",
+        r".\assets\Player\Left_3.png",
+        r".\assets\Player\Left_3.png",
+    ]
+    playerright = [
+        r".\assets\Player\Right_2.png",
+        r".\assets\Player\Right_2.png",
+        r".\assets\Player\Right_2.png",
+        r".\assets\Player\Right_1.png",
+        r".\assets\Player\Right_1.png",
+        r".\assets\Player\Right_1.png",
+        r".\assets\Player\Right_2.png",
+        r".\assets\Player\Right_2.png",
+        r".\assets\Player\Right_2.png",
+        r".\assets\Player\Right_3.png",
+        r".\assets\Player\Right_3.png",
+        r".\assets\Player\Right_3.png",
     ]
     playerbattlestandimage = r".\assets\Player\Battle\Stand.png"
     playerbattlemagicimage = [

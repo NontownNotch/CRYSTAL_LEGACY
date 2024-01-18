@@ -11,12 +11,17 @@ class Player(pygame.sprite.Sprite, Collidable):
         pygame.sprite.Sprite.__init__(self)
         Collidable.__init__(self)
         self.imagefront = [pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth, PlayerSettings.playerHeight)) for img in GamePath.playerfront]
+        self.imageback = [pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth, PlayerSettings.playerHeight)) for img in GamePath.playerback]
+        self.imageleft = [pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth, PlayerSettings.playerHeight)) for img in GamePath.playerleft]
+        self.imageright = [pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth, PlayerSettings.playerHeight)) for img in GamePath.playerright]
+        self.images = self.imagefront
         self.index = 0
-        self.image = self.imagefront[self.index]
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
+        self.rect.center = (x, y)
         self.x = x
         self.y = y
+        self.move = [False, False, False, False]
         self.HP = PlayerSettings.playerHP
         self.MP = PlayerSettings.playerMP
         self.attack = PlayerSettings.playerAttack
@@ -43,19 +48,48 @@ class Player(pygame.sprite.Sprite, Collidable):
         pass
         ##### Your Code Here ↑ #####
 
-    def try_move(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+    def try_move(self, events):
+        dx = dy = 0
+        #尝试移动
+        if events[pygame.K_w]:
+            dy -= PlayerSettings.playerSpeed
+            self.move[0] = True
+        if events[pygame.K_s]:
+            dy += PlayerSettings.playerSpeed
+            self.move[1] = True
+        if events[pygame.K_a]:
+            dx -= PlayerSettings.playerSpeed
+            self.move[2] = True
+        if events[pygame.K_d]:
+            dx += PlayerSettings.playerSpeed
+            self.move[3] = True
+        self.x += dx
+        self.y += dy
 
     def update(self, width,height):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        #设置人物图像
+        if self.move == [True, False, False, False]:
+            self.index = (self.index + 1) % 12
+            self.images = self.imageback
+        elif self.move == [False, True, False, False]:
+            self.index = (self.index + 1) % 12
+            self.images = self.imagefront
+        elif self.move == [False, False, True, False] or self.move == [True, False, True, False] or self.move == [False, True, True, False] or self.move == [True, True, True, False]:
+            self.index = (self.index + 1) % 12
+            self.images = self.imageleft
+        elif self.move == [False, False, False, True] or self.move == [True, False, False, True] or self.move == [False, True, False, True] or self.move == [True, True, False, True]:
+            self.index = (self.index + 1) % 12
+            self.images = self.imageright
+        else:
+            self.index = 0
+        self.image = self.images[self.index]
+        self.move = [False, False, False, False]
+        #设置人物位置
+        self.rect.center = (self.x, self.y)
 
 
     def draw(self, window, dx=0, dy=0):
-        window.blit(self.image, self.rect)
+        window.blit(self.image, self.rect.move(dx, dy))
 
     def battlemagic(self):
         self.battlemagicindex = (self.battlemagicindex + 1) % 12

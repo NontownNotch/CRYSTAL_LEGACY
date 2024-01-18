@@ -16,6 +16,8 @@ class Scene():
         self.image = None
         self.window = window
         self.image = None
+        self.cameraX = 0
+        self.cameraY = 0
 
     def trigger_dialog(self, npc):
         ##### Your Code Here ↓ #####
@@ -48,12 +50,18 @@ class Scene():
         ##### Your Code Here ↑ #####
 
     def update_camera(self, player):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        #设置Camera位置
+        if player.x < WindowSettings.width // 2:
+            self.cameraX = 0
+        else:
+            self.cameraX = player.x - WindowSettings.width // 2
+        if player.y < WindowSettings.height // 2:
+            self.cameraY = 0
+        else:
+            self.cameraY = player.y - WindowSettings.height // 2
 
     def render(self, player):
-        player.draw(self.window)
+        player.draw(self.window, -self.cameraX, -self.cameraY)
 
 
 class MainMenu():
@@ -138,7 +146,7 @@ class WildScene(Scene):
     def render(self, player):
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
-                self.map.draw(self.window, SceneSettings.tileWidth * i, SceneSettings.tileHeight * j)
+                self.map.draw(self.window, SceneSettings.tileWidth * i - self.cameraX, SceneSettings.tileHeight * j - self.cameraY)
         return super().render(player)
 
 

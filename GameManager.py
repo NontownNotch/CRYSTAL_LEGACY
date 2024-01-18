@@ -84,8 +84,10 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        self.player.try_move(pygame.key.get_pressed()) #尝试移动
         
         # Then deal with regular updates
+        self.player.update(0, 0)
         self.scene.gen_wild_map()
 
     def update_castle(self, events):
@@ -138,24 +140,24 @@ class GameManager:
                         self.scene.ismagic = False #关闭Magic面板
                 elif event.key == pygame.K_f:
                     if self.scene.iscommanding and not self.scene.ismagic:
-                        self.scene.Attack()
-                        self.scene.iscommanding = False #Attack
+                        self.scene.Attack() #Attack
+                        self.scene.iscommanding = False
                 elif event.key == pygame.K_r:
                     if self.scene.iscommanding and not self.scene.ismagic:
                         self.scene.ismagic = True #开启Magic面板
                 elif event.key == pygame.K_z:
                     if self.scene.iscommanding and self.scene.ismagic:
-                        self.scene.MagicFire()
-                        self.scene.ismagic = False #使用Fire魔法
+                        self.scene.MagicFire() #使用Fire魔法
+                        self.scene.ismagic = False
                         self.scene.iscommanding = False
                 elif event.key == pygame.K_x:
                     if self.scene.iscommanding and self.scene.ismagic:
-                        self.scene.MagicThunder()
-                        self.scene.ismagic = False #使用Thunder魔法
+                        self.scene.MagicThunder() #使用Thunder魔法
+                        self.scene.ismagic = False
                         self.scene.iscommanding = False
 
         # Then deal with regular updates
-        self.scene.ATBmanage()
+        self.scene.ATBmanage() #管理ATB
 
     def update_boss(self, events):
         # Deal with EventQueue First
@@ -165,9 +167,7 @@ class GameManager:
                 sys.exit()
         
         # Then deal with regular updates
-        ##### Your Code Here ↓ #####
         pass
-        ##### Your Code Here ↑ #####
 
     # Collision-relate update funtions here ↓
     def update_collide(self):
@@ -215,8 +215,8 @@ class GameManager:
         self.scene.render() #渲染主界面
     
     def render_wild(self):
-        self.scene.update_camera(self.player)
-        self.scene.render(self.player)
+        self.scene.update_camera(self.player) #更新Camera位置
+        self.scene.render(self.player) #渲染野外场景
 
     def render_battle(self):
         self.scene.render() #渲染战斗场景

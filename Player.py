@@ -68,10 +68,10 @@ class Player(pygame.sprite.Sprite, Collidable):
 
     def update(self, width,height):
         #设置人物图像
-        if self.move == [True, False, False, False]:
+        if self.move == [True, False, False, False] or self.move == [True, False, True, True]:
             self.index = (self.index + 1) % 12
             self.images = self.imageback
-        elif self.move == [False, True, False, False]:
+        elif self.move == [False, True, False, False] or self.move == [False, True, True, True]:
             self.index = (self.index + 1) % 12
             self.images = self.imagefront
         elif self.move == [False, False, True, False] or self.move == [True, False, True, False] or self.move == [False, True, True, False] or self.move == [True, True, True, False]:

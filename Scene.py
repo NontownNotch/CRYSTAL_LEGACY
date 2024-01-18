@@ -16,6 +16,8 @@ class Scene():
         self.image = None
         self.window = window
         self.image = None
+        self.maxX = 0
+        self.maxY = 0
         self.cameraX = 0
         self.cameraY = 0
 
@@ -53,14 +55,19 @@ class Scene():
         #设置Camera位置
         if player.x < WindowSettings.width // 2:
             self.cameraX = 0
+        elif player.x > self.maxX - WindowSettings.width // 2:
+            self.cameraX = self.maxX - WindowSettings.width
         else:
             self.cameraX = player.x - WindowSettings.width // 2
         if player.y < WindowSettings.height // 2:
             self.cameraY = 0
+        elif player.y > self.maxY - WindowSettings.height // 2:
+            self.cameraY = self.maxY - WindowSettings.height
         else:
             self.cameraY = player.y - WindowSettings.height // 2
 
     def render(self, player):
+        print(self.cameraX, self.cameraY)
         player.draw(self.window, -self.cameraX, -self.cameraY)
 
 
@@ -121,6 +128,8 @@ class WildScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
         self.map = None
+        self.maxX = SceneSettings.tileXnum * SceneSettings.tileWidth
+        self.maxY = SceneSettings.tileYnum * SceneSettings.tileHeight
 
     def gen_wild_map(self):
         self.map = Tile(pygame.image.load(GamePath.groundTiles))

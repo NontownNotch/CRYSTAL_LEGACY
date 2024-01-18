@@ -48,19 +48,19 @@ class Player(pygame.sprite.Sprite, Collidable):
         pass
         ##### Your Code Here ↑ #####
 
-    def try_move(self, events):
+    def try_move(self, events, maxX = WindowSettings.width, maxY = WindowSettings.height):
         dx = dy = 0
         #尝试移动
-        if events[pygame.K_w]:
+        if events[pygame.K_w] and self.y >=0:
             dy -= PlayerSettings.playerSpeed
             self.move[0] = True
-        if events[pygame.K_s]:
+        if events[pygame.K_s] and self.y <= maxY:
             dy += PlayerSettings.playerSpeed
             self.move[1] = True
-        if events[pygame.K_a]:
+        if events[pygame.K_a] and self.x >=0:
             dx -= PlayerSettings.playerSpeed
             self.move[2] = True
-        if events[pygame.K_d]:
+        if events[pygame.K_d] and self.x <= maxX:
             dx += PlayerSettings.playerSpeed
             self.move[3] = True
         self.x += dx

@@ -84,7 +84,7 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        self.player.try_move(pygame.key.get_pressed()) #尝试移动
+        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY) #尝试移动
         
         # Then deal with regular updates
         self.player.update(0, 0)

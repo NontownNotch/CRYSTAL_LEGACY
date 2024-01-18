@@ -67,7 +67,6 @@ class Scene():
             self.cameraY = player.y - WindowSettings.height // 2
 
     def render(self, player):
-        print(self.cameraX, self.cameraY)
         player.draw(self.window, -self.cameraX, -self.cameraY)
 
 

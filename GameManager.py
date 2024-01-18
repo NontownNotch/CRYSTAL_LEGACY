@@ -65,7 +65,7 @@ class GameManager:
                 if event.key == pygame.K_1:
                     self.scene = WildScene(self.window)
                     self.state = GameState.GAME_PLAY_WILD
-                    self.scene.gen_wild_map()
+                    self.scene.gen_WILD()
                 elif event.key == pygame.K_2:
                     self.state = GameState.GAME_PLAY_CASTLE
                 elif event.key == pygame.K_3:
@@ -88,7 +88,6 @@ class GameManager:
         
         # Then deal with regular updates
         self.player.update(0, 0)
-        self.scene.gen_wild_map()
 
     def update_castle(self, events):
         # Deal with EventQueue First
@@ -210,6 +209,8 @@ class GameManager:
             self.render_wild()
         if self.state == GameState.GAME_PLAY_BATTLE:
             self.render_battle()
+        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_fps()}", True, (255, 255, 255)), (0, 0))
+        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_rawtime()}", True, (255, 255, 255)), (0, 36))
     
     def render_main_menu(self):
         self.scene.render() #渲染主界面

@@ -10,8 +10,8 @@ class WindowSettings: #窗口设置
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
 
 class SceneSettings:
-    tileXnum = 48 # 64
-    tileYnum = 27 # 36
+    tileXnum = 64
+    tileYnum = 64
     tileWidth = tileHeight = 64
 
 class PlayerSettings:
@@ -217,7 +217,8 @@ class GamePath:
 
     portal = r".\assets\background\portal.png"
 
-    tree = r".\assets\tiles\tree.png"
+    tree = [r".\assets\Tiles\Tree.png",
+            r".\assets\Tiles\Flower.png"]
 
     bgm = [r".\assets\bgm\city.mp3",
            r".\assets\bgm\wild.mp3",

@@ -127,6 +127,7 @@ class WildScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
         self.map = None
+        self.obstacles = []
         self.maxX = SceneSettings.tileXnum * SceneSettings.tileWidth
         self.maxY = SceneSettings.tileYnum * SceneSettings.tileHeight
 
@@ -134,16 +135,17 @@ class WildScene(Scene):
         self.map = Tile(pygame.image.load(GamePath.groundTiles))
 
     def gen_wild_obstacle(self):
-        
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        midx = SceneSettings.tileXnum//2
+        midy = SceneSettings.tileYnum//2
+        self.obstacles = pygame.sprite.Group()
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                if random() < 0.05:
+                    self.obstacles.add(Tile(pygame.image.load(GamePath.tree[randint(0,1)]), SceneSettings.tileWidth * i, SceneSettings.tileHeight * j))
 
     def gen_WILD(self):
-        
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.gen_wild_map()
+        self.gen_wild_obstacle()
 
     def gen_monsters(self, num = 10):
 
@@ -155,6 +157,8 @@ class WildScene(Scene):
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
                 self.map.draw(self.window, SceneSettings.tileWidth * i - self.cameraX, SceneSettings.tileHeight * j - self.cameraY)
+        for img in self.obstacles:
+            img.draw(self.window, - self.cameraX, - self.cameraY)
         return super().render(player)
 
 

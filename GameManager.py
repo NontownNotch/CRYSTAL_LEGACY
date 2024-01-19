@@ -87,7 +87,7 @@ class GameManager:
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY) #尝试移动
         
         # Then deal with regular updates
-        self.player.update(0, 0)
+        self.player.update(self.scene)
 
     def update_castle(self, events):
         # Deal with EventQueue First

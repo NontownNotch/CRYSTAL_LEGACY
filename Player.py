@@ -49,24 +49,27 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↑ #####
 
     def try_move(self, events, maxX = WindowSettings.width, maxY = WindowSettings.height):
-        dx = dy = 0
+        self.dx = self.dy = 0
         #尝试移动
         if events[pygame.K_w] and self.y >=PlayerSettings.playerHeight // 2:
-            dy -= PlayerSettings.playerSpeed
+            self.dy -= PlayerSettings.playerSpeed
             self.move[0] = True
         if events[pygame.K_s] and self.y <= maxY - PlayerSettings.playerHeight //2:
-            dy += PlayerSettings.playerSpeed
+            self.dy += PlayerSettings.playerSpeed
             self.move[1] = True
         if events[pygame.K_a] and self.x >=PlayerSettings.playerWidth // 2:
-            dx -= PlayerSettings.playerSpeed
+            self.dx -= PlayerSettings.playerSpeed
             self.move[2] = True
         if events[pygame.K_d] and self.x <= maxX - PlayerSettings.playerWidth // 2:
-            dx += PlayerSettings.playerSpeed
+            self.dx += PlayerSettings.playerSpeed
             self.move[3] = True
-        self.x += dx
-        self.y += dy
+        if events[pygame.K_SPACE]:
+            self.dx = self.dx * 2
+            self.dy = self.dy * 2
+        self.x += self.dx
+        self.y += self.dy
 
-    def update(self, width,height):
+    def update(self, scene):
         #设置人物图像
         if self.move == [True, False, False, False] or self.move == [True, False, True, True]:
             self.index = (self.index + 1) % 12
@@ -85,6 +88,10 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.image = self.images[self.index]
         self.move = [False, False, False, False]
         #设置人物位置
+        self.rect.center = (self.x, self.y)
+        if pygame.sprite.spritecollide(self, scene.obstacles, False):
+            self.x -= self.dx
+            self.y -= self.dy
         self.rect.center = (self.x, self.y)
 
 

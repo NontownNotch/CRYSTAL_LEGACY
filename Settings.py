@@ -225,10 +225,9 @@ class GamePath:
            r".\assets\bgm\boss.mp3"]
 
 class PortalSettings:
-    width = 320
-    height = 320
-    coordX = (SceneSettings.tileXnum - 10) * SceneSettings.tileWidth - width / 2
-    coordY = (SceneSettings.tileYnum / 2) * SceneSettings.tileHeight - height / 2
+    size = [(128, 128)]
+    coordX = (SceneSettings.tileXnum - 10) * SceneSettings.tileWidth / 2
+    coordY = (SceneSettings.tileYnum / 2) * SceneSettings.tileHeight / 2
 
 class GameState(Enum):
     MAIN_MENU = 1

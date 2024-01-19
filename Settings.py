@@ -215,7 +215,7 @@ class GamePath:
     ATBbackground = r".\assets\UI\ATBBackground.png"
     ATB = r".\assets\UI\ATB.png"
 
-    portal = r".\assets\background\portal.png"
+    portal = [r".\assets\Portals\Castle.png",]
 
     tree = [r".\assets\Tiles\Tree.png",
             r".\assets\Tiles\Flower.png"]

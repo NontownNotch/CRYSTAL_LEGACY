@@ -5,7 +5,7 @@ from Settings import *
 import pygame
 
 class Portal(pygame.sprite.Sprite):
-    def __init__(self, x, y, GOTO:SceneType, index):
+    def __init__(self, x, y, index):
         super().__init__()
         self.images = GamePath.portal
         self.image = pygame.transform.scale(pygame.image.load(self.images[index]), PortalSettings.size[index])

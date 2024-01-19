@@ -66,6 +66,7 @@ class GameManager:
                     self.scene = WildScene(self.window)
                     self.state = GameState.GAME_PLAY_WILD
                     self.scene.gen_WILD()
+                    self.player.reset_pos(2048, 2048)
                 elif event.key == pygame.K_2:
                     self.state = GameState.GAME_PLAY_CASTLE
                 elif event.key == pygame.K_3:
@@ -88,6 +89,9 @@ class GameManager:
         
         # Then deal with regular updates
         self.player.update(self.scene)
+        if self.player.tpto == 1:
+            pass #传送事件
+            self.player.tpto = 0
 
     def update_castle(self, events):
         # Deal with EventQueue First

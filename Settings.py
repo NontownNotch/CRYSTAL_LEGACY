@@ -215,7 +215,9 @@ class GamePath:
     ATBbackground = r".\assets\UI\ATBBackground.png"
     ATB = r".\assets\UI\ATB.png"
 
-    portal = [r".\assets\Portals\Castle.png",]
+    portal = [r".\assets\Portals\Castle.png",
+              r".\assets\Portals\Temple.png",
+              r".\assets\Portals\Hut.png"]
 
     tree = [r".\assets\Tiles\Tree.png",
             r".\assets\Tiles\Flower.png"]
@@ -225,7 +227,7 @@ class GamePath:
            r".\assets\bgm\boss.mp3"]
 
 class PortalSettings:
-    size = [(128, 128)]
+    size = [(128, 128), (128, 128), (128, 128)]
     coordX = (SceneSettings.tileXnum - 10) * SceneSettings.tileWidth / 2
     coordY = (SceneSettings.tileYnum / 2) * SceneSettings.tileHeight / 2
 

@@ -22,6 +22,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.x = x
         self.y = y
         self.move = [False, False, False, False]
+        self.tpto = 0
         self.HP = PlayerSettings.playerHP
         self.MP = PlayerSettings.playerMP
         self.attack = PlayerSettings.playerAttack
@@ -44,9 +45,8 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.defence += addDefence
 
     def reset_pos(self, x=WindowSettings.width // 2, y=WindowSettings.height // 2):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.x = x
+        self.y = y
 
     def try_move(self, events, maxX = WindowSettings.width, maxY = WindowSettings.height):
         self.dx = self.dy = 0
@@ -96,6 +96,9 @@ class Player(pygame.sprite.Sprite, Collidable):
         if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testx, scene.obstacles, False):
             self.y -= self.dy
         self.rect.center = (self.x, self.y)
+        #检测传送
+        if pygame.sprite.spritecollide(self, scene.castleportal, False, pygame.sprite.collide_mask):
+            self.tpto = 1
 
 
     def draw(self, window, dx=0, dy=0):

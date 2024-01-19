@@ -51,16 +51,16 @@ class Player(pygame.sprite.Sprite, Collidable):
     def try_move(self, events, maxX = WindowSettings.width, maxY = WindowSettings.height):
         self.dx = self.dy = 0
         #尝试移动
-        if events[pygame.K_w] and self.y >=PlayerSettings.playerHeight // 2:
+        if events[pygame.K_w] and self.y - PlayerSettings.playerSpeed >=PlayerSettings.playerHeight // 2:
             self.dy -= PlayerSettings.playerSpeed
             self.move[0] = True
-        if events[pygame.K_s] and self.y <= maxY - PlayerSettings.playerHeight //2:
+        if events[pygame.K_s] and self.y + PlayerSettings.playerSpeed <= maxY - PlayerSettings.playerHeight //2:
             self.dy += PlayerSettings.playerSpeed
             self.move[1] = True
-        if events[pygame.K_a] and self.x >=PlayerSettings.playerWidth // 2:
+        if events[pygame.K_a] and self.x - PlayerSettings.playerSpeed >=PlayerSettings.playerWidth // 2:
             self.dx -= PlayerSettings.playerSpeed
             self.move[2] = True
-        if events[pygame.K_d] and self.x <= maxX - PlayerSettings.playerWidth // 2:
+        if events[pygame.K_d] and self.x + PlayerSettings.playerSpeed <= maxX - PlayerSettings.playerWidth // 2:
             self.dx += PlayerSettings.playerSpeed
             self.move[3] = True
         if events[pygame.K_SPACE]:
@@ -89,8 +89,11 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.move = [False, False, False, False]
         #设置人物位置
         self.rect.center = (self.x, self.y)
-        if pygame.sprite.spritecollide(self, scene.obstacles, False):
+        testx = Player(self.x - self.dx, self.y)
+        testy = Player(self.x, self.y - self.dy)
+        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testy, scene.obstacles, False):
             self.x -= self.dx
+        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testx, scene.obstacles, False):
             self.y -= self.dy
         self.rect.center = (self.x, self.y)
 

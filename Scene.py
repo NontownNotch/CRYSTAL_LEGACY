@@ -134,7 +134,7 @@ class WildScene(Scene):
 
     def gen_wild_map(self):
         self.map = Tile(pygame.image.load(GamePath.groundTiles))
-        self.portals.add(Portal(1000, 1000, 0, 0))
+        self.portals.add(Portal(3904, 2048, 0, 0))
 
     def gen_wild_obstacle(self):
         midx = 15

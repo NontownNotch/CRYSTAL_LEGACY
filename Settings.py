@@ -187,6 +187,7 @@ class GamePath:
     boss = r".\assets\npc\boss.png"
 
     groundTiles = r".\assets\Tiles\Grass.png"
+    castlebackground = r".\assets\Background\Castle.png"
 
     cityTiles = [
         r".\assets\tiles\city1.png", 

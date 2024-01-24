@@ -13,11 +13,9 @@ from Tile import *
 
 class Scene():
     def __init__(self, window):
-        self.image = None
         self.window = window
-        self.image = None
-        self.maxX = 0
-        self.maxY = 0
+        self.maxX = self.cameramaxX = 0
+        self.maxY = self.cameramaxY = 0
         self.cameraX = 0
         self.cameraY = 0
 
@@ -55,14 +53,14 @@ class Scene():
         #设置Camera位置
         if player.x < WindowSettings.width // 2:
             self.cameraX = 0
-        elif player.x > self.maxX - WindowSettings.width // 2:
-            self.cameraX = self.maxX - WindowSettings.width
+        elif player.x > self.cameramaxX - WindowSettings.width // 2:
+            self.cameraX = self.cameramaxX - WindowSettings.width
         else:
             self.cameraX = player.x - WindowSettings.width // 2
         if player.y < WindowSettings.height // 2:
             self.cameraY = 0
-        elif player.y > self.maxY - WindowSettings.height // 2:
-            self.cameraY = self.maxY - WindowSettings.height
+        elif player.y > self.cameramaxY - WindowSettings.height // 2:
+            self.cameraY = self.cameramaxY - WindowSettings.height
         else:
             self.cameraY = player.y - WindowSettings.height // 2
 
@@ -131,8 +129,8 @@ class WildScene(Scene):
         self.castleportal = pygame.sprite.Group()
         self.templeportal = pygame.sprite.Group()
         self.hutportal = pygame.sprite.Group()
-        self.maxX = SceneSettings.tileXnum * SceneSettings.tileWidth
-        self.maxY = SceneSettings.tileYnum * SceneSettings.tileHeight
+        self.maxX = self.cameramaxX = SceneSettings.tileXnum * SceneSettings.tileWidth
+        self.maxY = self.cameramaxY = SceneSettings.tileYnum * SceneSettings.tileHeight
 
     def gen_wild_map(self):
         self.map = Tile(pygame.image.load(GamePath.groundTiles))
@@ -173,6 +171,23 @@ class WildScene(Scene):
             img.draw(self.window, - self.cameraX, - self.cameraY)
         return super().render(player)
 
+class CastleScene(Scene):
+    def __init__(self, window):
+        super().__init__(window)
+        self.image = pygame.transform.scale(pygame.image.load(GamePath.castlebackground), (WindowSettings.width, WindowSettings.width * 10))
+        self.rect = self.image.get_rect()
+        self.rect.top = (0)
+        self.maxX = 1120
+        self.maxY = 10080
+        self.minX = 800
+        self.minY = 9280
+        self.cameramaxX = WindowSettings.width
+        self.cameramaxY = WindowSettings.width * 10
+        self.obstacles = pygame.sprite.Group()
+    
+    def render(self, player):
+        self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
+        return super().render(player)
 
 class BossScene(Scene):
     def __init__(self, window):

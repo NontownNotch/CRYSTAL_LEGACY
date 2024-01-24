@@ -3,6 +3,7 @@
 import pygame
 
 from Settings import *
+from Scene import *
 from Attributes import *
 
 class Player(pygame.sprite.Sprite, Collidable):
@@ -48,16 +49,16 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.x = x
         self.y = y
 
-    def try_move(self, events, maxX = WindowSettings.width, maxY = WindowSettings.height):
+    def try_move(self, events, maxX = WindowSettings.width, maxY = WindowSettings.height, minX = 0, minY = 0):
         self.dx = self.dy = 0
         #尝试移动
-        if events[pygame.K_w] and self.y - PlayerSettings.playerSpeed >=PlayerSettings.playerHeight // 2:
+        if events[pygame.K_w] and self.y - PlayerSettings.playerSpeed >= minY + PlayerSettings.playerHeight // 2:
             self.dy -= PlayerSettings.playerSpeed
             self.move[0] = True
         if events[pygame.K_s] and self.y + PlayerSettings.playerSpeed <= maxY - PlayerSettings.playerHeight //2:
             self.dy += PlayerSettings.playerSpeed
             self.move[1] = True
-        if events[pygame.K_a] and self.x - PlayerSettings.playerSpeed >=PlayerSettings.playerWidth // 2:
+        if events[pygame.K_a] and self.x - PlayerSettings.playerSpeed >= minX + PlayerSettings.playerWidth // 2:
             self.dx -= PlayerSettings.playerSpeed
             self.move[2] = True
         if events[pygame.K_d] and self.x + PlayerSettings.playerSpeed <= maxX - PlayerSettings.playerWidth // 2:
@@ -97,8 +98,9 @@ class Player(pygame.sprite.Sprite, Collidable):
             self.y -= self.dy
         self.rect.center = (self.x, self.y)
         #检测传送
-        if pygame.sprite.spritecollide(self, scene.castleportal, False, pygame.sprite.collide_mask):
-            self.tpto = 1
+        if isinstance(scene, WildScene):
+            if pygame.sprite.spritecollide(self, scene.castleportal, False, pygame.sprite.collide_mask):
+                self.tpto = 1
 
 
     def draw(self, window, dx=0, dy=0):

@@ -68,7 +68,9 @@ class GameManager:
                     self.scene.gen_WILD()
                     self.player.reset_pos(2048, 2048)
                 elif event.key == pygame.K_2:
+                    self.scene = CastleScene(self.window)
                     self.state = GameState.GAME_PLAY_CASTLE
+                    self.player.reset_pos(960, 9920)
                 elif event.key == pygame.K_3:
                     self.state = GameState.GAME_PLAY_TEMPLE
                 elif event.key == pygame.K_4:
@@ -95,14 +97,14 @@ class GameManager:
 
     def update_castle(self, events):
         # Deal with EventQueue First
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #尝试移动
 
         # Then deal with regular updates
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.player.update(self.scene)
 
     def update_temple(self, events):
         # Deal with EventQueue First
@@ -211,10 +213,12 @@ class GameManager:
             self.render_main_menu()
         if self.state == GameState.GAME_PLAY_WILD:
             self.render_wild()
+        if self.state == GameState.GAME_PLAY_CASTLE:
+            self.render_castle()
         if self.state == GameState.GAME_PLAY_BATTLE:
             self.render_battle()
-        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_fps()}", True, (255, 255, 255)), (0, 0))
-        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_rawtime()}", True, (255, 255, 255)), (0, 36))
+        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_fps()}", True, (255, 0, 0)), (0, 0))
+        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_rawtime()}", True, (255, 0, 0)), (0, 36))
     
     def render_main_menu(self):
         self.scene.render() #渲染主界面
@@ -222,6 +226,10 @@ class GameManager:
     def render_wild(self):
         self.scene.update_camera(self.player) #更新Camera位置
         self.scene.render(self.player) #渲染野外场景
+
+    def render_castle(self):
+        self.scene.update_camera(self.player)
+        self.scene.render(self.player)
 
     def render_battle(self):
         self.scene.render() #渲染战斗场景

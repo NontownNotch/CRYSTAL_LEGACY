@@ -54,20 +54,20 @@ class Player(pygame.sprite.Sprite, Collidable):
         #尝试移动
         if events[pygame.K_w]:
             self.move[0] = True
-            if self.y - PlayerSettings.playerSpeed >= minY + PlayerSettings.playerHeight // 2:
-                self.dy -= PlayerSettings.playerSpeed
+            if self.y - PlayerSettings.playerYSpeed >= minY + PlayerSettings.playerHeight // 2:
+                self.dy -= PlayerSettings.playerYSpeed
         if events[pygame.K_s]:
             self.move[1] = True
-            if self.y + PlayerSettings.playerSpeed <= maxY - PlayerSettings.playerHeight //2:
-                self.dy += PlayerSettings.playerSpeed
+            if self.y + PlayerSettings.playerYSpeed <= maxY - PlayerSettings.playerHeight //2:
+                self.dy += PlayerSettings.playerYSpeed
         if events[pygame.K_a]:
             self.move[2] = True
-            if self.x - PlayerSettings.playerSpeed >= minX + PlayerSettings.playerWidth // 2:
-                self.dx -= PlayerSettings.playerSpeed
+            if self.x - PlayerSettings.playerXSpeed >= minX + PlayerSettings.playerWidth // 2:
+                self.dx -= PlayerSettings.playerXSpeed
         if events[pygame.K_d]:
             self.move[3] = True
-            if self.x + PlayerSettings.playerSpeed <= maxX - PlayerSettings.playerWidth // 2:
-                self.dx += PlayerSettings.playerSpeed
+            if self.x + PlayerSettings.playerXSpeed <= maxX - PlayerSettings.playerWidth // 2:
+                self.dx += PlayerSettings.playerXSpeed
         if events[pygame.K_SPACE]: #加速
             self.dx = self.dx * 2
             self.dy = self.dy * 2

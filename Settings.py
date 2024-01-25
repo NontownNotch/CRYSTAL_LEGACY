@@ -3,27 +3,36 @@
 from enum import Enum
 import pygame
 
-class WindowSettings: #窗口设置
-    name = "CRYSTAL LEGACY" #标题
-    width = 1920 #窗口宽度
+#窗口相關設置
+class WindowSettings: #窗口設置
+    name = "CRYSTAL LEGACY" #標題
+    width = 1920 #窗口寬度
     height = 1080 #窗口高度
 
+#場景相關設置
 class SceneSettings:
     tileXnum = 64
     tileYnum = 64
-    tileWidth = tileHeight = 64
+    tileWidth = WindowSettings.width // 30 #Tile寬度
+    tileHeight = WindowSettings.height * 8 // 135 #Tile高度
 
+class PortalSettings:
+    size = [(SceneSettings.tileWidth * 4, SceneSettings.tileHeight * 4), (SceneSettings.tileWidth * 4, SceneSettings.tileHeight * 4), (SceneSettings.tileWidth * 2, SceneSettings.tileHeight * 2)] #Portal大小
+
+#玩家相關設置
 class PlayerSettings:
-    # Initial Player Settings
-    playerSpeed = 8
-    playerWidth = 64
-    playerHeight = 96
+    #玩家設置
+    playerXSpeed = WindowSettings.width // 240 #人物X方向速度
+    playerYSpeed = WindowSettings.height // 135 #人物Y方向速度
+    playerWidth = WindowSettings.width // 30 #人物宽度
+    playerHeight = WindowSettings.height * 4 // 45 #人物高度
     playerHP = 20
     playerMP = 10
     playerAttack = 5
     playerDefence = 1
     playerMoney = 100
 
+#NPC, 怪物相關設置
 class NPCSettings:
     npcSpeed = 1
     npcWidth = 60
@@ -55,51 +64,69 @@ class DialogSettings:
     npcCoordX = 0
     npcCoordY = WindowSettings.height * 2 // 3 - 20
 
+#戰鬥相關設置
 class BattleSettings:
-    boxWidth = WindowSettings.width #战斗场景宽度
-    boxHeight = WindowSettings.height #战斗场景高度
-    boxStartX = 0
-    boxStartY = 0
+    #UI設置
+    boxWidth = WindowSettings.width #戰鬥場景寬度
+    boxHeight = WindowSettings.height #戰鬥場景高度
+    boxStartX = 0 #戰鬥場景X位置
+    boxStartY = 0 #戰鬥場景Y位置
     statusStartX = 0 #UI X位置
     statusStartY = WindowSettings.height // 5 * 4 #UI Y位置
-    textSize = 48
-    textStartX = WindowSettings.width // 4 
-    textPlayerStartX = WindowSettings.width // 2          # Coordinate X of the first line of dialog
-    textPlayerStatusStartX = WindowSettings.width // 3 * 2
-    textMonsterStartX = WindowSettings.width // 6
-    textStartY = WindowSettings.height // 15 * 13         # Coordinate Y of the first line of dialog
-    ATBStartX = WindowSettings.width // 6 * 5
-    textVerticalDist = textSize // 4 * 3            # Vertical distance of two lines
+    textSize = int(pow(WindowSettings.width * WindowSettings.height, 0.5) // 30) #字體大小
+    textPlayerStartX = WindowSettings.width // 2 #玩家文字X位置
+    textPlayerStatusStartX = WindowSettings.width // 3 * 2 #玩家狀態文字X位置
+    textMonsterStartX = WindowSettings.width // 6 #怪物文字X位置
+    textStartY = WindowSettings.height // 15 * 13 #文字Y位置
+    ATBStartX = WindowSettings.width // 6 * 5 #ATB條X位置
+    textVerticalDist = textSize // 4 * 3 #文字行間距
 
-    playerWidth = WindowSettings.width // 15
-    playerHeight = WindowSettings.height // 5.625
-    playerCoordX = WindowSettings.width // 4 * 3
-    playerCoordY = WindowSettings.height // 2 
-    playerattackCoordX = WindowSettings.width // 3 * 2
+    #玩家設置
+    playerWidth = WindowSettings.width // 15 #玩家寬度
+    playerHeight = WindowSettings.height * 8 // 45 #玩家高度
+    playerCoordX = WindowSettings.width * 3 // 4 #玩家X位置
+    playerCoordY = WindowSettings.height // 2 #玩家Y位置
+    playerattackCoordX = WindowSettings.width // 3 * 2 #玩家Attack X位置
 
+    #怪物設置
     monsterWidth = WindowSettings.width // 6
     monsterHeight = WindowSettings.height // 3
     monsterCoordX = WindowSettings.width * 5 // 8
-    monsterCoordY = WindowSettings.height // 2 
-
-    stepSize = 20
+    monsterCoordY = WindowSettings.height // 2
 
 class ShopSettings:
     boxWidth = 800
     boxHeight = 200
     boxStartX = WindowSettings.width // 4   # Coordinate X of the box
     boxStartY = WindowSettings.height // 3  # Coordinate Y of the box
-
     textSize = 56 # Default font size
     textStartX = boxStartX + 10         # Coordinate X of the first line of dialog
     textStartY = boxStartY + 25    # Coordinate Y of the first line of dialog
 
+#文件位置
 class GamePath:
-    # Window related path
-    menu = r".\assets\MainMenu\MainMenu.png"
-    battlebackground = r".\assets\Background\WildBattleBackground.png"
+    #窗口相關文件位置
+    menu = r".\assets\MainMenu\MainMenu.png" #主菜單
+    battlebackground = r".\assets\Background\WildBattleBackground.png" #戰鬥背景
 
-    # player/npc related path
+    #Tile相關位置
+    groundTiles = r".\assets\Tiles\Grass.png" #草地圖像
+    castlebackground = r".\assets\Background\Castle.png" #Castle背景
+    templebackground = r".\assets\Background\Temple.png" #Temple背景
+
+    #Obstacle相關位置
+    tree = [
+        r".\assets\Tiles\Tree.png",
+        r".\assets\Tiles\Flower.png"
+    ] #樹圖像
+    emptyobstacles = r".\assets\Tiles\Empty.png" #空圖像
+
+    #Portal相關位置
+    portal = [r".\assets\Portals\Castle.png",
+              r".\assets\Portals\Temple.png",
+              r".\assets\Portals\Hut.png"]
+    
+    #玩家相關位置
     npc = r".\assets\npc\npc.png"
     playerfront = [
         r".\assets\Player\Front_2.png",
@@ -114,7 +141,7 @@ class GamePath:
         r".\assets\Player\Front_3.png",
         r".\assets\Player\Front_3.png",
         r".\assets\Player\Front_3.png",
-    ]
+    ] #玩家前朝向圖像
     playerback = [
         r".\assets\Player\Back_2.png",
         r".\assets\Player\Back_2.png",
@@ -128,7 +155,7 @@ class GamePath:
         r".\assets\Player\Back_3.png",
         r".\assets\Player\Back_3.png",
         r".\assets\Player\Back_3.png",
-    ]
+    ] #玩家後朝向圖像
     playerleft = [
         r".\assets\Player\Left_2.png",
         r".\assets\Player\Left_2.png",
@@ -142,7 +169,7 @@ class GamePath:
         r".\assets\Player\Left_3.png",
         r".\assets\Player\Left_3.png",
         r".\assets\Player\Left_3.png",
-    ]
+    ] #玩家左朝向圖像
     playerright = [
         r".\assets\Player\Right_2.png",
         r".\assets\Player\Right_2.png",
@@ -156,8 +183,8 @@ class GamePath:
         r".\assets\Player\Right_3.png",
         r".\assets\Player\Right_3.png",
         r".\assets\Player\Right_3.png",
-    ]
-    playerbattlestandimage = r".\assets\Player\Battle\Stand.png"
+    ] #玩家右朝向圖像
+    playerbattlestandimage = r".\assets\Player\Battle\Stand.png" #玩家戰鬥Stand圖像
     playerbattlemagicimage = [
         r".\assets\Player\Battle\Magic_1.png",
         r".\assets\Player\Battle\Magic_1.png",
@@ -171,42 +198,24 @@ class GamePath:
         r".\assets\Player\Battle\Magic_2.png",
         r".\assets\Player\Battle\Magic_2.png",
         r".\assets\Player\Battle\Magic_2.png"
-    ]
-    playerbattleattackimage = r".\assets\Player\Battle\Attack.png"
-    playerbattleusemagicimage = r".\assets\Player\Battle\UseMagic.png"
+    ] #玩家戰鬥Magic圖像
+    playerbattleattackimage = r".\assets\Player\Battle\Attack.png" #玩家戰鬥Attack圖像
+    playerbattleusemagicimage = r".\assets\Player\Battle\UseMagic.png" #玩家戰鬥Use Magic圖像
     monster = r".\assets\npc\monster\1.png"
     boss = r".\assets\npc\boss.png"
 
-    #Tiles
-    groundTiles = r".\assets\Tiles\Grass.png"
-    castlebackground = r".\assets\Background\Castle.png"
+    #UI相關位置
+    battlestatus = r".\assets\UI\BattleStatus.png" #戰鬥Status UI背景
+    commandbackground = r".\assets\UI\CommandBackground.png" #戰鬥Command UI背景
+    ATBbackground = r".\assets\UI\ATBBackground.png" #戰鬥ATB條背景
+    ATB = r".\assets\UI\ATB.png" #戰鬥ATB條
 
-    #Obstacles
-    tree = [r".\assets\Tiles\Tree.png",
-            r".\assets\Tiles\Flower.png"]
-    emptyobstacles = r".\assets\Tiles\Empty.png"
-
-    #Portals
-    portal = [r".\assets\Portals\Castle.png",
-              r".\assets\Portals\Temple.png",
-              r".\assets\Portals\Hut.png"]
-
-    #UI
-    battlestatus = r".\assets\UI\BattleStatus.png"
-    commandbackground = r".\assets\UI\CommandBackground.png"
-    ATBbackground = r".\assets\UI\ATBBackground.png"
-    ATB = r".\assets\UI\ATB.png"
-
-    #BGM
+    #BGM相關位置
     bgm = [r".\assets\bgm\city.mp3",
            r".\assets\bgm\wild.mp3",
            r".\assets\bgm\boss.mp3"]
 
-class PortalSettings:
-    size = [(128, 128), (128, 128), (128, 128)]
-    coordX = (SceneSettings.tileXnum - 10) * SceneSettings.tileWidth / 2
-    coordY = (SceneSettings.tileYnum / 2) * SceneSettings.tileHeight / 2
-
+#游玩狀態
 class GameState(Enum):
     MAIN_MENU = 1
     GAME_TRANSITION = 2

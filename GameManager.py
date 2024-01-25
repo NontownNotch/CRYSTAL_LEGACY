@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 import sys
 import pygame
 
@@ -18,26 +16,26 @@ class GameManager:
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
         self.state = GameState(1) #设置初始状态为主界面
         self.scene = MainMenu(self.window)
-
+    
     def game_reset(self):
 
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-
+    
     # Necessary game components here ↓
     def tick(self, fps):
         self.clock.tick(fps)
-
+    
     def get_time(self):
         return self.clock.get_time()
-
+    
     # Scene-related update functions here ↓
     def flush_scene(self, GOTO:SceneType):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-
+    
     def update(self):
         self.tick(30)
         if self.state == GameState.MAIN_MENU:
@@ -54,7 +52,7 @@ class GameManager:
             self.update_battle(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_BOSS:
             self.update_boss(pygame.event.get())
-
+    
     def update_main_menu(self, events):
         for event in events:
             if event.type == pygame.QUIT: #点击退出
@@ -66,14 +64,17 @@ class GameManager:
                     self.scene = WildScene(self.window)
                     self.state = GameState.GAME_PLAY_WILD
                     self.scene.gen_WILD() #生成地图，障碍物
-                    self.player.reset_pos(2048, 2048) #重置人物位置
+                    self.player.reset_pos(SceneSettings.tileXnum * SceneSettings.tileWidth // 2, SceneSettings.tileYnum * SceneSettings.tileHeight // 2) #重置人物位置
                 elif event.key == pygame.K_2:
                     self.scene = CastleScene(self.window)
                     self.state = GameState.GAME_PLAY_CASTLE
                     self.scene.gen_castle_obstacle()
-                    self.player.reset_pos(960, 9920) #重置人物位置
+                    self.player.reset_pos(WindowSettings.width // 2, WindowSettings.height * 248 // 27) #重置人物位置
                 elif event.key == pygame.K_3:
+                    self.scene = TempleScene(self.window)
                     self.state = GameState.GAME_PLAY_TEMPLE
+                    self.scene.gen_castle_obstacle()
+                    self.player.reset_pos(960, 9600) #重置人物位置
                 elif event.key == pygame.K_4:
                     self.state = GameState.GAME_PLAY_HUT
                 elif event.key == pygame.K_5:
@@ -81,7 +82,7 @@ class GameManager:
                     self.state = GameState.GAME_PLAY_BATTLE
                 elif event.key == pygame.K_6:
                     self.state =GameState.GAME_PLAY_BOSS
-
+    
     def update_wild(self, events):
         # Deal with EventQueue First
         for event in events:
@@ -95,7 +96,7 @@ class GameManager:
         if self.player.tpto == 1:
             pass #传送事件
             self.player.tpto = 0
-
+    
     def update_castle(self, events):
         # Deal with EventQueue First
         for event in events:
@@ -106,18 +107,18 @@ class GameManager:
 
         # Then deal with regular updates
         self.player.update(self.scene)
-
+    
     def update_temple(self, events):
         # Deal with EventQueue First
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #尝试移动
 
         # Then deal with regular updates
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
+        self.player.update(self.scene)
+    
     def update_hut(self, events):
         # Deal with EventQueue First
         ##### Your Code Here ↓ #####
@@ -128,7 +129,7 @@ class GameManager:
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-
+    
     def update_battle(self, events):
         # Deal with EventQueue First
         for event in events:
@@ -164,7 +165,7 @@ class GameManager:
 
         # Then deal with regular updates
         self.scene.ATBmanage() #管理ATB
-
+    
     def update_boss(self, events):
         # Deal with EventQueue First
         for event in events:
@@ -201,7 +202,7 @@ class GameManager:
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-
+    
     def update_NPCs(self):
         # This is not necessary. If you want to re-use your code you can realize this.
         ##### Your Code Here ↓ #####
@@ -216,6 +217,8 @@ class GameManager:
             self.render_wild()
         if self.state == GameState.GAME_PLAY_CASTLE:
             self.render_castle()
+        if self.state == GameState.GAME_PLAY_TEMPLE:
+            self.render_temple()
         if self.state == GameState.GAME_PLAY_BATTLE:
             self.render_battle()
         self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_fps()}", True, (255, 0, 0)), (0, 0))
@@ -227,14 +230,18 @@ class GameManager:
     def render_wild(self):
         self.scene.update_camera(self.player) #更新Camera位置
         self.scene.render(self.player) #渲染野外场景
-
+    
     def render_castle(self):
         self.scene.update_camera(self.player)
         self.scene.render(self.player)
-
+    
+    def render_temple(self):
+        self.scene.update_camera(self.player)
+        self.scene.render(self.player)
+    
     def render_battle(self):
         self.scene.render() #渲染战斗场景
-
+    
     def render_boss(self):
         ##### Your Code Here ↓ #####
         pass

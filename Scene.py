@@ -156,6 +156,7 @@ class CastleScene(Scene):
         self.minY = WindowSettings.height * 232 // 27
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.height * 160 // 9
+        self.portal = pygame.sprite.Group()
         self.obstacles = pygame.sprite.Group()
     
     def gen_castle_obstacle(self):
@@ -179,6 +180,10 @@ class CastleScene(Scene):
             ]:
             self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
     
+    def gen_castle(self):
+        self.gen_castle_obstacle()
+        self.portal.add(Portal(960, 10048, 3))
+    
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
         return super().render(player)
@@ -195,9 +200,10 @@ class TempleScene(Scene):
         self.minY = 9280
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.width * 10
+        self.portal = pygame.sprite.Group()
         self.obstacles = pygame.sprite.Group()
     
-    def gen_castle_obstacle(self):
+    def gen_temple_obstacle(self):
         for i in [
             (544, 9344),
             (544, 9984),
@@ -224,9 +230,13 @@ class TempleScene(Scene):
             ]:
             self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
     
+    def gen_temple(self):
+        self.gen_temple_obstacle()
+        self.portal.add(Portal(960, 10080, 4))
+    
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
-        return super().render(player)\
+        return super().render(player)
 
 class HutScene(Scene):
     def __init__(self, window):
@@ -240,6 +250,7 @@ class HutScene(Scene):
         self.minY = 9408
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.width * 10
+        self.portal = pygame.sprite.Group()
         self.obstacles = pygame.sprite.Group()
     
     def gen_hut_obstacle(self):
@@ -275,6 +286,10 @@ class HutScene(Scene):
             (1344, 9728)
             ]:
             self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
+    
+    def gen_hut(self):
+        self.gen_hut_obstacle()
+        self.portal.add(Portal(1056, 9952, 3))
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))

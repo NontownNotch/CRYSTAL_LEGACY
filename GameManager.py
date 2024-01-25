@@ -14,8 +14,9 @@ class GameManager:
         self.title = pygame.display.set_caption(WindowSettings.name) #初始化标题
         self.clock = pygame.time.Clock()
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
-        self.state = GameState(1) #设置初始状态为主界面
+        self.state = GameState.MAIN_MENU #设置初始状态为主界面
         self.scene = MainMenu(self.window)
+        self.popupscene = None
     
     def game_reset(self):
 
@@ -68,20 +69,20 @@ class GameManager:
                 elif event.key == pygame.K_2:
                     self.scene = CastleScene(self.window)
                     self.state = GameState.GAME_PLAY_CASTLE
-                    self.scene.gen_castle_obstacle()
+                    self.scene.gen_castle()
                     self.player.reset_pos(WindowSettings.width // 2, WindowSettings.height * 248 // 27) #重置人物位置
                 elif event.key == pygame.K_3:
                     self.scene = TempleScene(self.window)
                     self.state = GameState.GAME_PLAY_TEMPLE
-                    self.scene.gen_castle_obstacle()
+                    self.scene.gen_temple()
                     self.player.reset_pos(960, 9952) #重置人物位置
                 elif event.key == pygame.K_4:
                     self.scene = HutScene(self.window)
                     self.state = GameState.GAME_PLAY_HUT
-                    self.scene.gen_hut_obstacle()
+                    self.scene.gen_hut()
                     self.player.reset_pos(1056, 9824) #重置人物位置
                 elif event.key == pygame.K_5:
-                    self.scene = MonsterBattle(self.window, self.player, Monster(0,0))
+                    self.popupscene = MonsterBattle(self.window, self.player, Monster(0,0))
                     self.state = GameState.GAME_PLAY_BATTLE
                 elif event.key == pygame.K_6:
                     self.state =GameState.GAME_PLAY_BOSS
@@ -96,9 +97,22 @@ class GameManager:
         
         # Then deal with regular updates
         self.player.update(self.scene)
-        if self.player.tpto == 1:
-            pass #传送事件
-            self.player.tpto = 0
+        if self.player.tpto == SceneType.CASTLE:
+            self.scene = CastleScene(self.window)
+            self.state = GameState.GAME_PLAY_CASTLE
+            self.scene.gen_castle()
+            self.player.reset_pos(WindowSettings.width // 2, WindowSettings.height * 248 // 27)
+        elif self.player.tpto == SceneType.TEMPLE:
+            self.scene = TempleScene(self.window)
+            self.state = GameState.GAME_PLAY_TEMPLE
+            self.scene.gen_temple()
+            self.player.reset_pos(960, 9952)
+        elif self.player.tpto == SceneType.HUT:
+            self.scene = HutScene(self.window)
+            self.state = GameState.GAME_PLAY_HUT
+            self.scene.gen_hut()
+            self.player.reset_pos(1056, 9824)
+        self.player.tpto = None
     
     def update_castle(self, events):
         # Deal with EventQueue First
@@ -110,6 +124,12 @@ class GameManager:
 
         # Then deal with regular updates
         self.player.update(self.scene)
+        if self.player.tpto == SceneType.WILD:
+            self.scene = WildScene(self.window)
+            self.state = GameState.GAME_PLAY_WILD
+            self.scene.gen_WILD() #生成地图，障碍物
+            self.player.reset_pos(3680, SceneSettings.tileYnum * SceneSettings.tileHeight // 2) #重置人物位置
+        self.player.tpto = None
     
     def update_temple(self, events):
         # Deal with EventQueue First
@@ -121,6 +141,12 @@ class GameManager:
 
         # Then deal with regular updates
         self.player.update(self.scene)
+        if self.player.tpto == SceneType.WILD:
+            self.scene = WildScene(self.window)
+            self.state = GameState.GAME_PLAY_WILD
+            self.scene.gen_WILD() #生成地图，障碍物
+            self.player.reset_pos(416, SceneSettings.tileYnum * SceneSettings.tileHeight // 2) #重置人物位置
+        self.player.tpto = None
     
     def update_hut(self, events):
         # Deal with EventQueue First
@@ -132,6 +158,12 @@ class GameManager:
 
         # Then deal with regular updates
         self.player.update(self.scene)
+        if self.player.tpto == SceneType.WILD:
+            self.scene = WildScene(self.window)
+            self.state = GameState.GAME_PLAY_WILD
+            self.scene.gen_WILD() #生成地图，障碍物
+            self.player.reset_pos(2048, 3296) #重置人物位置
+        self.player.tpto = None
     
     def update_battle(self, events):
         # Deal with EventQueue First
@@ -141,33 +173,33 @@ class GameManager:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:
-                    if self.scene.ATB == 300 and not self.scene.iscommanding:
-                        self.scene.iscommanding = True #开启Command面板
+                    if self.popupscene.ATB == 300 and not self.popupscene.iscommanding:
+                        self.popupscene.iscommanding = True #开启Command面板
                 elif event.key == pygame.K_q:
-                    if self.scene.iscommanding and not self.scene.ismagic:
-                        self.scene.iscommanding = False #关闭Command面板
-                    elif self.scene.iscommanding and self.scene.ismagic:
-                        self.scene.ismagic = False #关闭Magic面板
+                    if self.popupscene.iscommanding and not self.popupscene.ismagic:
+                        self.popupscene.iscommanding = False #关闭Command面板
+                    elif self.popupscene.iscommanding and self.popupscene.ismagic:
+                        self.popupscene.ismagic = False #关闭Magic面板
                 elif event.key == pygame.K_f:
-                    if self.scene.iscommanding and not self.scene.ismagic:
-                        self.scene.Attack() #Attack
-                        self.scene.iscommanding = False
+                    if self.popupscene.iscommanding and not self.popupscene.ismagic:
+                        self.popupscene.Attack() #Attack
+                        self.popupscene.iscommanding = False
                 elif event.key == pygame.K_r:
-                    if self.scene.iscommanding and not self.scene.ismagic:
-                        self.scene.ismagic = True #开启Magic面板
+                    if self.popupscene.iscommanding and not self.popupscene.ismagic:
+                        self.popupscene.ismagic = True #开启Magic面板
                 elif event.key == pygame.K_z:
-                    if self.scene.iscommanding and self.scene.ismagic:
-                        self.scene.MagicFire() #使用Fire魔法
-                        self.scene.ismagic = False
-                        self.scene.iscommanding = False
+                    if self.popupscene.iscommanding and self.popupscene.ismagic:
+                        self.popupscene.MagicFire() #使用Fire魔法
+                        self.popupscene.ismagic = False
+                        self.popupscene.iscommanding = False
                 elif event.key == pygame.K_x:
-                    if self.scene.iscommanding and self.scene.ismagic:
-                        self.scene.MagicThunder() #使用Thunder魔法
-                        self.scene.ismagic = False
-                        self.scene.iscommanding = False
+                    if self.popupscene.iscommanding and self.popupscene.ismagic:
+                        self.popupscene.MagicThunder() #使用Thunder魔法
+                        self.popupscene.ismagic = False
+                        self.popupscene.iscommanding = False
 
         # Then deal with regular updates
-        self.scene.ATBmanage() #管理ATB
+        self.popupscene.ATBmanage() #管理ATB
     
     def update_boss(self, events):
         # Deal with EventQueue First
@@ -249,7 +281,7 @@ class GameManager:
         self.scene.render(self.player)
     
     def render_battle(self):
-        self.scene.render() #渲染战斗场景
+        self.popupscene.render() #渲染战斗场景
     
     def render_boss(self):
         ##### Your Code Here ↓ #####

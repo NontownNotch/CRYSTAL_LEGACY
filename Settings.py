@@ -17,7 +17,7 @@ class SceneSettings:
     tileHeight = WindowSettings.height * 8 // 135 #Tile高度
 
 class PortalSettings:
-    size = [(SceneSettings.tileWidth * 4, SceneSettings.tileHeight * 4), (SceneSettings.tileWidth * 4, SceneSettings.tileHeight * 4), (SceneSettings.tileWidth * 2, SceneSettings.tileHeight * 2)] #Portal大小
+    size = [(SceneSettings.tileWidth * 4, SceneSettings.tileHeight * 4), (SceneSettings.tileWidth * 4, SceneSettings.tileHeight * 4), (SceneSettings.tileWidth * 2, SceneSettings.tileHeight * 2), (SceneSettings.tileWidth, SceneSettings.tileHeight), (SceneSettings.tileWidth * 3, SceneSettings.tileHeight)] #Portal大小
 
 #玩家相關設置
 class PlayerSettings:
@@ -44,9 +44,10 @@ class NPCType(Enum):
     SHOP = 3
 
 class SceneType(Enum):
-    CITY = 1
-    WILD = 2
-    BOSS = 3
+    WILD = 1
+    CASTLE = 2
+    TEMPLE = 3
+    HUT = 4
 
 class DialogSettings:
     boxWidth = 800
@@ -125,7 +126,9 @@ class GamePath:
     #Portal相關位置
     portal = [r".\assets\Portals\Castle.png",
               r".\assets\Portals\Temple.png",
-              r".\assets\Portals\Hut.png"]
+              r".\assets\Portals\Hut.png",
+              r".\assets\Tiles\Empty.png",
+              r".\assets\Tiles\Empty.png"]
     
     #玩家相關位置
     npc = r".\assets\npc\npc.png"

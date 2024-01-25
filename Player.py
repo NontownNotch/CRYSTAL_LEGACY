@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 import pygame
 
 from Settings import *
@@ -23,7 +21,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.x = x
         self.y = y
         self.move = [False, False, False, False]
-        self.tpto = 0
+        self.tpto = None
         self.HP = PlayerSettings.playerHP
         self.MP = PlayerSettings.playerMP
         self.attack = PlayerSettings.playerAttack
@@ -35,7 +33,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.battlemagicimage = self.battlemagicimages[self.battlemagicindex]
         self.battleattackimage = pygame.image.load(GamePath.playerbattleattackimage)
         self.battleusemagicimage = pygame.image.load(GamePath.playerbattleusemagicimage)
-
+    
     def attr_update(self, addCoins = 0, addHP = 0, addMP = 0, addAttack = 0, addDefence = 0):
         if self.money + addCoins < 0:
             return
@@ -44,11 +42,11 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.MP += addMP
         self.attack += addAttack
         self.defence += addDefence
-
+    
     def reset_pos(self, x=WindowSettings.width // 2, y=WindowSettings.height // 2):
         self.x = x
         self.y = y
-
+    
     def try_move(self, events, maxX = WindowSettings.width, maxY = WindowSettings.height, minX = 0, minY = 0):
         self.dx = self.dy = 0
         #尝试移动
@@ -73,7 +71,7 @@ class Player(pygame.sprite.Sprite, Collidable):
             self.dy = self.dy * 2
         self.x += self.dx
         self.y += self.dy
-
+    
     def update(self, scene):
         #设置人物图像
         if self.move == [True, False, False, False] or self.move == [True, False, True, True]:
@@ -101,15 +99,21 @@ class Player(pygame.sprite.Sprite, Collidable):
         if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testx, scene.obstacles, False): #人物移动后碰撞但取消Y方向移动后不碰撞
             self.y -= self.dy
         self.rect.center = (self.x, self.y)
-        #检测传送
-        if isinstance(scene, WildScene): #WileScene下传送门检测
+        #檢測傳送
+        if isinstance(scene, WildScene): #WildScene下傳送門檢測
             if pygame.sprite.spritecollide(self, scene.castleportal, False, pygame.sprite.collide_mask):
-                self.tpto = 1
-
-
+                self.tpto = SceneType.CASTLE
+            if pygame.sprite.spritecollide(self, scene.templeportal, False, pygame.sprite.collide_mask):
+                self.tpto = SceneType.TEMPLE
+            if pygame.sprite.spritecollide(self, scene.hutportal, False, pygame.sprite.collide_mask):
+                self.tpto = SceneType.HUT
+        elif any(isinstance(scene, scenetype) for scenetype in (CastleScene, TempleScene, HutScene)):
+            if pygame.sprite.spritecollide(self, scene.portal, False, pygame.sprite.collide_mask):
+                self.tpto = SceneType.WILD
+    
     def draw(self, window, dx=0, dy=0):
         window.blit(self.image, self.rect.move(dx, dy))
-
+    
     def battlemagic(self):
         self.battlemagicindex = (self.battlemagicindex + 1) % 12
         self.battlemagicimage = self.battlemagicimages[self.battlemagicindex]

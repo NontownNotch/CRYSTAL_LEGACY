@@ -165,28 +165,22 @@ class CastleScene(Scene):
             (WindowSettings.width * 5 // 12, WindowSettings.height * 1196 // 135),
             (WindowSettings.width * 5 // 12, WindowSettings.height * 1204 // 135),
             (WindowSettings.width * 5 // 12, WindowSettings.height * 404 // 45),
-            (WindowSettings.width * 5 // 12, WindowSettings.height * 244 // 27),
             (WindowSettings.width * 5 // 12, WindowSettings.height * 1244 // 135),
             (WindowSettings.width * 9 // 20, WindowSettings.height * 236 // 27),
-            (WindowSettings.width * 9 // 20, WindowSettings.height * 44 // 5),
             (WindowSettings.width * 9 // 20, WindowSettings.height * 1252 // 135),
             (WindowSettings.width * 31 // 60, WindowSettings.height * 236 // 27),
-            (WindowSettings.width * 31 // 60, WindowSettings.height * 44 // 5),
             (WindowSettings.width * 31 // 60, WindowSettings.height * 1252 // 135),
             (WindowSettings.width * 11 // 20, WindowSettings.height * 388 // 45),
             (WindowSettings.width * 11 // 20, WindowSettings.height * 1172 // 135),
             (WindowSettings.width * 11 // 20, WindowSettings.height * 1196 // 135),
             (WindowSettings.width * 11 // 20, WindowSettings.height * 1204 // 135),
             (WindowSettings.width * 11 // 20, WindowSettings.height * 404 // 45),
-            (WindowSettings.width * 11 // 20, WindowSettings.height * 244 // 27),
             (WindowSettings.width * 11 // 20, WindowSettings.height * 1244 // 135)
             ]:
             self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
-        for img in self.obstacles:
-            img.draw(self.window, - self.cameraX, - self.cameraY)
         return super().render(player)
 
 class TempleScene(Scene):
@@ -207,25 +201,23 @@ class TempleScene(Scene):
         for i in [
             (544, 9344),
             (544, 9984),
-            (608, 9344),
-            (608, 9472),
+            (608, 9408),
             (608, 9984),
             (672, 9280),
             (672, 9984),
             (736, 9280),
             (736, 9568),
-            (736, 9664),
+            (736, 9600),
             (736, 9984),
             (800, 9984),
             (1056, 9984),
             (1120, 9280),
             (1120, 9568),
-            (1120, 9664),
+            (1120, 9600),
             (1120, 9984),
             (1184, 9280),
             (1184, 9984),
-            (1248, 9344),
-            (1248, 9472),
+            (1248, 9408),
             (1248, 9984),
             (1312, 9344),
             (1312, 9984)
@@ -234,6 +226,56 @@ class TempleScene(Scene):
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
-        for img in self.obstacles:
-            img.draw(self.window, - self.cameraX, - self.cameraY)
+        return super().render(player)\
+
+class HutScene(Scene):
+    def __init__(self, window):
+        super().__init__(window)
+        self.image = pygame.transform.scale(pygame.image.load(GamePath.hutbackground), (WindowSettings.width, WindowSettings.width * 10))
+        self.rect = self.image.get_rect()
+        self.rect.top = (0)
+        self.maxX = 1408
+        self.maxY = 9984
+        self.minX = 512
+        self.minY = 9408
+        self.cameramaxX = WindowSettings.width
+        self.cameramaxY = WindowSettings.width * 10
+        self.obstacles = pygame.sprite.Group()
+    
+    def gen_hut_obstacle(self):
+        for i in [
+            (512, 9408),
+            (512, 9792),
+            (544, 9568),
+            (544, 9632),
+            (576, 9856),
+            (608, 9568),
+            (608, 9632),
+            (640, 9920),
+            (768, 9568),
+            (768, 9952),
+            (832, 9536),
+            (832, 9600),
+            (832, 9952),
+            (896, 9408),
+            (896, 9568),
+            (896, 9920),
+            (960, 9408),
+            (960, 9920),
+            (1056, 9504),
+            (1088, 9920),
+            (1120, 9440),
+            (1120, 9504),
+            (1152, 9792),
+            (1216, 9792),
+            (1248, 9440),
+            (1248, 9504),
+            (1280, 9792),
+            (1312, 9504),
+            (1344, 9728)
+            ]:
+            self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
+    
+    def render(self, player):
+        self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
         return super().render(player)

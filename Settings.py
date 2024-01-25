@@ -113,6 +113,7 @@ class GamePath:
     groundTiles = r".\assets\Tiles\Grass.png" #草地圖像
     castlebackground = r".\assets\Background\Castle.png" #Castle背景
     templebackground = r".\assets\Background\Temple.png" #Temple背景
+    hutbackground = r".\assets\Background\Hut.png" #Hut背景
 
     #Obstacle相關位置
     tree = [

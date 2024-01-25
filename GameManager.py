@@ -74,9 +74,12 @@ class GameManager:
                     self.scene = TempleScene(self.window)
                     self.state = GameState.GAME_PLAY_TEMPLE
                     self.scene.gen_castle_obstacle()
-                    self.player.reset_pos(960, 9600) #重置人物位置
+                    self.player.reset_pos(960, 9952) #重置人物位置
                 elif event.key == pygame.K_4:
+                    self.scene = HutScene(self.window)
                     self.state = GameState.GAME_PLAY_HUT
+                    self.scene.gen_hut_obstacle()
+                    self.player.reset_pos(1056, 9824) #重置人物位置
                 elif event.key == pygame.K_5:
                     self.scene = MonsterBattle(self.window, self.player, Monster(0,0))
                     self.state = GameState.GAME_PLAY_BATTLE
@@ -86,10 +89,10 @@ class GameManager:
     def update_wild(self, events):
         # Deal with EventQueue First
         for event in events:
-            if event.type == pygame.QUIT: #退出游戏
+            if event.type == pygame.QUIT: #退出游戲
                 pygame.quit()
                 sys.exit()
-        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY) #尝试移动
+        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY) #嘗試移動
         
         # Then deal with regular updates
         self.player.update(self.scene)
@@ -103,7 +106,7 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #尝试移动
+        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
 
         # Then deal with regular updates
         self.player.update(self.scene)
@@ -114,21 +117,21 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #尝试移动
+        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
 
         # Then deal with regular updates
         self.player.update(self.scene)
     
     def update_hut(self, events):
         # Deal with EventQueue First
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
 
         # Then deal with regular updates
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.player.update(self.scene)
     
     def update_battle(self, events):
         # Deal with EventQueue First
@@ -219,6 +222,8 @@ class GameManager:
             self.render_castle()
         if self.state == GameState.GAME_PLAY_TEMPLE:
             self.render_temple()
+        if self.state == GameState.GAME_PLAY_HUT:
+            self.render_hut()
         if self.state == GameState.GAME_PLAY_BATTLE:
             self.render_battle()
         self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_fps()}", True, (255, 0, 0)), (0, 0))
@@ -236,6 +241,10 @@ class GameManager:
         self.scene.render(self.player)
     
     def render_temple(self):
+        self.scene.update_camera(self.player)
+        self.scene.render(self.player)
+    
+    def render_hut(self):
         self.scene.update_camera(self.player)
         self.scene.render(self.player)
     

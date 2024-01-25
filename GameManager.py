@@ -65,12 +65,13 @@ class GameManager:
                 if event.key == pygame.K_1:
                     self.scene = WildScene(self.window)
                     self.state = GameState.GAME_PLAY_WILD
-                    self.scene.gen_WILD()
-                    self.player.reset_pos(2048, 2048)
+                    self.scene.gen_WILD() #生成地图，障碍物
+                    self.player.reset_pos(2048, 2048) #重置人物位置
                 elif event.key == pygame.K_2:
                     self.scene = CastleScene(self.window)
                     self.state = GameState.GAME_PLAY_CASTLE
-                    self.player.reset_pos(960, 9920)
+                    self.scene.gen_castle_obstacle()
+                    self.player.reset_pos(960, 9920) #重置人物位置
                 elif event.key == pygame.K_3:
                     self.state = GameState.GAME_PLAY_TEMPLE
                 elif event.key == pygame.K_4:
@@ -84,7 +85,7 @@ class GameManager:
     def update_wild(self, events):
         # Deal with EventQueue First
         for event in events:
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: #退出游戏
                 pygame.quit()
                 sys.exit()
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY) #尝试移动

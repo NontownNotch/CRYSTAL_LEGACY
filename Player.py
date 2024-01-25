@@ -64,7 +64,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         if events[pygame.K_d] and self.x + PlayerSettings.playerSpeed <= maxX - PlayerSettings.playerWidth // 2:
             self.dx += PlayerSettings.playerSpeed
             self.move[3] = True
-        if events[pygame.K_SPACE]:
+        if events[pygame.K_SPACE]: #加速
             self.dx = self.dx * 2
             self.dy = self.dy * 2
         self.x += self.dx
@@ -92,13 +92,13 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.rect.center = (self.x, self.y)
         testx = Player(self.x - self.dx, self.y)
         testy = Player(self.x, self.y - self.dy)
-        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testy, scene.obstacles, False):
+        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testy, scene.obstacles, False): #人物移动后碰撞但取消X方向移动后不碰撞
             self.x -= self.dx
-        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testx, scene.obstacles, False):
+        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testx, scene.obstacles, False): #人物移动后碰撞但取消Y方向移动后不碰撞
             self.y -= self.dy
         self.rect.center = (self.x, self.y)
         #检测传送
-        if isinstance(scene, WildScene):
+        if isinstance(scene, WildScene): #WileScene下传送门检测
             if pygame.sprite.spritecollide(self, scene.castleportal, False, pygame.sprite.collide_mask):
                 self.tpto = 1
 

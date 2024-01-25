@@ -51,21 +51,21 @@ class Scene():
 
     def update_camera(self, player):
         #设置Camera位置
-        if player.x < WindowSettings.width // 2:
+        if player.x < WindowSettings.width // 2: #如果人物距左侧边框小于窗口大小一半
             self.cameraX = 0
-        elif player.x > self.cameramaxX - WindowSettings.width // 2:
+        elif player.x > self.cameramaxX - WindowSettings.width // 2: #如果人物距上侧边框小于窗口大小一半
             self.cameraX = self.cameramaxX - WindowSettings.width
         else:
             self.cameraX = player.x - WindowSettings.width // 2
-        if player.y < WindowSettings.height // 2:
+        if player.y < WindowSettings.height // 2: #如果人物距上侧边框小于窗口大小一半
             self.cameraY = 0
-        elif player.y > self.cameramaxY - WindowSettings.height // 2:
+        elif player.y > self.cameramaxY - WindowSettings.height // 2: #如果人物距下侧边框小于窗口大小一半
             self.cameraY = self.cameramaxY - WindowSettings.height
         else:
             self.cameraY = player.y - WindowSettings.height // 2
 
     def render(self, player):
-        player.draw(self.window, -self.cameraX, -self.cameraY)
+        player.draw(self.window, -self.cameraX, -self.cameraY) #渲染人物
 
 
 class MainMenu():
@@ -96,31 +96,6 @@ class MainMenu():
         self.window.blit(self.text5, self.textRect5) #显示主界面文字5
         self.window.blit(self.text6, self.textRect6) #显示主界面文字6
 
-class CityScene(Scene):
-    def __init__(self, window):
-        super().__init__(window=window)
-        
-        self.gen_CITY()
-        self.type = SceneType.CITY
-
-    def gen_city_map(self):
-
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-    
-    def gen_city_obstacle(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
-    def gen_CITY(self):
-
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
-
 class WildScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
@@ -133,7 +108,7 @@ class WildScene(Scene):
         self.maxY = self.cameramaxY = SceneSettings.tileYnum * SceneSettings.tileHeight
 
     def gen_wild_map(self):
-        self.map = Tile(pygame.image.load(GamePath.groundTiles))
+        self.map = Tile(pygame.image.load(GamePath.groundTiles)) #读取地面
         self.castleportal.add(Portal(3904, 2048, 0))
         self.templeportal.add(Portal(192, 2048, 1))
         self.hutportal.add(Portal(2048, 3456, 2))
@@ -141,11 +116,10 @@ class WildScene(Scene):
     def gen_wild_obstacle(self):
         midx = 32
         midy = 32
-        self.obstacles = pygame.sprite.Group()
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
                 if random() < 0.05 and (not i in range(midx - 3, midx + 3) and not j in range (midy - 3, midy + 3)):
-                    self.obstacles.add(Tile(pygame.image.load(GamePath.tree[randint(0,1)]), SceneSettings.tileWidth * i, SceneSettings.tileHeight * j))
+                    self.obstacles.add(Tile(pygame.image.load(GamePath.tree[randint(0,1)]), SceneSettings.tileWidth * i, SceneSettings.tileHeight * j)) #在(i * tile width, j * tile height)处添加障碍物
 
     def gen_WILD(self):
         self.gen_wild_map()
@@ -158,9 +132,10 @@ class WildScene(Scene):
         ##### Your Code Here ↑ #####
     
     def render(self, player):
+        #偏移(- cameraX, - cameraY)
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
-                self.map.draw(self.window, SceneSettings.tileWidth * i - self.cameraX, SceneSettings.tileHeight * j - self.cameraY)
+                self.map.draw(self.window, SceneSettings.tileWidth * i - self.cameraX, SceneSettings.tileHeight * j - self.cameraY) #绘制地面
         for portal in self.castleportal:
             portal.draw(self.window, - self.cameraX, - self.cameraY)
         for portal in self.templeportal:
@@ -185,33 +160,10 @@ class CastleScene(Scene):
         self.cameramaxY = WindowSettings.width * 10
         self.obstacles = pygame.sprite.Group()
     
+    def gen_castle_obstacle(self):
+        for i in [(864, 10016), (800, 9952), (800, 9760), (800, 9696), (800, 9632), (800, 9568), (864, 9504), (864, 9440), (800, 9376), (800, 9312), (992, 10016), (1056, 9952), (1056, 9760), (1056, 9696), (1056, 9632), (1056, 9568), (992, 9504), (992, 9440), (1056, 9376), (1056, 9312)]:
+            self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
+    
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
         return super().render(player)
-
-class BossScene(Scene):
-    def __init__(self, window):
-        super().__init__(window=window)
-        self.gen_BOSS()
-        self.type = SceneType.BOSS
-
-    # Overwrite Scene's function
-    def trigger_battle(self, player):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
-    def gen_boss_obstacle(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
-    def gen_boss_map(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
-    def gen_BOSS(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####

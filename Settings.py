@@ -7,7 +7,6 @@ class WindowSettings: #窗口设置
     name = "CRYSTAL LEGACY" #标题
     width = 1920 #窗口宽度
     height = 1080 #窗口高度
-    outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
 
 class SceneSettings:
     tileXnum = 64
@@ -34,12 +33,6 @@ class NPCType(Enum):
     DIALOG = 1
     MONSTER = 2
     SHOP = 3
-
-class BossSettings:
-    width = 300
-    height = 300
-    coordX = (SceneSettings.tileXnum / 2) * SceneSettings.tileWidth - width / 2
-    coordY = (SceneSettings.tileYnum / 2) * SceneSettings.tileHeight - height / 2
 
 class SceneType(Enum):
     CITY = 1
@@ -104,8 +97,6 @@ class ShopSettings:
 class GamePath:
     # Window related path
     menu = r".\assets\MainMenu\MainMenu.png"
-    wild = r".\assets\background\wild.png"
-    mapBlock = r".\assets\background\map.png"
     battlebackground = r".\assets\Background\WildBattleBackground.png"
 
     # player/npc related path
@@ -186,43 +177,27 @@ class GamePath:
     monster = r".\assets\npc\monster\1.png"
     boss = r".\assets\npc\boss.png"
 
+    #Tiles
     groundTiles = r".\assets\Tiles\Grass.png"
     castlebackground = r".\assets\Background\Castle.png"
 
-    cityTiles = [
-        r".\assets\tiles\city1.png", 
-        r".\assets\tiles\city2.png", 
-        r".\assets\tiles\city3.png", 
-        r".\assets\tiles\city4.png", 
-        r".\assets\tiles\city5.png", 
-        r".\assets\tiles\city6.png", 
-    ]
+    #Obstacles
+    tree = [r".\assets\Tiles\Tree.png",
+            r".\assets\Tiles\Flower.png"]
+    emptyobstacles = r".\assets\Tiles\Empty.png"
 
-    cityWall = r".\assets\tiles\cityWall.png"
+    #Portals
+    portal = [r".\assets\Portals\Castle.png",
+              r".\assets\Portals\Temple.png",
+              r".\assets\Portals\Hut.png"]
 
-    bossTiles = [
-        r".\assets\tiles\boss1.png", 
-        r".\assets\tiles\boss2.png", 
-        r".\assets\tiles\boss3.png", 
-        r".\assets\tiles\boss4.png", 
-        r".\assets\tiles\boss5.png", 
-        r".\assets\tiles\boss6.png", 
-    ]
-
-    bossWall = r".\assets\tiles\bossWall.png"
-
+    #UI
     battlestatus = r".\assets\UI\BattleStatus.png"
     commandbackground = r".\assets\UI\CommandBackground.png"
     ATBbackground = r".\assets\UI\ATBBackground.png"
     ATB = r".\assets\UI\ATB.png"
 
-    portal = [r".\assets\Portals\Castle.png",
-              r".\assets\Portals\Temple.png",
-              r".\assets\Portals\Hut.png"]
-
-    tree = [r".\assets\Tiles\Tree.png",
-            r".\assets\Tiles\Flower.png"]
-
+    #BGM
     bgm = [r".\assets\bgm\city.mp3",
            r".\assets\bgm\wild.mp3",
            r".\assets\bgm\boss.mp3"]

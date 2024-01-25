@@ -35,8 +35,8 @@ class PlayerSettings:
 #NPC, 怪物相關設置
 class NPCSettings:
     npcSpeed = 1
-    npcWidth = 60
-    npcHeight = 60
+    npcWidth = 64
+    npcHeight = 96
 
 class NPCType(Enum):
     DIALOG = 1
@@ -131,7 +131,8 @@ class GamePath:
               r".\assets\Tiles\Empty.png"]
     
     #玩家相關位置
-    npc = r".\assets\npc\npc.png"
+    cid = r".\assets\NPC\Cid.png"
+    knight = r".\assets\NPC\Knight.png"
     playerfront = [
         r".\assets\Player\Front_2.png",
         r".\assets\Player\Front_2.png",

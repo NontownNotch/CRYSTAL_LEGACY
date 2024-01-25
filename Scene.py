@@ -18,6 +18,7 @@ class Scene():
         self.maxY = self.cameramaxY = 0
         self.cameraX = 0
         self.cameraY = 0
+        self.npcs = pygame.sprite.Group()
     
     def trigger_dialog(self, npc):
         ##### Your Code Here ↓ #####
@@ -65,7 +66,9 @@ class Scene():
             self.cameraY = player.y - WindowSettings.height // 2
     
     def render(self, player):
-        player.draw(self.window, -self.cameraX, -self.cameraY) #渲染人物
+        for npc in self.npcs:
+            npc.draw(self.window, - self.cameraX, - self.cameraY)
+        player.draw(self.window, - self.cameraX, - self.cameraY) #渲染人物
 
 class MainMenu():
     def __init__(self, window):
@@ -182,6 +185,7 @@ class CastleScene(Scene):
     
     def gen_castle(self):
         self.gen_castle_obstacle()
+        self.npcs.add(Cid(960, 9900, "Cid", "L"))
         self.portal.add(Portal(960, 10048, 3))
     
     def render(self, player):

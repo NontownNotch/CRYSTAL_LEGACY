@@ -18,6 +18,8 @@ class Scene():
         self.maxY = self.cameramaxY = 0
         self.cameraX = 0
         self.cameraY = 0
+        self.obstacles = pygame.sprite.Group()
+        self.portal = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
     
     def trigger_dialog(self, npc):
@@ -101,18 +103,14 @@ class WildScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
         self.map = None
-        self.obstacles = pygame.sprite.Group()
-        self.castleportal = pygame.sprite.Group()
-        self.templeportal = pygame.sprite.Group()
-        self.hutportal = pygame.sprite.Group()
         self.maxX = self.cameramaxX = SceneSettings.tileXnum * SceneSettings.tileWidth
         self.maxY = self.cameramaxY = SceneSettings.tileYnum * SceneSettings.tileHeight
     
     def gen_wild_map(self):
         self.map = Tile(pygame.image.load(GamePath.groundTiles)) #读取地面
-        self.castleportal.add(Portal(SceneSettings.tileXnum * SceneSettings.tileWidth * 61 // 64, SceneSettings.tileYnum * SceneSettings.tileHeight // 2, 0))
-        self.templeportal.add(Portal(SceneSettings.tileXnum * SceneSettings.tileWidth * 3 // 64, SceneSettings.tileYnum * SceneSettings.tileHeight // 2, 1))
-        self.hutportal.add(Portal(SceneSettings.tileXnum * SceneSettings.tileWidth // 2, SceneSettings.tileYnum * SceneSettings.tileHeight * 27 // 32, 2))
+        self.portal.add(Portal(SceneSettings.tileXnum * SceneSettings.tileWidth * 61 // 64, SceneSettings.tileYnum * SceneSettings.tileHeight // 2, 0))
+        self.portal.add(Portal(SceneSettings.tileXnum * SceneSettings.tileWidth * 3 // 64, SceneSettings.tileYnum * SceneSettings.tileHeight // 2, 1))
+        self.portal.add(Portal(SceneSettings.tileXnum * SceneSettings.tileWidth // 2, SceneSettings.tileYnum * SceneSettings.tileHeight * 27 // 32, 2))
     
     def gen_wild_obstacle(self):
         midx = SceneSettings.tileXnum // 2
@@ -137,11 +135,7 @@ class WildScene(Scene):
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
                 self.map.draw(self.window, SceneSettings.tileWidth * i - self.cameraX, SceneSettings.tileHeight * j - self.cameraY) #绘制地面
-        for portal in self.castleportal:
-            portal.draw(self.window, - self.cameraX, - self.cameraY)
-        for portal in self.templeportal:
-            portal.draw(self.window, - self.cameraX, - self.cameraY)
-        for portal in self.hutportal:
+        for portal in self.portal:
             portal.draw(self.window, - self.cameraX, - self.cameraY)
         for img in self.obstacles:
             img.draw(self.window, - self.cameraX, - self.cameraY)
@@ -159,8 +153,6 @@ class CastleScene(Scene):
         self.minY = WindowSettings.height * 232 // 27
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.height * 160 // 9
-        self.portal = pygame.sprite.Group()
-        self.obstacles = pygame.sprite.Group()
     
     def gen_castle_obstacle(self):
         for i in [
@@ -185,7 +177,7 @@ class CastleScene(Scene):
     
     def gen_castle(self):
         self.gen_castle_obstacle()
-        self.npcs.add(Cid(960, 9900, "Cid", "L"))
+        self.npcs.add(Cid(960, 9312, "Cid", "L"))
         self.portal.add(Portal(960, 10048, 3))
     
     def render(self, player):
@@ -204,8 +196,6 @@ class TempleScene(Scene):
         self.minY = 9280
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.width * 10
-        self.portal = pygame.sprite.Group()
-        self.obstacles = pygame.sprite.Group()
     
     def gen_temple_obstacle(self):
         for i in [
@@ -254,8 +244,6 @@ class HutScene(Scene):
         self.minY = 9408
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.width * 10
-        self.portal = pygame.sprite.Group()
-        self.obstacles = pygame.sprite.Group()
     
     def gen_hut_obstacle(self):
         for i in [

@@ -33,9 +33,26 @@ class GameManager:
     
     # Scene-related update functions here ↓
     def flush_scene(self, GOTO:SceneType):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        if GOTO == SceneType.WILD:
+            self.scene = WildScene(self.window)
+            self.state = GameState.GAME_PLAY_WILD
+            self.scene.gen_WILD()
+        elif GOTO == SceneType.CASTLE:
+            self.scene = CastleScene(self.window)
+            self.state = GameState.GAME_PLAY_CASTLE
+            self.scene.gen_castle()
+            self.player.reset_pos(WindowSettings.width // 2, WindowSettings.height * 248 // 27)
+        elif GOTO == SceneType.TEMPLE:
+            self.scene = TempleScene(self.window)
+            self.state = GameState.GAME_PLAY_TEMPLE
+            self.scene.gen_temple()
+            self.player.reset_pos(960, 9952)
+        elif GOTO == SceneType.HUT:
+            self.scene = HutScene(self.window)
+            self.state = GameState.GAME_PLAY_HUT
+            self.scene.gen_hut()
+            self.player.reset_pos(1056, 9824)
+
     
     def update(self):
         self.tick(30)
@@ -62,25 +79,14 @@ class GameManager:
             if event.type == pygame.KEYDOWN: #按下键盘按键
                 #下方为开发时用主界面，正式版将改动
                 if event.key == pygame.K_1:
-                    self.scene = WildScene(self.window)
-                    self.state = GameState.GAME_PLAY_WILD
-                    self.scene.gen_WILD() #生成地图，障碍物
+                    self.flush_scene(SceneType.WILD) #生成地图，障碍物
                     self.player.reset_pos(SceneSettings.tileXnum * SceneSettings.tileWidth // 2, SceneSettings.tileYnum * SceneSettings.tileHeight // 2) #重置人物位置
                 elif event.key == pygame.K_2:
-                    self.scene = CastleScene(self.window)
-                    self.state = GameState.GAME_PLAY_CASTLE
-                    self.scene.gen_castle()
-                    self.player.reset_pos(WindowSettings.width // 2, WindowSettings.height * 248 // 27) #重置人物位置
+                    self.flush_scene(SceneType.CASTLE)
                 elif event.key == pygame.K_3:
-                    self.scene = TempleScene(self.window)
-                    self.state = GameState.GAME_PLAY_TEMPLE
-                    self.scene.gen_temple()
-                    self.player.reset_pos(960, 9952) #重置人物位置
+                    self.flush_scene(SceneType.TEMPLE)
                 elif event.key == pygame.K_4:
-                    self.scene = HutScene(self.window)
-                    self.state = GameState.GAME_PLAY_HUT
-                    self.scene.gen_hut()
-                    self.player.reset_pos(1056, 9824) #重置人物位置
+                    self.flush_scene(SceneType.HUT)
                 elif event.key == pygame.K_5:
                     self.popupscene = MonsterBattle(self.window, self.player, Monster(0,0))
                     self.state = GameState.GAME_PLAY_BATTLE
@@ -94,25 +100,13 @@ class GameManager:
                 pygame.quit()
                 sys.exit()
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY) #嘗試移動
+        if self.player.event == GameEvent.EVENT_SWITCH:
+            self.flush_scene(self.player.tpto)
+        self.player.event = None
         
         # Then deal with regular updates
+        self.update_collide()
         self.player.update(self.scene)
-        if self.player.tpto == SceneType.CASTLE:
-            self.scene = CastleScene(self.window)
-            self.state = GameState.GAME_PLAY_CASTLE
-            self.scene.gen_castle()
-            self.player.reset_pos(WindowSettings.width // 2, WindowSettings.height * 248 // 27)
-        elif self.player.tpto == SceneType.TEMPLE:
-            self.scene = TempleScene(self.window)
-            self.state = GameState.GAME_PLAY_TEMPLE
-            self.scene.gen_temple()
-            self.player.reset_pos(960, 9952)
-        elif self.player.tpto == SceneType.HUT:
-            self.scene = HutScene(self.window)
-            self.state = GameState.GAME_PLAY_HUT
-            self.scene.gen_hut()
-            self.player.reset_pos(1056, 9824)
-        self.player.tpto = None
     
     def update_castle(self, events):
         # Deal with EventQueue First
@@ -121,15 +115,14 @@ class GameManager:
                 pygame.quit()
                 sys.exit()
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
+        if self.player.event == GameEvent.EVENT_SWITCH:
+            self.flush_scene(self.player.tpto)
+            self.player.reset_pos(3680, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
+        self.player.event = None
 
         # Then deal with regular updates
+        self.update_collide()
         self.player.update(self.scene)
-        if self.player.tpto == SceneType.WILD:
-            self.scene = WildScene(self.window)
-            self.state = GameState.GAME_PLAY_WILD
-            self.scene.gen_WILD() #生成地图，障碍物
-            self.player.reset_pos(3680, SceneSettings.tileYnum * SceneSettings.tileHeight // 2) #重置人物位置
-        self.player.tpto = None
     
     def update_temple(self, events):
         # Deal with EventQueue First
@@ -138,15 +131,14 @@ class GameManager:
                 pygame.quit()
                 sys.exit()
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
+        if self.player.event == GameEvent.EVENT_SWITCH:
+            self.flush_scene(self.player.tpto)
+            self.player.reset_pos(416, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
+        self.player.event = None
 
         # Then deal with regular updates
+        self.update_collide()
         self.player.update(self.scene)
-        if self.player.tpto == SceneType.WILD:
-            self.scene = WildScene(self.window)
-            self.state = GameState.GAME_PLAY_WILD
-            self.scene.gen_WILD() #生成地图，障碍物
-            self.player.reset_pos(416, SceneSettings.tileYnum * SceneSettings.tileHeight // 2) #重置人物位置
-        self.player.tpto = None
     
     def update_hut(self, events):
         # Deal with EventQueue First
@@ -155,15 +147,14 @@ class GameManager:
                 pygame.quit()
                 sys.exit()
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
+        if self.player.event == GameEvent.EVENT_SWITCH:
+            self.flush_scene(self.player.tpto)
+            self.player.reset_pos(2048, 3296)
+        self.player.event = None
 
         # Then deal with regular updates
+        self.update_collide()
         self.player.update(self.scene)
-        if self.player.tpto == SceneType.WILD:
-            self.scene = WildScene(self.window)
-            self.state = GameState.GAME_PLAY_WILD
-            self.scene.gen_WILD() #生成地图，障碍物
-            self.player.reset_pos(2048, 3296) #重置人物位置
-        self.player.tpto = None
     
     def update_battle(self, events):
         # Deal with EventQueue First
@@ -213,10 +204,19 @@ class GameManager:
 
     # Collision-relate update funtions here ↓
     def update_collide(self):
-        # Player -> Obstacles
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        #Obstacles
+        if pygame.sprite.spritecollide(self.player, self.scene.obstacles, False):
+            self.player.collide.collidingWith["obstacle"] = True
+        else:
+            self.player.collide.collidingWith["obstacle"] = False
+        
+        #Portal
+        if pygame.sprite.spritecollide(self.player, self.scene.portal, False):
+            self.player.collide.collidingWith["portal"] = True
+            self.player.collide.collidingObject["portal"] = pygame.sprite.spritecollide(self.player, self.scene.portal, False)[0].index
+        else:
+            self.player.collide.collidingWith["portal"] = False
+            self.player.collide.collidingObject["portal"] = None
 
         # Player -> NPCs; if multiple NPCs collided, only first is accepted and dealt with.
         ##### Your Code Here ↓ #####

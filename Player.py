@@ -21,6 +21,8 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.x = x
         self.y = y
         self.move = [False, False, False, False]
+        self.collide = Collidable()
+        self.event = None
         self.tpto = None
         self.HP = PlayerSettings.playerHP
         self.MP = PlayerSettings.playerMP
@@ -71,6 +73,7 @@ class Player(pygame.sprite.Sprite, Collidable):
             self.dy = self.dy * 2
         self.x += self.dx
         self.y += self.dy
+        self.rect.center = (self.x, self.y)
     
     def update(self, scene):
         #设置人物图像
@@ -91,25 +94,28 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.image = self.images[self.index]
         self.move = [False, False, False, False]
         #设置人物位置
-        self.rect.center = (self.x, self.y)
         testx = Player(self.x - self.dx, self.y)
         testy = Player(self.x, self.y - self.dy)
-        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testy, scene.obstacles, False): #人物移动后碰撞但取消X方向移动后不碰撞
-            self.x -= self.dx
-        if pygame.sprite.spritecollide(self, scene.obstacles, False) and pygame.sprite.spritecollide(testx, scene.obstacles, False): #人物移动后碰撞但取消Y方向移动后不碰撞
-            self.y -= self.dy
-        self.rect.center = (self.x, self.y)
-        #檢測傳送
-        if isinstance(scene, WildScene): #WildScene下傳送門檢測
-            if pygame.sprite.spritecollide(self, scene.castleportal, False, pygame.sprite.collide_mask):
-                self.tpto = SceneType.CASTLE
-            if pygame.sprite.spritecollide(self, scene.templeportal, False, pygame.sprite.collide_mask):
-                self.tpto = SceneType.TEMPLE
-            if pygame.sprite.spritecollide(self, scene.hutportal, False, pygame.sprite.collide_mask):
-                self.tpto = SceneType.HUT
-        elif any(isinstance(scene, scenetype) for scenetype in (CastleScene, TempleScene, HutScene)):
-            if pygame.sprite.spritecollide(self, scene.portal, False, pygame.sprite.collide_mask):
-                self.tpto = SceneType.WILD
+        if self.collide.is_colliding():
+            if self.collide.collidingWith["obstacle"]:
+                if pygame.sprite.spritecollide(testy, scene.obstacles, False): #人物移动后碰撞但取消X方向移动后不碰撞
+                    self.x -= self.dx
+                if pygame.sprite.spritecollide(testx, scene.obstacles, False): #人物移动后碰撞但取消Y方向移动后不碰撞
+                    self.y -= self.dy
+                self.rect.center = (self.x, self.y)
+            elif self.collide.collidingWith["portal"]:
+                if self.collide.collidingObject["portal"] == 0:
+                    self.event = GameEvent.EVENT_SWITCH
+                    self.tpto = SceneType.CASTLE
+                elif self.collide.collidingObject["portal"] == 1:
+                    self.event = GameEvent.EVENT_SWITCH
+                    self.tpto = SceneType.TEMPLE
+                elif self.collide.collidingObject["portal"] == 2:
+                    self.event = GameEvent.EVENT_SWITCH
+                    self.tpto = SceneType.HUT
+                elif self.collide.collidingObject["portal"] == 3 or self.collidingObject["portal"] == 4:
+                    self.event = GameEvent.EVENT_SWITCH
+                    self.tpto = SceneType.WILD
     
     def draw(self, window, dx=0, dy=0):
         window.blit(self.image, self.rect.move(dx, dy))

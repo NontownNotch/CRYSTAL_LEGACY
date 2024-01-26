@@ -1,7 +1,6 @@
 import pygame
 
 from Settings import *
-from Scene import *
 from Attributes import *
 
 class Player(pygame.sprite.Sprite, Collidable):
@@ -27,7 +26,6 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.HP = PlayerSettings.playerHP
         self.MP = PlayerSettings.playerMP
         self.attack = PlayerSettings.playerAttack
-        self.defence = PlayerSettings.playerDefence
         self.money = PlayerSettings.playerMoney
         self.battlestandimage = pygame.image.load(GamePath.playerbattlestandimage)
         self.battlemagicimages = [pygame.image.load(img) for img in GamePath.playerbattlemagicimage]
@@ -36,14 +34,12 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.battleattackimage = pygame.image.load(GamePath.playerbattleattackimage)
         self.battleusemagicimage = pygame.image.load(GamePath.playerbattleusemagicimage)
     
-    def attr_update(self, addCoins = 0, addHP = 0, addMP = 0, addAttack = 0, addDefence = 0):
+    def attr_update(self, addCoins = 0, addHP = 0, addMP = 0):
         if self.money + addCoins < 0:
             return
         self.money += addCoins
         self.HP += addHP
         self.MP += addMP
-        self.attack += addAttack
-        self.defence += addDefence
     
     def reset_pos(self, x=WindowSettings.width // 2, y=WindowSettings.height // 2):
         self.x = x
@@ -119,6 +115,8 @@ class Player(pygame.sprite.Sprite, Collidable):
             elif self.collide.collidingWith["npc"]:
                 if self.collide.collidingObject["npc"].name == "Cid":
                     self.event = GameEvent.EVENT_DIALOG
+                elif self.collide.collidingObject["npc"].name == "Knight":
+                    self.event = GameEvent.EVENT_SHOP
     
     def draw(self, window, dx=0, dy=0):
         window.blit(self.image, self.rect.move(dx, dy))

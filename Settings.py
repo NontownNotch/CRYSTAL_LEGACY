@@ -26,8 +26,8 @@ class PlayerSettings:
     playerYSpeed = WindowSettings.height // 135 #人物Y方向速度
     playerWidth = WindowSettings.width // 30 #人物宽度
     playerHeight = WindowSettings.height * 4 // 45 #人物高度
-    playerHP = 20
-    playerMP = 10
+    playerHP = 1000
+    playerMP = 100
     playerAttack = 5
     playerDefence = 1
     playerMoney = 100
@@ -96,13 +96,14 @@ class BattleSettings:
     monsterCoordY = WindowSettings.height // 2
 
 class ShopSettings:
-    boxWidth = 800
-    boxHeight = 200
+    boxWidth = 960
+    boxHeight = 216
     boxStartX = WindowSettings.width // 4   # Coordinate X of the box
-    boxStartY = WindowSettings.height // 3  # Coordinate Y of the box
-    textSize = 56 # Default font size
+    boxStartY = 0  # Coordinate Y of the box
+    textSize = 48 # Default font size
     textStartX = boxStartX + 10         # Coordinate X of the first line of dialog
     textStartY = boxStartY + 25    # Coordinate Y of the first line of dialog
+    textVerticalDist = textSize * 3 // 4
 
 #文件位置
 class GamePath:

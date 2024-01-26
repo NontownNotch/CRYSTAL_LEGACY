@@ -19,16 +19,15 @@ class Scene():
         self.cameraX = 0
         self.cameraY = 0
         self.istalking = False
-        self.talkingnpc = None
         self.obstacles = pygame.sprite.Group()
         self.portal = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
+        self.popupbox = None
     
     def trigger_dialog(self, npc):
         if npc.talkCD == 0:
-            self.talkingnpc = npc
-            DialogBox(self.window, npc).draw()
             self.istalking = True
+            self.popupbox = DialogBox(self.window, npc)
     
     def end_dialog(self):
         self.istalking = False
@@ -44,14 +43,12 @@ class Scene():
         ##### Your Code Here ↑ #####
     
     def trigger_shop(self, npc, player):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        if npc.talkCD == 0:
+            self.istalking = True
+            self.popupbox = ShoppingBox(self.window, npc, player)
     
     def end_shop(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.istalking = False
     
     def update_camera(self, player):
         #设置Camera位置
@@ -73,7 +70,7 @@ class Scene():
             npc.draw(self.window, - self.cameraX, - self.cameraY)
         player.draw(self.window, - self.cameraX, - self.cameraY) #渲染人物
         if self.istalking:
-            DialogBox(self.window, self.talkingnpc).draw()
+            self.popupbox.draw()
 
 class MainMenu():
     def __init__(self, window):
@@ -180,7 +177,7 @@ class CastleScene(Scene):
     
     def gen_castle(self):
         self.gen_castle_obstacle()
-        self.npcs.add(Cid(960, 9312, "Cid", "Use your magic power to investigate the Crystal Temple"))
+        self.npcs.add(Cid(960, 9312, "Cid", "Use your magic power to investigate the Crystal Temple."))
         self.portal.add(Portal(960, 10048, 3))
     
     def render(self, player):
@@ -284,6 +281,7 @@ class HutScene(Scene):
     
     def gen_hut(self):
         self.gen_hut_obstacle()
+        self.npcs.add(ShopNPC(1312, 9696, "Knight"))
         self.portal.add(Portal(1056, 9952, 3))
     
     def render(self, player):

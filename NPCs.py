@@ -16,9 +16,6 @@ class NPC(pygame.sprite.Sprite, Collidable):
     def update(self):
         raise NotImplementedError
     
-    def reset_talkCD(self):
-        self.talkCD = 0
-    
     def draw(self, window, dx=0, dy=0):
         window.blit(self.image, self.rect.move(dx, dy))
 
@@ -35,14 +32,12 @@ class Cid(NPC):
             self.talkCD -=1
 
 class ShopNPC(NPC):
-    def __init__(self, x, y, name, items, dialog):
+    def __init__(self, x, y, name):
         super().__init__(x, y, name)
-
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.image = pygame.transform.scale(pygame.image.load(GamePath.knight), (NPCSettings.npcWidth, NPCSettings.npcHeight))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
     
-    def update(self, ticks):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+    def update(self):
+        if self.talkCD != 0:
+            self.talkCD -=1

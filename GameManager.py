@@ -157,15 +157,32 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        if self.scene.istalking:
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_w:
+                        self.scene.popupbox.index = (self.scene.popupbox.index - 1) % 2
+                    elif event.key == pygame.K_s:
+                        self.scene.popupbox.index = (self.scene.popupbox.index + 1) % 2
+                    elif event.key == pygame.K_e:
+                        self.scene.popupbox.buy()
+                    elif event.key == pygame.K_q:
+                        self.player.collide.collidingObject["npc"].talkCD = 60
+                        self.scene.end_shop()
+            return
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
         if self.player.event == GameEvent.EVENT_SWITCH:
             self.flush_scene(self.player.tpto)
             self.player.reset_pos(2048, 3296)
+        elif self.player.event == GameEvent.EVENT_SHOP:
+            self.scene.trigger_shop(self.player.collide.collidingObject["npc"], self.player)
         self.player.event = None
 
         # Then deal with regular updates
         self.update_collide()
         self.player.update(self.scene)
+        for npc in self.scene.npcs:
+            npc.update()
     
     def update_battle(self, events):
         # Deal with EventQueue First

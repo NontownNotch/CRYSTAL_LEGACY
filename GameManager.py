@@ -114,15 +114,26 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        if self.scene.istalking:
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_e:
+                        self.player.collide.collidingObject["npc"].talkCD = 60
+                        self.scene.end_dialog()
+            return
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
         if self.player.event == GameEvent.EVENT_SWITCH:
             self.flush_scene(self.player.tpto)
             self.player.reset_pos(3680, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
+        elif self.player.event == GameEvent.EVENT_DIALOG:
+            self.scene.trigger_dialog(self.player.collide.collidingObject["npc"])
         self.player.event = None
 
         # Then deal with regular updates
         self.update_collide()
         self.player.update(self.scene)
+        for npc in self.scene.npcs:
+            npc.update()
     
     def update_temple(self, events):
         # Deal with EventQueue First
@@ -219,16 +230,14 @@ class GameManager:
             self.player.collide.collidingObject["portal"] = None
 
         # Player -> NPCs; if multiple NPCs collided, only first is accepted and dealt with.
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        if pygame.sprite.spritecollide(self.player, self.scene.npcs, False):
+            self.player.collide.collidingWith["npc"] = True
+            self.player.collide.collidingObject["npc"] = pygame.sprite.spritecollide(self.player, self.scene.npcs, False)[0]
+        else:
+            self.player.collide.collidingWith["npc"] = False
+            self.player.collide.collidingObject["npc"] = None
 
         # Player -> Monsters
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-        
-        # Player -> Portals
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####

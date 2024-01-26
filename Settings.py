@@ -50,14 +50,14 @@ class SceneType(Enum):
     HUT = 4
 
 class DialogSettings:
-    boxWidth = 800
-    boxHeight = 180
+    boxWidth = 960
+    boxHeight = 216
     boxStartX = WindowSettings.width // 4           # Coordinate X of the box
-    boxStartY = WindowSettings.height // 3 * 2 + 20 # Coordinate Y of the box
+    boxStartY = 0 # Coordinate Y of the box
 
     textSize = 48 # Default font size
-    textStartX = WindowSettings.width // 4 + 10         # Coordinate X of the first line of dialog
-    textStartY = WindowSettings.height // 3 * 2 + 30    # Coordinate Y of the first line of dialog
+    textStartX = WindowSettings.width // 4 + 36         # Coordinate X of the first line of dialog
+    textStartY = 72    # Coordinate Y of the first line of dialog
     textVerticalDist = textSize // 4 * 3                # Vertical distance of two lines
 
     npcWidth = WindowSettings.width // 5
@@ -210,6 +210,7 @@ class GamePath:
     boss = r".\assets\npc\boss.png"
 
     #UI相關位置
+    talkboxbackgound = r".\assets\UI\Talkbox.png"
     battlestatus = r".\assets\UI\BattleStatus.png" #戰鬥Status UI背景
     commandbackground = r".\assets\UI\CommandBackground.png" #戰鬥Command UI背景
     ATBbackground = r".\assets\UI\ATBBackground.png" #戰鬥ATB條背景

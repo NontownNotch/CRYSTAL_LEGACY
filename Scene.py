@@ -18,19 +18,20 @@ class Scene():
         self.maxY = self.cameramaxY = 0
         self.cameraX = 0
         self.cameraY = 0
+        self.istalking = False
+        self.talkingnpc = None
         self.obstacles = pygame.sprite.Group()
         self.portal = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
     
     def trigger_dialog(self, npc):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        if npc.talkCD == 0:
+            self.talkingnpc = npc
+            DialogBox(self.window, npc).draw()
+            self.istalking = True
     
     def end_dialog(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.istalking = False
     
     def trigger_battle(self, player):
         ##### Your Code Here ↓ #####
@@ -71,6 +72,8 @@ class Scene():
         for npc in self.npcs:
             npc.draw(self.window, - self.cameraX, - self.cameraY)
         player.draw(self.window, - self.cameraX, - self.cameraY) #渲染人物
+        if self.istalking:
+            DialogBox(self.window, self.talkingnpc).draw()
 
 class MainMenu():
     def __init__(self, window):
@@ -177,7 +180,7 @@ class CastleScene(Scene):
     
     def gen_castle(self):
         self.gen_castle_obstacle()
-        self.npcs.add(Cid(960, 9312, "Cid", "L"))
+        self.npcs.add(Cid(960, 9312, "Cid", "Use your magic power to investigate the Crystal Temple"))
         self.portal.add(Portal(960, 10048, 3))
     
     def render(self, player):

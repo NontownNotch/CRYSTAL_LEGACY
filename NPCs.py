@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 import pygame
 
 from Settings import *
@@ -13,14 +11,13 @@ class NPC(pygame.sprite.Sprite, Collidable):
         self.name = name
         self.x = x
         self.y = y
+        self.talkCD = 0
     
     def update(self):
         raise NotImplementedError
     
     def reset_talkCD(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.talkCD = 0
     
     def draw(self, window, dx=0, dy=0):
         window.blit(self.image, self.rect.move(dx, dy))
@@ -33,10 +30,9 @@ class Cid(NPC):
         self.rect.center = (x, y)
         self.dialog = dialog
     
-    def update(self, ticks):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+    def update(self):
+        if self.talkCD != 0:
+            self.talkCD -=1
 
 class ShopNPC(NPC):
     def __init__(self, x, y, name, items, dialog):

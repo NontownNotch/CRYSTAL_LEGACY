@@ -113,9 +113,12 @@ class Player(pygame.sprite.Sprite, Collidable):
                 elif self.collide.collidingObject["portal"] == 2:
                     self.event = GameEvent.EVENT_SWITCH
                     self.tpto = SceneType.HUT
-                elif self.collide.collidingObject["portal"] == 3 or self.collidingObject["portal"] == 4:
+                elif self.collide.collidingObject["portal"] == 3 or self.collide.collidingObject["portal"] == 4:
                     self.event = GameEvent.EVENT_SWITCH
                     self.tpto = SceneType.WILD
+            elif self.collide.collidingWith["npc"]:
+                if self.collide.collidingObject["npc"].name == "Cid":
+                    self.event = GameEvent.EVENT_DIALOG
     
     def draw(self, window, dx=0, dy=0):
         window.blit(self.image, self.rect.move(dx, dy))

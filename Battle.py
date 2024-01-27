@@ -156,5 +156,12 @@ class MonsterBattle(Battle):
         return super().render()
 
 class BossBattle(Battle):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, window, player, monster):
+        super().__init__(window, player, monster)
+        self.monsterimage = pygame.transform.scale(monster.image, (512, 420))
+        self.monsterrect = self.monsterimage.get_rect(center = (BattleSettings.monsterCoordX, BattleSettings.monsterCoordY))
+        self.background = pygame.transform.scale(pygame.image.load(GamePath.bossbackground), (WindowSettings.width, WindowSettings.height))
+    
+    def render(self):
+        self.window.blit(self.background,(BattleSettings.boxStartX, BattleSettings.boxStartY))
+        return super().render()

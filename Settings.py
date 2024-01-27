@@ -118,6 +118,7 @@ class GamePath:
     #窗口相關文件位置
     menu = r".\assets\MainMenu\MainMenu.png" #主菜單
     battlebackground = r".\assets\Background\WildBattleBackground.png" #戰鬥背景
+    bossbackground = r".\assets\Background\BossBattleBackground.png"
 
     #Tile相關位置
     groundTiles = r".\assets\Tiles\Grass.png" #草地圖像
@@ -218,7 +219,7 @@ class GamePath:
     fireeffect = r".\assets\Effects\Fire.png"
     thundereffect = r".\assets\Effects\Thunder.png"
     monster = r".\assets\Monster\Sweeper.png"
-    boss = r".\assets\npc\boss.png"
+    boss = r".\assets\Boss\Bahamut.png"
 
     #UI相關位置
     talkboxbackgound = r".\assets\UI\Talkbox.png"

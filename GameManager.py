@@ -150,6 +150,9 @@ class GameManager:
         if self.player.event == GameEvent.EVENT_SWITCH:
             self.flush_scene(self.player.tpto)
             self.player.reset_pos(416, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
+        elif self.player.event == GameEvent.EVENT_BATTLE:
+            self.state = GameState.GAME_PLAY_BOSS
+            self.popupscene = BossBattle(self.window, self.player, self.player.collide.collidingObject["monster"])
         self.player.event = None
 
         # Then deal with regular updates
@@ -239,9 +242,43 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    if self.popupscene.ATB == 150 and not self.popupscene.iscommanding:
+                        self.popupscene.iscommanding = True #开启Command面板
+                elif event.key == pygame.K_q:
+                    if self.popupscene.iscommanding and not self.popupscene.ismagic:
+                        self.popupscene.iscommanding = False #关闭Command面板
+                    elif self.popupscene.iscommanding and self.popupscene.ismagic:
+                        self.popupscene.ismagic = False #关闭Magic面板
+                elif event.key == pygame.K_f:
+                    if self.popupscene.iscommanding and not self.popupscene.ismagic:
+                        self.popupscene.Attack() #Attack
+                        self.popupscene.iscommanding = False
+                elif event.key == pygame.K_r:
+                    if self.popupscene.iscommanding and not self.popupscene.ismagic:
+                        self.popupscene.ismagic = True #开启Magic面板
+                elif event.key == pygame.K_z:
+                    if self.popupscene.iscommanding and self.popupscene.ismagic:
+                        self.popupscene.MagicFire() #使用Fire魔法
+                        self.popupscene.ismagic = False
+                        self.popupscene.iscommanding = False
+                elif event.key == pygame.K_x:
+                    if self.popupscene.iscommanding and self.popupscene.ismagic:
+                        self.popupscene.MagicThunder() #使用Thunder魔法
+                        self.popupscene.ismagic = False
+                        self.popupscene.iscommanding = False
+        if self.player.event == GameEvent.EVENT_END_BATTLE:
+            self.game_reset()
+            return
+        elif self.player.event == GameEvent.EVENT_RESTART:
+            self.game_reset()
+            return
+        self.player.event = None
         
         # Then deal with regular updates
-        pass
+        self.popupscene.ATBmanage() #管理ATB
+        self.popupscene.Update()
 
     # Collision-relate update funtions here ↓
     def update_collide(self):
@@ -274,18 +311,7 @@ class GameManager:
         else:
             self.player.collide.collidingWith["monster"] = False
             self.player.collide.collidingObject["monster"] = None
-        
-        # Player -> Boss
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
     
-    def update_NPCs(self):
-        # This is not necessary. If you want to re-use your code you can realize this.
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
     # Render-relate update functions here ↓
     def render(self):
         if self.state == GameState.MAIN_MENU:
@@ -300,6 +326,8 @@ class GameManager:
             self.render_hut()
         if self.state == GameState.GAME_PLAY_BATTLE:
             self.render_battle()
+        if self.state == GameState.GAME_PLAY_BOSS:
+            self.render_boss()
         self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_fps()}", True, (255, 0, 0)), (0, 0))
         self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_rawtime()}", True, (255, 0, 0)), (0, 36))
     
@@ -326,6 +354,4 @@ class GameManager:
         self.popupscene.render() #渲染战斗场景
     
     def render_boss(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.popupscene.render()

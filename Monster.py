@@ -35,12 +35,19 @@ class Monster(pygame.sprite.Sprite):
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
+        self.name = "Bahamut"
+        self.image = pygame.transform.scale(pygame.image.load(GamePath.boss), (256, 210))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.skillname = "Megaflare"
+        self.x = x
+        self.y = y
+        self.HP = 9999
+        self.attack = 50
+        self.money = 0
+    
+    def attr_update(self, HP):
+        self.HP += HP
+    
     def draw(self, window, dx=0, dy=0):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        window.blit(self.image, self.rect.move(dx, dy))

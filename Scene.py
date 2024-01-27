@@ -225,6 +225,7 @@ class TempleScene(Scene):
     def gen_temple(self):
         self.gen_temple_obstacle()
         self.portal.add(Portal(960, 10080, 4))
+        self.monsters.add(Boss(960, 9280))
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))

@@ -6,8 +6,8 @@ import pygame
 #窗口相關設置
 class WindowSettings: #窗口設置
     name = "CRYSTAL LEGACY" #標題
-    width = 1920 #窗口寬度
-    height = 1080 #窗口高度
+    width = 1280 #窗口寬度
+    height = 720 #窗口高度
 
 #場景相關設置
 class SceneSettings:
@@ -33,13 +33,13 @@ class PlayerSettings:
 
 #NPC, 怪物相關設置
 class NPCSettings:
-    npcWidth = 64
-    npcHeight = 96
+    npcWidth = WindowSettings.width // 30
+    npcHeight = WindowSettings.height * 4 // 45
 
 class MonsterSettings:
-    monsterSpeed = 8
-    monsterWidth = 128
-    monsterHeight = 128
+    monsterSpeed = WindowSettings.width // 240
+    monsterWidth = WindowSettings.width // 15
+    monsterHeight = WindowSettings.height * 16 // 135
 
 class NPCType(Enum):
     DIALOG = 1
@@ -53,14 +53,14 @@ class SceneType(Enum):
     HUT = 4
 
 class DialogSettings:
-    boxWidth = 960
-    boxHeight = 216
+    boxWidth = WindowSettings.width // 2
+    boxHeight = WindowSettings.height // 5
     boxStartX = WindowSettings.width // 4           # Coordinate X of the box
     boxStartY = 0 # Coordinate Y of the box
 
-    textSize = 48 # Default font size
+    textSize = int(pow(WindowSettings.width * WindowSettings.height, 0.5) // 30) # Default font size
     textStartX = WindowSettings.width // 4 + 36         # Coordinate X of the first line of dialog
-    textStartY = 72    # Coordinate Y of the first line of dialog
+    textStartY = boxHeight // 3    # Coordinate Y of the first line of dialog
     textVerticalDist = textSize // 4 * 3                # Vertical distance of two lines
 
     npcWidth = WindowSettings.width // 5
@@ -104,13 +104,13 @@ class BattleSettings:
     mosterattackCoordX = WindowSettings.width // 3
 
 class ShopSettings:
-    boxWidth = 960
-    boxHeight = 216
+    boxWidth = WindowSettings.width // 2
+    boxHeight = WindowSettings.height // 5
     boxStartX = WindowSettings.width // 4   # Coordinate X of the box
     boxStartY = 0  # Coordinate Y of the box
-    textSize = 48 # Default font size
-    textStartX = boxStartX + 10         # Coordinate X of the first line of dialog
-    textStartY = boxStartY + 25    # Coordinate Y of the first line of dialog
+    textSize = int(pow(WindowSettings.width * WindowSettings.height, 0.5) // 30) # Default font size
+    textStartX = boxStartX + WindowSettings.width // 192         # Coordinate X of the first line of dialog
+    textStartY = boxStartY + WindowSettings.height * 5 // 216    # Coordinate Y of the first line of dialog
     textVerticalDist = textSize * 3 // 4
 
 #文件位置

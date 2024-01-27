@@ -33,11 +33,6 @@ class Scene():
     def end_dialog(self):
         self.istalking = False
     
-    def end_battle(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-    
     def trigger_shop(self, npc, player):
         if npc.talkCD == 0:
             self.istalking = True
@@ -74,28 +69,13 @@ class MainMenu():
     def __init__(self, window):
         self.window = window
         self.background = pygame.transform.scale(pygame.image.load(GamePath.menu), (WindowSettings.width, WindowSettings.height))
-        self.font = pygame.font.Font(None, 36) #主界面文字大小
-        self.text1 = self.font.render("Press 1 to enter wild scene", True, (0, 0, 0)) #主界面文字内容1
-        self.textRect1 = self.text1.get_rect(center=(WindowSettings.width // 2, WindowSettings.height - 500)) #主界面文字位置1
-        self.text2 = self.font.render("Press 2 to enter castle scene", True, (0, 0, 0)) #主界面文字内容2
-        self.textRect2 = self.text2.get_rect(center=(WindowSettings.width // 2, WindowSettings.height - 450)) #主界面文字位置2
-        self.text3 = self.font.render("Press 3 to enter temple scene", True, (0, 0, 0)) #主界面文字内容3
-        self.textRect3 = self.text3.get_rect(center=(WindowSettings.width // 2, WindowSettings.height - 400)) #主界面文字位置3
-        self.text4 = self.font.render("Press 4 to enter hut scene", True, (0, 0, 0)) #主界面文字内容4
-        self.textRect4 = self.text4.get_rect(center=(WindowSettings.width // 2, WindowSettings.height - 350)) #主界面文字位置4
-        self.text5 = self.font.render("Press 5 to enter battle scene", True, (0, 0, 0)) #主界面文字内容5
-        self.textRect5 = self.text5.get_rect(center=(WindowSettings.width // 2, WindowSettings.height - 300)) #主界面文字位置5
-        self.text6 = self.font.render("Press 6 to enter boss scene", True, (0, 0, 0)) #主界面文字内容6
-        self.textRect6 = self.text6.get_rect(center=(WindowSettings.width // 2, WindowSettings.height - 250)) #主界面文字位置6
+        self.font = pygame.font.Font(None, int(pow(WindowSettings.width * WindowSettings.height, 0.5) // 30)) #主界面文字大小
+        self.text1 = self.font.render("PRESS ANY BUTTON", True, (0, 0, 0)) #主界面文字内容1
+        self.textRect1 = self.text1.get_rect(center=(WindowSettings.width // 2, WindowSettings.height * 3 // 4)) #主界面文字位置1
     
     def render(self):
         self.window.blit(self.background, (0, 0))
         self.window.blit(self.text1, self.textRect1) #显示主界面文字1
-        self.window.blit(self.text2, self.textRect2) #显示主界面文字2
-        self.window.blit(self.text3, self.textRect3) #显示主界面文字3
-        self.window.blit(self.text4, self.textRect4) #显示主界面文字4
-        self.window.blit(self.text5, self.textRect5) #显示主界面文字5
-        self.window.blit(self.text6, self.textRect6) #显示主界面文字6
 
 class WildScene(Scene):
     def __init__(self, window):
@@ -125,7 +105,7 @@ class WildScene(Scene):
     
     def gen_monsters(self, num = 10):
         while num > 0:
-            self.monsters.add(Monster(randint(64, 3712), randint(64, 4032), 1000, 25, 15, randint(128, 320)))
+            self.monsters.add(Monster(randint(WindowSettings.width // 30, WindowSettings.width * 29 // 15), randint(WindowSettings.height * 8 // 135, WindowSettings.height * 56 // 15), 1000, 25, 15, randint(WindowSettings.width // 15, WindowSettings.width // 6)))
             num -= 1
     
     def render(self, player):
@@ -175,8 +155,8 @@ class CastleScene(Scene):
     
     def gen_castle(self):
         self.gen_castle_obstacle()
-        self.npcs.add(Cid(960, 9312, "Cid", "Use your magic power to investigate the Crystal Temple."))
-        self.portal.add(Portal(960, 10048, 3))
+        self.npcs.add(Cid(WindowSettings.width // 2, WindowSettings.height * 388 // 45, "Cid", "Use your magic power to investigate the Crystal Temple."))
+        self.portal.add(Portal(WindowSettings.width // 2, WindowSettings.height * 1256 // 135, 3))
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
@@ -185,47 +165,47 @@ class CastleScene(Scene):
 class TempleScene(Scene):
     def __init__(self, window):
         super().__init__(window)
-        self.image = pygame.transform.scale(pygame.image.load(GamePath.templebackground), (WindowSettings.width, WindowSettings.width * 10))
+        self.image = pygame.transform.scale(pygame.image.load(GamePath.templebackground), (WindowSettings.width, WindowSettings.height * 160 // 9))
         self.rect = self.image.get_rect()
         self.rect.top = (0)
-        self.maxX = 1376
-        self.maxY = 10112
-        self.minX = 544
-        self.minY = 9280
+        self.maxX = WindowSettings.width * 43 // 60
+        self.maxY = WindowSettings.height * 1264 // 135
+        self.minX = WindowSettings.width * 17 // 60
+        self.minY = WindowSettings.height * 232 // 27
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.width * 10
     
     def gen_temple_obstacle(self):
         for i in [
-            (544, 9344),
-            (544, 9984),
-            (608, 9408),
-            (608, 9984),
-            (672, 9280),
-            (672, 9984),
-            (736, 9280),
-            (736, 9568),
-            (736, 9600),
-            (736, 9984),
-            (800, 9984),
-            (1056, 9984),
-            (1120, 9280),
-            (1120, 9568),
-            (1120, 9600),
-            (1120, 9984),
-            (1184, 9280),
-            (1184, 9984),
-            (1248, 9408),
-            (1248, 9984),
-            (1312, 9344),
-            (1312, 9984)
+            (WindowSettings.width * 17 // 60, WindowSettings.height * 1168 // 135),
+            (WindowSettings.width * 17 // 60, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 19 // 60, WindowSettings.height * 392 // 45),
+            (WindowSettings.width * 19 // 60, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 7 // 20, WindowSettings.height * 232 // 27),
+            (WindowSettings.width * 7 // 20, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 23 // 60, WindowSettings.height * 232 // 27),
+            (WindowSettings.width * 23 // 60, WindowSettings.height * 1196 // 135),
+            (WindowSettings.width * 23 // 60, WindowSettings.height * 80 // 9),
+            (WindowSettings.width * 23 // 60, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 5 // 12, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 11 // 20, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 7 // 12, WindowSettings.height * 232 // 27),
+            (WindowSettings.width * 7 // 12, WindowSettings.height * 1196 // 135),
+            (WindowSettings.width * 7 // 12, WindowSettings.height * 80 // 9),
+            (WindowSettings.width * 7 // 12, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 37 // 60, WindowSettings.height * 232 // 27),
+            (WindowSettings.width * 37 // 60, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 13 // 20, WindowSettings.height * 392 // 45),
+            (WindowSettings.width * 13 // 20, WindowSettings.height * 416 // 45),
+            (WindowSettings.width * 41 // 60, WindowSettings.height * 1168 // 135),
+            (WindowSettings.width * 41 // 60, WindowSettings.height * 416 // 45)
             ]:
             self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
     
     def gen_temple(self):
         self.gen_temple_obstacle()
-        self.portal.add(Portal(960, 10080, 4))
-        self.monsters.add(Boss(960, 9280))
+        self.portal.add(Portal(WindowSettings.width // 2, WindowSettings.height * 28 // 3, 4))
+        self.monsters.add(Boss(WindowSettings.width // 2, WindowSettings.height * 232 // 27))
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
@@ -237,51 +217,51 @@ class HutScene(Scene):
         self.image = pygame.transform.scale(pygame.image.load(GamePath.hutbackground), (WindowSettings.width, WindowSettings.width * 10))
         self.rect = self.image.get_rect()
         self.rect.top = (0)
-        self.maxX = 1408
-        self.maxY = 9984
-        self.minX = 512
-        self.minY = 9408
+        self.maxX = WindowSettings.width * 11 // 15
+        self.maxY = WindowSettings.height * 416 // 45
+        self.minX = WindowSettings.width * 4 // 15
+        self.minY = WindowSettings.height * 392 // 45
         self.cameramaxX = WindowSettings.width
         self.cameramaxY = WindowSettings.width * 10
     
     def gen_hut_obstacle(self):
         for i in [
-            (512, 9408),
-            (512, 9792),
-            (544, 9568),
-            (544, 9632),
-            (576, 9856),
-            (608, 9568),
-            (608, 9632),
-            (640, 9920),
-            (768, 9568),
-            (768, 9952),
-            (832, 9536),
-            (832, 9600),
-            (832, 9952),
-            (896, 9408),
-            (896, 9568),
-            (896, 9920),
-            (960, 9408),
-            (960, 9920),
-            (1056, 9504),
-            (1088, 9920),
-            (1120, 9440),
-            (1120, 9504),
-            (1152, 9792),
-            (1216, 9792),
-            (1248, 9440),
-            (1248, 9504),
-            (1280, 9792),
-            (1312, 9504),
-            (1344, 9728)
+            (WindowSettings.width * 4 // 15, WindowSettings.height * 392 // 45),
+            (WindowSettings.width * 4 // 15, WindowSettings.height * 136 // 15),
+            (WindowSettings.width * 17 // 60, WindowSettings.height * 1196 // 135),
+            (WindowSettings.width * 17 // 60, WindowSettings.height * 1204 // 135),
+            (WindowSettings.width * 3 // 10, WindowSettings.height * 1232 // 135),
+            (WindowSettings.width * 19 // 60, WindowSettings.height * 1196 // 135),
+            (WindowSettings.width * 19 // 60, WindowSettings.height * 1204 // 135),
+            (WindowSettings.width // 3, WindowSettings.height * 248 // 27),
+            (WindowSettings.width * 2 // 5, WindowSettings.height * 1196 // 135),
+            (WindowSettings.width * 2 // 5, WindowSettings.height * 1244 // 135),
+            (WindowSettings.width * 13 // 30, WindowSettings.height * 1192 // 135),
+            (WindowSettings.width * 13 // 30, WindowSettings.height * 80 // 9),
+            (WindowSettings.width * 13 // 30, WindowSettings.height * 1244 // 135),
+            (WindowSettings.width * 7 // 15, WindowSettings.height * 392 // 45),
+            (WindowSettings.width * 7 // 15, WindowSettings.height * 1196 // 135),
+            (WindowSettings.width * 7 // 15, WindowSettings.height * 248 // 27),
+            (WindowSettings.width // 2, WindowSettings.height * 392 // 45),
+            (WindowSettings.width // 2, WindowSettings.height * 248 // 27),
+            (WindowSettings.width * 11 // 20, WindowSettings.height * 44 // 5),
+            (WindowSettings.width * 17 // 30, WindowSettings.height * 248 // 27),
+            (WindowSettings.width * 7 // 12, WindowSettings.height * 236 // 27),
+            (WindowSettings.width * 7 // 12, WindowSettings.height * 44 // 5),
+            (WindowSettings.width * 3 // 5, WindowSettings.height * 136 // 15),
+            (WindowSettings.width * 19 // 30, WindowSettings.height * 136 // 15),
+            (WindowSettings.width * 13 // 20, WindowSettings.height * 236 // 27),
+            (WindowSettings.width * 13 // 20, WindowSettings.height * 44 // 5),
+            (WindowSettings.width * 2 // 3, WindowSettings.height * 136 // 15),
+            (WindowSettings.width * 41 // 60, WindowSettings.height * 44 // 5),
+            (WindowSettings.width * 7 // 10, WindowSettings.height * 1216 // 135)
             ]:
             self.obstacles.add(Tile(pygame.image.load(GamePath.emptyobstacles), i[0], i[1]))
     
     def gen_hut(self):
         self.gen_hut_obstacle()
-        self.npcs.add(ShopNPC(1312, 9696, "Knight"))
-        self.portal.add(Portal(1056, 9952, 3))
+        self.npcs.add(ShopNPC(WindowSettings.width * 41 // 60, WindowSettings.height * 404 // 45, "Knight"))
+        self.portal.add(Portal(WindowSettings.width * 11 // 20, WindowSettings.height * 1244 // 135, 3))
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))

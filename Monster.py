@@ -3,7 +3,7 @@ import pygame
 from Settings import *
 
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, x, y, HP = 10, Attack = 3, Money = 15, range = 128):
+    def __init__(self, x, y, HP = 10, Attack = 3, Money = 15, range = WindowSettings.width // 15):
         super().__init__()
         self.name = "Sweeper"
         self.image = pygame.transform.scale(pygame.image.load(GamePath.monster), (MonsterSettings.monsterWidth, MonsterSettings.monsterHeight))
@@ -36,7 +36,7 @@ class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.name = "Bahamut"
-        self.image = pygame.transform.scale(pygame.image.load(GamePath.boss), (256, 210))
+        self.image = pygame.transform.scale(pygame.image.load(GamePath.boss), (WindowSettings.width * 2 // 15, WindowSettings.height * 7 // 36))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.skillname = "Megaflare"

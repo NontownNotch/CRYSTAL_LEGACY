@@ -46,12 +46,12 @@ class GameManager:
             self.scene = TempleScene(self.window)
             self.state = GameState.GAME_PLAY_TEMPLE
             self.scene.gen_temple()
-            self.player.reset_pos(960, 9952)
+            self.player.reset_pos(WindowSettings.width // 2, WindowSettings.height * 1244 // 135)
         elif GOTO == SceneType.HUT:
             self.scene = HutScene(self.window)
             self.state = GameState.GAME_PLAY_HUT
             self.scene.gen_hut()
-            self.player.reset_pos(1056, 9824)
+            self.player.reset_pos(WindowSettings.width * 11 // 20, WindowSettings.height * 1228 // 135)
 
     
     def update(self):
@@ -77,21 +77,7 @@ class GameManager:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN: #按下键盘按键
-                #下方为开发时用主界面，正式版将改动
-                if event.key == pygame.K_1:
-                    self.flush_scene(SceneType.WILD) #生成地图，障碍物
-                    self.player.reset_pos(SceneSettings.tileXnum * SceneSettings.tileWidth // 2, SceneSettings.tileYnum * SceneSettings.tileHeight // 2) #重置人物位置
-                elif event.key == pygame.K_2:
-                    self.flush_scene(SceneType.CASTLE)
-                elif event.key == pygame.K_3:
-                    self.flush_scene(SceneType.TEMPLE)
-                elif event.key == pygame.K_4:
-                    self.flush_scene(SceneType.HUT)
-                elif event.key == pygame.K_5:
-                    self.popupscene = MonsterBattle(self.window, self.player, Monster(0,0))
-                    self.state = GameState.GAME_PLAY_BATTLE
-                elif event.key == pygame.K_6:
-                    self.state =GameState.GAME_PLAY_BOSS
+                self.flush_scene(SceneType.CASTLE)
     
     def update_wild(self, events):
         # Deal with EventQueue First
@@ -129,7 +115,7 @@ class GameManager:
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
         if self.player.event == GameEvent.EVENT_SWITCH:
             self.flush_scene(self.player.tpto)
-            self.player.reset_pos(3680, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
+            self.player.reset_pos(WindowSettings.width * 23 // 12, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
         elif self.player.event == GameEvent.EVENT_DIALOG:
             self.scene.trigger_dialog(self.player.collide.collidingObject["npc"])
         self.player.event = None
@@ -149,7 +135,7 @@ class GameManager:
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
         if self.player.event == GameEvent.EVENT_SWITCH:
             self.flush_scene(self.player.tpto)
-            self.player.reset_pos(416, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
+            self.player.reset_pos(WindowSettings.width * 13 // 60, SceneSettings.tileYnum * SceneSettings.tileHeight // 2)
         elif self.player.event == GameEvent.EVENT_BATTLE:
             self.state = GameState.GAME_PLAY_BOSS
             self.popupscene = BossBattle(self.window, self.player, self.player.collide.collidingObject["monster"])
@@ -181,7 +167,7 @@ class GameManager:
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY, self.scene.minX, self.scene.minY) #嘗試移動
         if self.player.event == GameEvent.EVENT_SWITCH:
             self.flush_scene(self.player.tpto)
-            self.player.reset_pos(2048, 3296)
+            self.player.reset_pos(SceneSettings.tileYnum * SceneSettings.tileHeight // 2, WindowSettings.height * 404 // 135)
         elif self.player.event == GameEvent.EVENT_SHOP:
             self.scene.trigger_shop(self.player.collide.collidingObject["npc"], self.player)
         self.player.event = None

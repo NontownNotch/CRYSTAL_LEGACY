@@ -113,7 +113,7 @@ class Player(pygame.sprite.Sprite, Collidable):
                 if pygame.sprite.spritecollide(testx, scene.obstacles, False): #人物移动后碰撞但取消Y方向移动后不碰撞
                     self.y -= self.dy
                 self.rect.center = (self.x, self.y)
-            elif self.collide.collidingWith["portal"]:
+            if self.collide.collidingWith["portal"]:
                 if self.collide.collidingObject["portal"] == 0:
                     self.event = GameEvent.EVENT_SWITCH
                     self.tpto = SceneType.CASTLE
@@ -126,12 +126,12 @@ class Player(pygame.sprite.Sprite, Collidable):
                 elif self.collide.collidingObject["portal"] == 3 or self.collide.collidingObject["portal"] == 4:
                     self.event = GameEvent.EVENT_SWITCH
                     self.tpto = SceneType.WILD
-            elif self.collide.collidingWith["npc"]:
+            if self.collide.collidingWith["npc"]:
                 if self.collide.collidingObject["npc"].name == "Cid":
                     self.event = GameEvent.EVENT_DIALOG
                 elif self.collide.collidingObject["npc"].name == "Knight":
                     self.event = GameEvent.EVENT_SHOP
-            elif self.collide.collidingWith["monster"]:
+            if self.collide.collidingWith["monster"]:
                 self.event = GameEvent.EVENT_BATTLE
         if self.HP <=0:
             self.event = GameEvent.EVENT_RESTART

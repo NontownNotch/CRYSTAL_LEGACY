@@ -314,8 +314,6 @@ class GameManager:
             self.render_battle()
         if self.state == GameState.GAME_PLAY_BOSS:
             self.render_boss()
-        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_fps()}", True, (255, 0, 0)), (0, 0))
-        self.window.blit(pygame.font.Font(None, 36).render(f"{self.clock.get_rawtime()}", True, (255, 0, 0)), (0, 36))
     
     def render_main_menu(self):
         self.scene.render() #渲染主界面

@@ -1,11 +1,11 @@
-# -*- coding:utf-8 -*-
-
 import pygame
 from random import randint, random
 
 from enum import Enum
 from Settings import *
 from NPCs import *
+from Monster import *
+from Battle import *
 from PopUpBox import *
 from Portal import *
 from BgmPlayer import *
@@ -22,6 +22,7 @@ class Scene():
         self.obstacles = pygame.sprite.Group()
         self.portal = pygame.sprite.Group()
         self.npcs = pygame.sprite.Group()
+        self.monsters = pygame.sprite.Group()
         self.popupbox = None
     
     def trigger_dialog(self, npc):
@@ -31,11 +32,6 @@ class Scene():
     
     def end_dialog(self):
         self.istalking = False
-    
-    def trigger_battle(self, player):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
     
     def end_battle(self):
         ##### Your Code Here ↓ #####
@@ -66,6 +62,8 @@ class Scene():
             self.cameraY = player.y - WindowSettings.height // 2
     
     def render(self, player):
+        for monster in self.monsters:
+            monster.draw(self.window, - self.cameraX, - self.cameraY)
         for npc in self.npcs:
             npc.draw(self.window, - self.cameraX, - self.cameraY)
         player.draw(self.window, - self.cameraX, - self.cameraY) #渲染人物
@@ -123,12 +121,12 @@ class WildScene(Scene):
     def gen_WILD(self):
         self.gen_wild_map()
         self.gen_wild_obstacle()
+        self.gen_monsters()
     
     def gen_monsters(self, num = 10):
-
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        while num > 0:
+            self.monsters.add(Monster(randint(64, 3712), randint(64, 4032), 1000, 25, 15, randint(128, 320)))
+            num -= 1
     
     def render(self, player):
         #偏移(- cameraX, - cameraY)

@@ -19,10 +19,10 @@ class GameManager:
         self.popupscene = None
     
     def game_reset(self):
-
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
+        self.state = GameState.MAIN_MENU #设置初始状态为主界面
+        self.scene = MainMenu(self.window)
+        self.popupscene = None
     
     # Necessary game components here ↓
     def tick(self, fps):
@@ -102,11 +102,16 @@ class GameManager:
         self.player.try_move(pygame.key.get_pressed(), self.scene.maxX, self.scene.maxY) #嘗試移動
         if self.player.event == GameEvent.EVENT_SWITCH:
             self.flush_scene(self.player.tpto)
+        elif self.player.event == GameEvent.EVENT_BATTLE:
+            self.state = GameState.GAME_PLAY_BATTLE
+            self.popupscene = MonsterBattle(self.window, self.player, self.player.collide.collidingObject["monster"])
         self.player.event = None
         
         # Then deal with regular updates
         self.update_collide()
         self.player.update(self.scene)
+        for monster in self.scene.monsters:
+            monster.update()
     
     def update_castle(self, events):
         # Deal with EventQueue First
@@ -192,7 +197,7 @@ class GameManager:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:
-                    if self.popupscene.ATB == 300 and not self.popupscene.iscommanding:
+                    if self.popupscene.ATB == 150 and not self.popupscene.iscommanding:
                         self.popupscene.iscommanding = True #开启Command面板
                 elif event.key == pygame.K_q:
                     if self.popupscene.iscommanding and not self.popupscene.ismagic:
@@ -216,9 +221,17 @@ class GameManager:
                         self.popupscene.MagicThunder() #使用Thunder魔法
                         self.popupscene.ismagic = False
                         self.popupscene.iscommanding = False
+        if self.player.event == GameEvent.EVENT_END_BATTLE:
+            self.state = GameState.GAME_PLAY_WILD
+            return
+        elif self.player.event == GameEvent.EVENT_RESTART:
+            self.game_reset()
+            return
+        self.player.event = None
 
         # Then deal with regular updates
         self.popupscene.ATBmanage() #管理ATB
+        self.popupscene.Update()
     
     def update_boss(self, events):
         # Deal with EventQueue First
@@ -255,9 +268,12 @@ class GameManager:
             self.player.collide.collidingObject["npc"] = None
 
         # Player -> Monsters
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
+        if pygame.sprite.spritecollide(self.player, self.scene.monsters, False):
+            self.player.collide.collidingWith["monster"] = True
+            self.player.collide.collidingObject["monster"] = pygame.sprite.spritecollide(self.player, self.scene.monsters, True)[0]
+        else:
+            self.player.collide.collidingWith["monster"] = False
+            self.player.collide.collidingObject["monster"] = None
         
         # Player -> Boss
         ##### Your Code Here ↓ #####

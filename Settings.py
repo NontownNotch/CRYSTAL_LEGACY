@@ -28,15 +28,18 @@ class PlayerSettings:
     playerHeight = WindowSettings.height * 4 // 45 #人物高度
     playerHP = 1000
     playerMP = 100
-    playerAttack = 5
-    playerDefence = 1
+    playerAttack = 200
     playerMoney = 100
 
 #NPC, 怪物相關設置
 class NPCSettings:
-    npcSpeed = 1
     npcWidth = 64
     npcHeight = 96
+
+class MonsterSettings:
+    monsterSpeed = 8
+    monsterWidth = 128
+    monsterHeight = 128
 
 class NPCType(Enum):
     DIALOG = 1
@@ -74,6 +77,10 @@ class BattleSettings:
     boxStartY = 0 #戰鬥場景Y位置
     statusStartX = 0 #UI X位置
     statusStartY = WindowSettings.height // 5 * 4 #UI Y位置
+    skillStartX = WindowSettings.width // 4
+    skillStartY = 0
+    effectWidth = WindowSettings.width // 15
+    effectHeight = WindowSettings.height * 8 // 45
     textSize = int(pow(WindowSettings.width * WindowSettings.height, 0.5) // 30) #字體大小
     textPlayerStartX = WindowSettings.width // 2 #玩家文字X位置
     textPlayerStatusStartX = WindowSettings.width // 3 * 2 #玩家狀態文字X位置
@@ -90,10 +97,11 @@ class BattleSettings:
     playerattackCoordX = WindowSettings.width // 3 * 2 #玩家Attack X位置
 
     #怪物設置
-    monsterWidth = WindowSettings.width // 6
-    monsterHeight = WindowSettings.height // 3
-    monsterCoordX = WindowSettings.width * 5 // 8
+    monsterWidth = WindowSettings.width * 2 // 15
+    monsterHeight = WindowSettings.height * 32 // 135
+    monsterCoordX = WindowSettings.width // 4
     monsterCoordY = WindowSettings.height // 2
+    mosterattackCoordX = WindowSettings.width // 3
 
 class ShopSettings:
     boxWidth = 960
@@ -207,13 +215,16 @@ class GamePath:
     ] #玩家戰鬥Magic圖像
     playerbattleattackimage = r".\assets\Player\Battle\Attack.png" #玩家戰鬥Attack圖像
     playerbattleusemagicimage = r".\assets\Player\Battle\UseMagic.png" #玩家戰鬥Use Magic圖像
-    monster = r".\assets\npc\monster\1.png"
+    fireeffect = r".\assets\Effects\Fire.png"
+    thundereffect = r".\assets\Effects\Thunder.png"
+    monster = r".\assets\Monster\Sweeper.png"
     boss = r".\assets\npc\boss.png"
 
     #UI相關位置
     talkboxbackgound = r".\assets\UI\Talkbox.png"
     battlestatus = r".\assets\UI\BattleStatus.png" #戰鬥Status UI背景
     commandbackground = r".\assets\UI\CommandBackground.png" #戰鬥Command UI背景
+    skillbackground = r".\assets\UI\Skill.png"
     ATBbackground = r".\assets\UI\ATBBackground.png" #戰鬥ATB條背景
     ATB = r".\assets\UI\ATB.png" #戰鬥ATB條
 
@@ -242,3 +253,4 @@ class GameEvent:
     EVENT_SWITCH = pygame.USEREVENT + 3
     EVENT_RESTART = pygame.USEREVENT + 4
     EVENT_SHOP = pygame.USEREVENT + 5
+    EVENT_END_BATTLE = pygame.USEREVENT + 6

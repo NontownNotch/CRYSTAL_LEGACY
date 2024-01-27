@@ -37,6 +37,20 @@ class Player(pygame.sprite.Sprite, Collidable):
     def attr_update(self, addCoins = 0, addHP = 0, addMP = 0):
         if self.money + addCoins < 0:
             return
+        elif self.HP < PlayerSettings.playerHP and self.HP + addHP > PlayerSettings.playerHP:
+            self.money += addCoins
+            self.HP = PlayerSettings.playerHP
+            return
+        elif self.HP == PlayerSettings.playerHP and self.HP + addHP > PlayerSettings.playerHP:
+            return
+        elif self.MP < PlayerSettings.playerMP and self.MP + addMP > PlayerSettings.playerMP:
+            self.money += addCoins
+            self.MP = PlayerSettings.playerMP
+            return
+        elif self.MP == PlayerSettings.playerMP and self.MP + addMP > PlayerSettings.playerMP:
+            return
+        elif self.MP + addMP < 0:
+            return
         self.money += addCoins
         self.HP += addHP
         self.MP += addMP
@@ -117,6 +131,10 @@ class Player(pygame.sprite.Sprite, Collidable):
                     self.event = GameEvent.EVENT_DIALOG
                 elif self.collide.collidingObject["npc"].name == "Knight":
                     self.event = GameEvent.EVENT_SHOP
+            elif self.collide.collidingWith["monster"]:
+                self.event = GameEvent.EVENT_BATTLE
+        if self.HP <=0:
+            self.event = GameEvent.EVENT_RESTART
     
     def draw(self, window, dx=0, dy=0):
         window.blit(self.image, self.rect.move(dx, dy))

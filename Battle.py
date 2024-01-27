@@ -1,4 +1,5 @@
 import pygame
+
 from typing import *
 from Settings import *
 from Monster import *
@@ -16,35 +17,47 @@ class Battle:
         self.ismagic = False #检测是否在Magic状态
         self.attackCD = 0
         self.magicCD = 0
+        self.monsterCD = 300
+        self.monsterattackCD = 0
         #render系列参数
         self.battlestatus = pygame.transform.scale(pygame.image.load(GamePath.battlestatus), (WindowSettings.width, WindowSettings.height // 5)) #设置战斗UI
         self.commandbackground = pygame.transform.scale(pygame.image.load(GamePath.commandbackground), (WindowSettings.width // 8 * 3, WindowSettings.height // 5)) #设置Command与Magic面板UI
         self.ATBbackground = pygame.transform.scale(pygame.image.load(GamePath.ATBbackground), (WindowSettings.width // 15, WindowSettings.height // 50)) #设置ATB条背景
         self.ATBbar = pygame.image.load(GamePath.ATB)
         self.font = pygame.font.Font(None, fontSize)
+        self.fontcolor = fontColor
         self.monstername = self.font.render(f"{self.monster.name}", True, fontColor)
         self.playername = self.font.render("Sansan", True, fontColor)
-        self.HP = self.font.render(f"HP {self.player.HP} / {PlayerSettings.playerHP}", True, fontColor)
-        self.MP = self.font.render(f"MP {self.player.MP} / {PlayerSettings.playerMP}", True, fontColor)
         self.CommandText = self.font.render("[E] Command", True, fontColor)
         self.CancelText = self.font.render("[Q] Cancel", True, fontColor)
         self.AttackText = self.font.render("[F] Attack", True, fontColor)
         self.MagicText = self.font.render("[R] Magic", True, fontColor)
-        self.FireText = self.font.render("[Z] Fire", True, fontColor)
-        self.ThunderText = self.font.render("[X] Thunder", True, fontColor)
+        self.FireText = self.font.render("[Z] Fire 5 MP", True, fontColor)
+        self.ThunderText = self.font.render("[X] Thunder 5 MP", True, fontColor)
+        self.effects = [pygame.transform.scale(pygame.image.load(GamePath.fireeffect), (BattleSettings.effectWidth, BattleSettings.effectHeight)),
+                        pygame.transform.scale(pygame.image.load(GamePath.thundereffect), (BattleSettings.effectWidth, BattleSettings.effectHeight))]
+        self.effect = None
+        self.effectrect = None
         self.playerimage = None
         self.playerimagerect = None
-
+        self.monsterimage = pygame.transform.scale(monster.image, (BattleSettings.monsterWidth, BattleSettings.monsterHeight))
+        self.monsterrect = self.monsterimage.get_rect(center = (BattleSettings.monsterCoordX, BattleSettings.monsterCoordY))
+        self.monsterskillbackground = pygame.transform.scale(pygame.image.load(GamePath.skillbackground), (WindowSettings.width // 2, WindowSettings.height // 15))
+        self.monsterskill = self.font.render(f"{self.monster.skillname}", True, fontColor)
+        self.monsterskillrect = self.monsterskill.get_rect(center = (WindowSettings.width // 2, WindowSettings.height // 30))
+    
     def render(self):
         #UI
         self.window.blit(self.battlestatus, (BattleSettings.statusStartX, BattleSettings.statusStartY)) #显示战斗UI
         self.window.blit(self.monstername, (BattleSettings.textMonsterStartX, BattleSettings.textStartY)) #显示怪物名称
         self.window.blit(self.playername, (BattleSettings.textPlayerStartX, BattleSettings.textStartY)) #显示玩家名称
-        self.window.blit(self.HP, (BattleSettings.textPlayerStatusStartX, BattleSettings.textStartY)) #显示玩家HP
-        self.window.blit(self.MP, (BattleSettings.textPlayerStatusStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示玩家MP
+        HP = self.font.render(f"HP {self.player.HP} / {PlayerSettings.playerHP}", True, self.fontcolor)
+        MP = self.font.render(f"MP {self.player.MP} / {PlayerSettings.playerMP}", True, self.fontcolor)
+        self.window.blit(HP, (BattleSettings.textPlayerStatusStartX, BattleSettings.textStartY)) #显示玩家HP
+        self.window.blit(MP, (BattleSettings.textPlayerStatusStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示玩家MP
         self.window.blit(self.ATBbackground, (BattleSettings.ATBStartX, BattleSettings.textStartY)) #显示玩家ATB条背景
-        self.window.blit(pygame.transform.scale(self.ATBbar, (WindowSettings.width * self.ATB // 4500, WindowSettings.height // 50)), (BattleSettings.ATBStartX, BattleSettings.textStartY))
-        if self.ATB == 300 and not self.iscommanding:
+        self.window.blit(pygame.transform.scale(self.ATBbar, (WindowSettings.width * self.ATB // 2250, WindowSettings.height // 50)), (BattleSettings.ATBStartX, BattleSettings.textStartY))
+        if self.ATB == 150 and not self.iscommanding:
             self.window.blit(self.CommandText, (BattleSettings.ATBStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示Command按键指引
         elif self.iscommanding:
             self.window.blit(self.commandbackground, (BattleSettings.statusStartX, BattleSettings.statusStartY)) #显示Command面板UI
@@ -55,6 +68,15 @@ class Battle:
                 self.window.blit(self.commandbackground, (BattleSettings.statusStartX, BattleSettings.statusStartY)) #显示Magic面板UI
                 self.window.blit(self.FireText, (BattleSettings.textMonsterStartX, BattleSettings.textStartY)) #显示Fire魔法按键指引
                 self.window.blit(self.ThunderText, (BattleSettings.textMonsterStartX, BattleSettings.textStartY + BattleSettings.textVerticalDist)) #显示Thunder魔法按键指引
+        #怪物动画
+        if self.monsterattackCD == 0:
+            self.monsterrect.center = (BattleSettings.monsterCoordX, BattleSettings.monsterCoordY)
+            self.window.blit(self.monsterimage, self.monsterrect)
+        else:
+            self.monsterrect.center = (BattleSettings.mosterattackCoordX, BattleSettings.monsterCoordY)
+            self.window.blit(self.monsterimage, self.monsterrect)
+            self.window.blit(self.monsterskillbackground, (BattleSettings.skillStartX, BattleSettings.skillStartY))
+            self.window.blit(self.monsterskill, self.monsterskillrect)
         #玩家动画
         if not self.ismagic and self.attackCD == 0 and self.magicCD == 0: #站立动画
             self.playerimage = pygame.transform.scale(self.player.battlestandimage, (BattleSettings.playerWidth, BattleSettings.playerHeight))
@@ -72,30 +94,57 @@ class Battle:
             self.playerimage = pygame.transform.scale(self.player.battleusemagicimage, (BattleSettings.playerWidth, BattleSettings.playerHeight))
             self.playerimagerect = self.playerimage.get_rect(center = (BattleSettings.playerCoordX, BattleSettings.playerCoordY))
             self.window.blit(self.playerimage, self.playerimagerect)
-        #怪物动画
+            self.window.blit(self.effect, self.effectrect)
     
     def ATBmanage(self):
-        if self.ATB != 300:
+        if self.ATB != 150:
             self.ATB +=1
         if self.attackCD != 0:
             self.attackCD -=1
         if self.magicCD != 0:
             self.magicCD -=1
-
+    
     def Attack(self):
         self.ATB = 0
         self.attackCD = 30
-
+        self.monster.attr_update(- self.player.attack)
+    
     def MagicFire(self):
-        self.ATB = 0
-        self.magicCD = 60
-
+        if self.player.MP > 0:
+            self.ATB = 0
+            self.magicCD = 60
+            self.player.attr_update(0, 0, -5)
+            self.monster.attr_update(- self.player.attack * 2)
+            self.effect = self.effects[0]
+            self.effectrect = self.effect.get_rect(center = (BattleSettings.monsterCoordX, BattleSettings.monsterCoordY))
+    
     def MagicThunder(self):
-        self.ATB = 0
-        self.magicCD = 60
-
+        if self.player.MP > 0:
+            self.ATB = 0
+            self.magicCD = 60
+            self.player.attr_update(0, 0, -5)
+            self.monster.attr_update(- self.player.attack * 2)
+            self.effect = self.effects[1]
+            self.effectrect = self.effect.get_rect(center = (BattleSettings.monsterCoordX, BattleSettings.monsterCoordY))
+    
     def MonsterAttack(self):
-        pass
+        self.player.attr_update(0, - self.monster.attack)
+        self.monsterattackCD = 30
+
+    def Update(self):
+        if self.monsterCD > 0:
+            self.monsterCD -= 1
+        else:
+            self.MonsterAttack()
+            self.monsterCD = 300
+        if self.monsterattackCD != 0:
+            self.monsterattackCD -= 1
+        if self.monster.HP <= 0:
+            self.player.event = GameEvent.EVENT_END_BATTLE
+            self.player.attr_update(self.monster.money)
+        if self.player.HP <= 0:
+            self.player.event = GameEvent.EVENT_RESTART
+        
 
 class MonsterBattle(Battle):
     def __init__(self, window, player, monster):

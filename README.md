@@ -10,7 +10,8 @@ LOGO ILLUSTRATION: © 2006, YOSHITAKA AMANO
 *※建议在16:9比例下运行，擅自改变分辨率可能会造成部分由于****四舍五入****的错误。*
 ## HOW TO PLAY
 在进入游戏后可通过按下`W` `A` `S` `D`按键移动，并可按下`Space`加速移动，与NPC接触可触发对话，与怪物接触可触发战斗，其他操作可根据游戏中的按键提示进行。\
-游戏中存在四个场景，位于东方的场景 **Castle / 城堡** 中有可对话NPC **Cid / 西德** ，位于南方的场景 **Hut / 小屋** 中有可对话/交易NPC **Knight / 骑士** ，位于西方的场景 **Crystal Temple / 水晶神殿** 中有Boss级魔物 **Bahamut / 巴哈姆特**， **Wild / 荒野** 中有随机生成的障碍物与游荡的怪物。
+游戏中存在四个场景，位于东方的场景 **Castle / 城堡** 中有可对话NPC **Cid / 西德** ，位于南方的场景 **Hut / 小屋** 中有可对话/交易NPC **Knight / 骑士** ，位于西方的场景 **Crystal Temple / 水晶神殿** 中有Boss级魔物 **Bahamut / 巴哈姆特**， **Wild / 荒野** 中有随机生成的障碍物与游荡的怪物。\
+*※具体内容可参见*`report.pdf`*。*
 ## CREDITS
 游戏中音乐由 **Nobuo Uematsu / 植松伸夫**，**Masashi Hamauzu / 滨涡正志**，**Yoshitaka Suzuki / 铃木克崇**，**Ryo Yamazaki / 山崎良**，**Shotaro Shima / 岛翔太朗**制作，LOGO插画与人物设计为 **Yoshitaka Amano / 天野喜孝**，怪物设计为 **Tetsuya Nomura / 野村哲也**，原案设计，剧本，编程以及其他所有内容制作为 **Kaixin "Nontown_Notch" Zhang / 张恺昕**。
 ## CONTACT

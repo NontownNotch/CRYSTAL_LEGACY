@@ -5,7 +5,7 @@ LOGO ILLUSTRATION: © 2006, YOSHITAKA AMANO
 拥有魔导之力的少女 **Sansan / 三三** 被国王 **Cid / 西德** 派遣调查位于西方的 **Crystal Temple / 水晶神殿** ，并在 **Crystal Temple / 水晶神殿** 发现了 **Bahamut / 巴哈姆特** 的踪迹，他们之间会产生何种较量...\
 游戏采用 **ATB** ***(Action Time Battle)*** 战斗系统，战斗中玩家与怪物双方都具有随时间增长的ATB量表，ATB量表满后可消耗ATB量表选择相应的战斗指令。
 ## HOW TO RUN
-在电脑已安装[Python](python.org)与[Pygame](pygame.org)的状态下运行`Main.py`。\
+在电脑已安装`Python`与`Pygame`的状态下运行`Main.py`。\
 游戏基于1920 * 1080分辨率制作，且在1280 * 720分辨率下运行，可在`Settings.py`中自行修改。\
 *※建议在16:9比例下运行，擅自改变分辨率可能会造成部分由于****四舍五入****的错误。*
 ## HOW TO PLAY

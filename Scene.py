@@ -24,6 +24,7 @@ class Scene():
         self.npcs = pygame.sprite.Group()
         self.monsters = pygame.sprite.Group()
         self.popupbox = None
+        self.music = BgmPlayer()
     
     def trigger_dialog(self, npc):
         if npc.talkCD == 0:
@@ -70,12 +71,14 @@ class MainMenu():
         self.window = window
         self.background = pygame.transform.scale(pygame.image.load(GamePath.menu), (WindowSettings.width, WindowSettings.height))
         self.font = pygame.font.Font(None, int(pow(WindowSettings.width * WindowSettings.height, 0.5) // 30)) #主界面文字大小
-        self.text1 = self.font.render("PRESS ANY BUTTON", True, (0, 0, 0)) #主界面文字内容1
-        self.textRect1 = self.text1.get_rect(center=(WindowSettings.width // 2, WindowSettings.height * 3 // 4)) #主界面文字位置1
+        self.text = self.font.render("PRESS ANY BUTTON", True, (0, 0, 0)) #主界面文字内容1
+        self.textRect = self.text.get_rect(center=(WindowSettings.width // 2, WindowSettings.height * 3 // 4)) #主界面文字位置
+        self.music = BgmPlayer()
+        self.music.update(SceneType.TITLE)
     
     def render(self):
         self.window.blit(self.background, (0, 0))
-        self.window.blit(self.text1, self.textRect1) #显示主界面文字1
+        self.window.blit(self.text, self.textRect) #显示主界面文字1
 
 class WildScene(Scene):
     def __init__(self, window):
@@ -102,6 +105,7 @@ class WildScene(Scene):
         self.gen_wild_map()
         self.gen_wild_obstacle()
         self.gen_monsters()
+        self.music.update(SceneType.WILD)
     
     def gen_monsters(self, num = 10):
         while num > 0:
@@ -157,6 +161,7 @@ class CastleScene(Scene):
         self.gen_castle_obstacle()
         self.npcs.add(Cid(WindowSettings.width // 2, WindowSettings.height * 388 // 45, "Cid", "Use your magic power to investigate the Crystal Temple."))
         self.portal.add(Portal(WindowSettings.width // 2, WindowSettings.height * 1256 // 135, 3))
+        self.music.update(SceneType.CASTLE)
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
@@ -206,6 +211,7 @@ class TempleScene(Scene):
         self.gen_temple_obstacle()
         self.portal.add(Portal(WindowSettings.width // 2, WindowSettings.height * 28 // 3, 4))
         self.monsters.add(Boss(WindowSettings.width // 2, WindowSettings.height * 232 // 27))
+        self.music.update(SceneType.TEMPLE)
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))
@@ -262,6 +268,7 @@ class HutScene(Scene):
         self.gen_hut_obstacle()
         self.npcs.add(ShopNPC(WindowSettings.width * 41 // 60, WindowSettings.height * 404 // 45, "Knight"))
         self.portal.add(Portal(WindowSettings.width * 11 // 20, WindowSettings.height * 1244 // 135, 3))
+        self.music.update(SceneType.HUT)
     
     def render(self, player):
         self.window.blit(self.image, self.rect.move(-self.cameraX, -self.cameraY))

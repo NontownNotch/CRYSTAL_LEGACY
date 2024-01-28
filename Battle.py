@@ -4,6 +4,7 @@ from typing import *
 from Settings import *
 from Monster import *
 from Player import *
+from BgmPlayer import *
 
 class Battle:
     def __init__(self, window, player, monster, fontSize: int = BattleSettings.textSize, 
@@ -45,6 +46,8 @@ class Battle:
         self.monsterskillbackground = pygame.transform.scale(pygame.image.load(GamePath.skillbackground), (WindowSettings.width // 2, WindowSettings.height // 15))
         self.monsterskill = self.font.render(f"{self.monster.skillname}", True, fontColor)
         self.monsterskillrect = self.monsterskill.get_rect(center = (WindowSettings.width // 2, WindowSettings.height // 30))
+        self.music =BgmPlayer()
+        self.music.update(SceneType.BATTLE)
     
     def render(self):
         #UI
@@ -142,6 +145,7 @@ class Battle:
         if self.monster.HP <= 0:
             self.player.event = GameEvent.EVENT_END_BATTLE
             self.player.attr_update(self.monster.money)
+            self.music.update(SceneType.WILD)
         if self.player.HP <= 0:
             self.player.event = GameEvent.EVENT_RESTART
         
@@ -161,6 +165,7 @@ class BossBattle(Battle):
         self.monsterimage = pygame.transform.scale(monster.image, (WindowSettings.width * 4 // 15, WindowSettings.height * 7 // 18))
         self.monsterrect = self.monsterimage.get_rect(center = (BattleSettings.monsterCoordX, BattleSettings.monsterCoordY))
         self.background = pygame.transform.scale(pygame.image.load(GamePath.bossbackground), (WindowSettings.width, WindowSettings.height))
+        self.music.update(SceneType.BOSS)
     
     def render(self):
         self.window.blit(self.background,(BattleSettings.boxStartX, BattleSettings.boxStartY))

@@ -51,6 +51,9 @@ class SceneType(Enum):
     CASTLE = 2
     TEMPLE = 3
     HUT = 4
+    TITLE = 5
+    BATTLE = 6
+    BOSS = 7
 
 class DialogSettings:
     boxWidth = WindowSettings.width // 2
@@ -230,9 +233,13 @@ class GamePath:
     ATB = r".\assets\UI\ATB.png" #戰鬥ATB條
 
     #BGM相關位置
-    bgm = [r".\assets\bgm\city.mp3",
-           r".\assets\bgm\wild.mp3",
-           r".\assets\bgm\boss.mp3"]
+    bgm = {"prelude": r".\assets\BGM\Prelude.mp3",
+           "castle": r".\assets\BGM\Castle.mp3",
+           "wild": r".\assets\BGM\Wild.mp3",
+           "temple": r".\assets\BGM\Temple.mp3",
+           "hut": r".\assets\BGM\Hut.mp3",
+           "battle": r".\assets\BGM\Battle.mp3",
+           "boss": r".\assets\BGM\Boss.mp3"}
 
 #游玩狀態
 class GameState(Enum):

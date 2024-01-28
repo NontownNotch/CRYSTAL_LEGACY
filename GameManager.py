@@ -7,6 +7,7 @@ from Settings import *
 from PopUpBox import *
 from Battle import *
 from Monster import *
+from BgmPlayer import *
 
 class GameManager:
     def __init__(self):

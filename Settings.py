@@ -6,8 +6,8 @@ import pygame
 #窗口相關設置
 class WindowSettings: #窗口設置
     name = "CRYSTAL LEGACY" #標題
-    width = 1280 #窗口寬度
-    height = 720 #窗口高度
+    width = 1920 #窗口寬度
+    height = 1080 #窗口高度
 
 #場景相關設置
 class SceneSettings:
